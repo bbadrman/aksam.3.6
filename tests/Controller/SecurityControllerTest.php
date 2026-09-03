@@ -24,7 +24,7 @@ class SecurityControllerTest extends WebTestCase
         $container = static::getContainer();
 
         $user = new User();
-        $user->setEmail('test-login@aksam-assurances.fr');
+        $user->setUsername('test-login');
         $user->setNom('Test');
         $user->setPrenom('User');
         $user->setRoles(['ROLE_ADMIN']);
@@ -38,14 +38,14 @@ class SecurityControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/login');
         $form = $crawler->selectButton('Se connecter')->form([
-            'email' => 'test-login@aksam-assurances.fr',
+            'username' => 'test-login',
             'password' => 'password123',
         ]);
         $this->submitWithStatelessCsrf($client, $form);
 
         $this->assertResponseRedirects('/');
         $client->followRedirect();
-        $this->assertSelectorTextContains('body', 'test-login@aksam-assurances.fr');
+        $this->assertSelectorTextContains('body', 'test-login');
     }
 
     public function testLoginWithInvalidCredentialsShowsError(): void
@@ -53,7 +53,7 @@ class SecurityControllerTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/login');
         $form = $crawler->selectButton('Se connecter')->form([
-            'email' => 'unknown@aksam-assurances.fr',
+            'username' => 'unknown-user',
             'password' => 'wrongpassword',
         ]);
         $this->submitWithStatelessCsrf($client, $form);

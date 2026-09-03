@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Connecté en tant que {{ user.email }}</h1>
+    <h1>Connecté en tant que {{ user.username }}</h1>
     <p>Rôles : {{ user.roles|join(', ') }}</p>
     <a href="{{ path('app_logout') }}">Se déconnecter</a>
 {% endblock %}
