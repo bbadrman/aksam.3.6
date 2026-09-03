@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Contrat {{ contrat.numeroPolice ?? '(brouillon)' }}</h1>
+
+    <section>
+        <h2>Informations</h2>
+        <ul>
+            <li>Client : {{ contrat.client.displayName }}</li>
+            <li>Produit : {{ contrat.product.nom }}</li>
+            <li>Compagnie : {{ contrat.compagnie ? contrat.compagnie.nom : '—' }}</li>
+            <li>Gestionnaire : {{ contrat.gestionnaire ? contrat.gestionnaire.username : '—' }}</li>
+            <li>Statut : {{ contrat.statut.label }}</li>
+            <li>Cotisation : {{ contrat.cotisation ?? '—' }}</li>
+            <li>Fraction : {{ contrat.fraction ?? '—' }}</li>
+            <li>Garanties : {{ contrat.garanties ?? '—' }}</li>
+        </ul>
+    </section>
+
+    {% if contrat.vehiculeDetails %}
+        <section>
+            <h2>Détails véhicule</h2>
+            <ul>
+                <li>Immatriculation : {{ contrat.vehiculeDetails.immatriculation ?? '—' }}</li>
+                <li>Conducteur : {{ contrat.vehiculeDetails.conducteur ?? '—' }}</li>
+                <li>Type de permis : {{ contrat.vehiculeDetails.typePermis ?? '—' }}</li>
+                <li>CRM actuel : {{ contrat.vehiculeDetails.crmActuel ?? '—' }}</li>
+            </ul>
+        </section>
+    {% endif %}
+
+    {% if contrat.frais|length > 0 %}
+        <section>
+            <h2>Frais</h2>
+            <ul>
+                {% for f in contrat.frais %}
+                    <li>{{ f.libelle }} : {{ f.montant }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% endif %}
+
+    <section>
+        {% if contrat.statut.value == 'brouillon' %}
+            <form method="post" action="{{ path('app_contrat_valider', {id: contrat.id}) }}">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <button type="submit">Valider le contrat</button>
+            </form>
+        {% endif %}
+
+        <form method="post" action="{{ path('app_contrat_dupliquer', {id: contrat.id}) }}">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <button type="submit">Dupliquer</button>
+        </form>
+    </section>
+{% endblock %}
