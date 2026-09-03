@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Contrats</h1>
+    <a href="{{ path('app_contrat_new') }}">Nouveau contrat</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Client</th>
+                <th>Produit</th>
+                <th>Statut</th>
+                <th>N° police</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contrat in contrats %}
+                <tr>
+                    <td><a href="{{ path('app_contrat_show', {id: contrat.id}) }}">{{ contrat.client.displayName }}</a></td>
+                    <td>{{ contrat.product.nom }}</td>
+                    <td>{{ contrat.statut.label }}</td>
+                    <td>{{ contrat.numeroPolice ?? '—' }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="4">Aucun contrat.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
