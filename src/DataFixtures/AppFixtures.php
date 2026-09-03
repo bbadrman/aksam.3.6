@@ -12,8 +12,17 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        foreach (['Véhicule', 'Prévoyance', 'Construction'] as $nom) {
-            $manager->persist((new Product())->setNom($nom));
+        $products = [
+            Product::CODE_VEHICULE => 'Véhicule',
+            Product::CODE_PREVOYANCE => 'Prévoyance',
+            Product::CODE_CONSTRUCTION => 'Construction',
+        ];
+
+        $productEntities = [];
+        foreach ($products as $code => $nom) {
+            $product = (new Product())->setCode($code)->setNom($nom);
+            $manager->persist($product);
+            $productEntities[$code] = $product;
         }
 
         foreach (['Équipe Nord', 'Équipe Sud'] as $nom) {
@@ -22,9 +31,10 @@ class AppFixtures extends Fixture
 
         $manager->persist(
             (new Compartenaire())
-                ->setNom('Partenaire Démo')
+                ->setNom('Partenaire Démo Véhicule')
                 ->setApiToken('demo-token-' . bin2hex(random_bytes(8)))
                 ->setApiActif(true)
+                ->setProduct($productEntities[Product::CODE_VEHICULE])
         );
 
         $manager->flush();

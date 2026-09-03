@@ -21,7 +21,7 @@ class ReferentielTest extends KernelTestCase
 
     public function testProductCrud(): void
     {
-        $product = (new Product())->setNom('Vehicule')->setDescription('Assurance auto');
+        $product = (new Product())->setCode('vehicule-test')->setNom('Vehicule')->setDescription('Assurance auto');
         $this->em->persist($product);
         $this->em->flush();
 
