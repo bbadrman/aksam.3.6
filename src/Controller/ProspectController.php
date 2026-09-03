@@ -15,6 +15,15 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/traitement', name: 'app_traitement_')]
 class ProspectController extends AbstractController
 {
+    private const ROUTES_CYCLE = [
+        'app_traitement_nouveaux',
+        'app_traitement_non_traites',
+        'app_traitement_relances_du_jour',
+        'app_traitement_relances_a_venir',
+        'app_traitement_relances_non_traitees',
+        'app_traitement_injoignables',
+    ];
+
     public function __construct(private readonly ProspectTraitementService $traitementService)
     {
     }
@@ -55,7 +64,21 @@ class ProspectController extends AbstractController
         return $this->renderCycle('Injoignables', $this->traitementService->injoignables($this->page($request)), $request);
     }
 
-    #[Route('/{id}/traiter', name: 'traiter', methods: ['POST'])]
+    #[Route('/{id}', name: 'show', methods: ['GET'], requirements: ['id' => '\d+'])]
+    public function show(int $id, ProspectRepository $prospectRepository): Response
+    {
+        $prospect = $prospectRepository->find($id);
+        if (!$prospect) {
+            throw $this->createNotFoundException('Prospect introuvable.');
+        }
+
+        return $this->render('prospect/show.html.twig', [
+            'prospect' => $prospect,
+            'motifs' => RelanceMotif::cases(),
+        ]);
+    }
+
+    #[Route('/{id}/traiter', name: 'traiter', methods: ['POST'], requirements: ['id' => '\d+'])]
     public function traiter(int $id, Request $request, ProspectRepository $prospectRepository): Response
     {
         $prospect = $prospectRepository->find($id);
@@ -83,7 +106,12 @@ class ProspectController extends AbstractController
 
         $this->addFlash('info', sprintf('Prospect "%s" traité : %s.', $prospect->getNom(), $motif->label()));
 
-        return $this->redirectToRoute($request->request->get('retour', 'app_traitement_nouveaux'));
+        $retour = $request->request->get('retour');
+        if ($retour && \in_array($retour, self::ROUTES_CYCLE, true)) {
+            return $this->redirectToRoute($retour);
+        }
+
+        return $this->redirectToRoute('app_traitement_show', ['id' => $prospect->getId()]);
     }
 
     /**

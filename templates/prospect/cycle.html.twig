@@ -17,7 +17,7 @@
         <tbody>
             {% for prospect in prospects %}
                 <tr>
-                    <td>{{ prospect.nom }} {{ prospect.prenom }}</td>
+                    <td><a href="{{ path('app_traitement_show', {id: prospect.id}) }}">{{ prospect.nom }} {{ prospect.prenom }}</a></td>
                     <td>{{ prospect.phone }}</td>
                     <td>{{ prospect.team ? prospect.team.nom : '' }}</td>
                     <td>{{ prospect.commercial ? prospect.commercial.username : '' }}</td>
@@ -25,6 +25,7 @@
                     <td>
                         <form method="post" action="{{ path('app_traitement_traiter', {id: prospect.id}) }}">
                             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                            <input type="hidden" name="retour" value="{{ app.request.attributes.get('_route') }}">
                             <select name="motif" required>
                                 {% for motif in motifs %}
                                     <option value="{{ motif.value }}">{{ motif.label }}</option>
