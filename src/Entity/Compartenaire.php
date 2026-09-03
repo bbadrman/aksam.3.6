@@ -22,6 +22,14 @@ class Compartenaire
     #[ORM\Column]
     private bool $apiActif = false;
 
+    /**
+     * Produit envoyé par ce partenaire — chaque site est dédié à un seul
+     * produit (véhicule, prévoyance, construction...), connu à l'avance.
+     */
+    #[ORM\ManyToOne(targetEntity: Product::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Product $product = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +67,18 @@ class Compartenaire
     public function setApiActif(bool $apiActif): static
     {
         $this->apiActif = $apiActif;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): static
+    {
+        $this->product = $product;
 
         return $this;
     }
