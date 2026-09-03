@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Clients</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Téléphone</th>
+                <th>Email</th>
+                <th>Équipe</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for client in clients %}
+                <tr>
+                    <td>{{ client.displayName }}</td>
+                    <td>{{ client.phone }}</td>
+                    <td>{{ client.email }}</td>
+                    <td>{{ client.team ? client.team.nom : '' }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="4">Aucun client.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
