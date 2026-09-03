@@ -43,7 +43,7 @@ class ProspectTest extends KernelTestCase
         $this->assertSame('50000.00', $reloaded->getPrevoyanceDetails()->getCapitalSouhaite());
     }
 
-    public function testFindARelancerExcludesConvertedAndLostProspects(): void
+    public function testFindRelancesNonTraiteesExcludesFichesCloturees(): void
     {
         $product = (new Product())->setCode(Product::CODE_VEHICULE)->setNom('Véhicule');
         $this->em->persist($product);
@@ -53,21 +53,46 @@ class ProspectTest extends KernelTestCase
         $aRelancer = (new Prospect())->setNom('A relancer')->setPhone('0600000001')->setProduct($product);
         $aRelancer->setRelanceAt($past);
 
-        $converti = (new Prospect())->setNom('Converti')->setPhone('0600000002')->setProduct($product);
-        $converti->setRelanceAt($past);
-        $converti->setStatut(Prospect::STATUT_CONVERTI);
+        $doublon = (new Prospect())->setNom('Doublon Clos')->setPhone('0600000002')->setProduct($product);
+        $doublon->setRelanceAt($past);
+        $doublon->setRelance(\App\Entity\RelanceMotif::DOUBLON);
 
         $this->em->persist($aRelancer);
-        $this->em->persist($converti);
+        $this->em->persist($doublon);
+        $this->em->flush();
+
+        $scope = \App\Security\ProspectScope::all();
+        $resultats = static::getContainer()->get(\App\Repository\ProspectRepository::class)
+            ->findRelancesNonTraitees($scope, new \DateTimeImmutable());
+
+        $noms = array_map(fn (Prospect $p) => $p->getNom(), $resultats['items']);
+
+        $this->assertContains('A relancer', $noms);
+        $this->assertNotContains('Doublon Clos', $noms);
+    }
+
+    public function testFindInjoignablesReturnsOnlyToujoursInjoignable(): void
+    {
+        $product = (new Product())->setCode('test-injoignable')->setNom('Test');
+        $this->em->persist($product);
+
+        $injoignable = (new Prospect())->setNom('Toujours Injoignable')->setPhone('0600000003')->setProduct($product);
+        $injoignable->setRelance(\App\Entity\RelanceMotif::TOUJOURS_INJOIGNABLE);
+
+        $premierEchec = (new Prospect())->setNom('Premier Echec')->setPhone('0600000004')->setProduct($product);
+        $premierEchec->setRelance(\App\Entity\RelanceMotif::INJOIGNABLE);
+
+        $this->em->persist($injoignable);
+        $this->em->persist($premierEchec);
         $this->em->flush();
 
         $resultats = static::getContainer()->get(\App\Repository\ProspectRepository::class)
-            ->findARelancer(new \DateTimeImmutable());
+            ->findInjoignables(\App\Security\ProspectScope::all());
 
-        $noms = array_map(fn (Prospect $p) => $p->getNom(), $resultats);
+        $noms = array_map(fn (Prospect $p) => $p->getNom(), $resultats['items']);
 
-        $this->assertContains('A relancer', $noms);
-        $this->assertNotContains('Converti', $noms);
+        $this->assertContains('Toujours Injoignable', $noms);
+        $this->assertNotContains('Premier Echec', $noms);
     }
 
     protected function tearDown(): void

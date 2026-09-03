@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProspectRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProspectRepository::class)]
@@ -56,6 +58,20 @@ class Prospect
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $relanceAt = null;
 
+    /**
+     * Motif de l'issue du dernier appel — null tant que le prospect n'a
+     * jamais été traité. Distinct de `statut`, qui reflète le cycle de vie
+     * global (nouveau/converti/perdu) plutôt que le détail de chaque appel.
+     */
+    #[ORM\Column(type: 'integer', nullable: true, enumType: RelanceMotif::class)]
+    private ?RelanceMotif $relance = null;
+
+    /**
+     * @var Collection<int, ProspectRelanceHistory>
+     */
+    #[ORM\OneToMany(targetEntity: ProspectRelanceHistory::class, mappedBy: 'prospect', cascade: ['persist', 'remove'])]
+    private Collection $relanceHistory;
+
     #[ORM\OneToOne(mappedBy: 'prospect', cascade: ['persist', 'remove'])]
     private ?ProspectVehiculeDetails $vehiculeDetails = null;
 
@@ -71,6 +87,7 @@ class Prospect
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
+        $this->relanceHistory = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -199,6 +216,36 @@ class Prospect
     public function setRelanceAt(?\DateTimeImmutable $relanceAt): static
     {
         $this->relanceAt = $relanceAt;
+
+        return $this;
+    }
+
+    public function getRelance(): ?RelanceMotif
+    {
+        return $this->relance;
+    }
+
+    public function setRelance(?RelanceMotif $relance): static
+    {
+        $this->relance = $relance;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProspectRelanceHistory>
+     */
+    public function getRelanceHistory(): Collection
+    {
+        return $this->relanceHistory;
+    }
+
+    public function addRelanceHistory(ProspectRelanceHistory $entry): static
+    {
+        if (!$this->relanceHistory->contains($entry)) {
+            $this->relanceHistory->add($entry);
+            $entry->setProspect($this);
+        }
 
         return $this;
     }

@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{{ prospect.nom }} {{ prospect.prenom }}</h1>
+
+    <section>
+        <h2>Identité</h2>
+        <ul>
+            <li>Téléphone : {{ prospect.phone }}</li>
+            <li>Email : {{ prospect.email ?? '—' }}</li>
+            <li>Produit : {{ prospect.product.nom }}</li>
+            <li>Statut : {{ prospect.statut }}</li>
+            <li>Équipe : {{ prospect.team ? prospect.team.nom : '—' }}</li>
+            <li>Commercial : {{ prospect.commercial ? prospect.commercial.username : '—' }}</li>
+            <li>Créé le : {{ prospect.createdAt|date('d/m/Y H:i') }}</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Détails produit</h2>
+        {% if prospect.vehiculeDetails %}
+            <ul>
+                <li>Immatriculation : {{ prospect.vehiculeDetails.immatriculation ?? '—' }}</li>
+                <li>Marque : {{ prospect.vehiculeDetails.marque ?? '—' }}</li>
+                <li>Modèle : {{ prospect.vehiculeDetails.modele ?? '—' }}</li>
+                <li>Date de mise en circulation : {{ prospect.vehiculeDetails.dateMiseCirculation ? prospect.vehiculeDetails.dateMiseCirculation|date('d/m/Y') : '—' }}</li>
+            </ul>
+        {% elseif prospect.prevoyanceDetails %}
+            <ul>
+                <li>Capital souhaité : {{ prospect.prevoyanceDetails.capitalSouhaite ?? '—' }}</li>
+                <li>Situation familiale : {{ prospect.prevoyanceDetails.situationFamiliale ?? '—' }}</li>
+                <li>Nombre d'enfants : {{ prospect.prevoyanceDetails.nombreEnfants ?? '—' }}</li>
+                <li>Profession : {{ prospect.prevoyanceDetails.profession ?? '—' }}</li>
+            </ul>
+        {% elseif prospect.constructionDetails %}
+            <ul>
+                <li>Type de bien : {{ prospect.constructionDetails.typeBien ?? '—' }}</li>
+                <li>Surface (m²) : {{ prospect.constructionDetails.surfaceM2 ?? '—' }}</li>
+                <li>Date de construction : {{ prospect.constructionDetails.dateConstruction ? prospect.constructionDetails.dateConstruction|date('d/m/Y') : '—' }}</li>
+                <li>Adresse du bien : {{ prospect.constructionDetails.adresseBien ?? '—' }}</li>
+            </ul>
+        {% else %}
+            <p>Aucun détail spécifique produit.</p>
+        {% endif %}
+    </section>
+
+    <section>
+        <h2>Relance</h2>
+        <p>Motif actuel : {{ prospect.relance ? prospect.relance.label : 'Jamais traité' }}</p>
+        <p>Prochaine relance : {{ prospect.relanceAt ? prospect.relanceAt|date('d/m/Y H:i') : '—' }}</p>
+
+        <form method="post" action="{{ path('app_traitement_traiter', {id: prospect.id}) }}">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <select name="motif" required>
+                {% for motif in motifs %}
+                    <option value="{{ motif.value }}">{{ motif.label }}</option>
+                {% endfor %}
+            </select>
+            <input type="datetime-local" name="prochaineRelance">
+            <input type="text" name="comment" placeholder="Commentaire">
+            <button type="submit">Traiter</button>
+        </form>
+
+        <h3>Historique des relances</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Motif</th>
+                    <th>Commentaire</th>
+                    <th>Auteur</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in prospect.relanceHistory %}
+                    <tr>
+                        <td>{{ entry.relancedAt|date('d/m/Y H:i') }}</td>
+                        <td>{{ entry.motif.label }}</td>
+                        <td>{{ entry.comment ?? '—' }}</td>
+                        <td>{{ entry.auteur ? entry.auteur.username : '—' }}</td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="4">Aucune relance enregistrée.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endblock %}
