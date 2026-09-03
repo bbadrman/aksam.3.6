@@ -65,6 +65,9 @@ class Prospect
     #[ORM\OneToOne(mappedBy: 'prospect', cascade: ['persist', 'remove'])]
     private ?ProspectConstructionDetails $constructionDetails = null;
 
+    #[ORM\OneToOne(mappedBy: 'prospect')]
+    private ?Client $client = null;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -237,5 +240,10 @@ class Prospect
         $this->constructionDetails = $details;
 
         return $this;
+    }
+
+    public function getClient(): ?Client
+    {
+        return $this->client;
     }
 }
