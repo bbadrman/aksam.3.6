@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>{{ titre }} ({{ total }})</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Téléphone</th>
+                <th>Équipe</th>
+                <th>Commercial</th>
+                <th>Relance</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for prospect in prospects %}
+                <tr>
+                    <td>{{ prospect.nom }} {{ prospect.prenom }}</td>
+                    <td>{{ prospect.phone }}</td>
+                    <td>{{ prospect.team ? prospect.team.nom : '' }}</td>
+                    <td>{{ prospect.commercial ? prospect.commercial.username : '' }}</td>
+                    <td>{{ prospect.relance ? prospect.relance.label : 'Jamais traité' }}</td>
+                    <td>
+                        <form method="post" action="{{ path('app_traitement_traiter', {id: prospect.id}) }}">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                            <select name="motif" required>
+                                {% for motif in motifs %}
+                                    <option value="{{ motif.value }}">{{ motif.label }}</option>
+                                {% endfor %}
+                            </select>
+                            <input type="datetime-local" name="prochaineRelance">
+                            <input type="text" name="comment" placeholder="Commentaire">
+                            <button type="submit">Traiter</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr><td colspan="6">Aucun prospect dans ce cycle.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
