@@ -1,59 +1,64 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}SAV #{{ sav.id }}{% endblock %}
 
 {% block body %}
-    <h1>SAV #{{ sav.id }} — Contrat {{ sav.contrat.numeroPolice ?? ('#' ~ sav.contrat.id) }}</h1>
+    {{ include('admin/_header.html.twig', {
+        title: 'SAV #' ~ sav.id,
+        description: 'Contrat ' ~ (sav.contrat.numeroPolice ?? ('#' ~ sav.contrat.id))
+    }) }}
 
-    <section>
-        <ul>
-            <li>Nature de la demande : {{ sav.natureDemande ?? '—' }}</li>
-            <li>Motif : {{ sav.motif ?? '—' }}</li>
-            <li>Statut : {{ sav.statut.label }}</li>
-            <li>Montant : {{ sav.montant ?? '—' }}</li>
-            <li>Gestionnaire : {{ sav.gestionnaire ? sav.gestionnaire.username : '—' }}</li>
-            <li>Prochaine relance : {{ sav.relanceAt ? sav.relanceAt|date('d/m/Y H:i') : '—' }}</li>
-            <li>Clôturé le : {{ sav.closedAt ? sav.closedAt|date('d/m/Y H:i') : '—' }}</li>
-        </ul>
-    </section>
+    <div class="mt-4 rounded-2xl border border-border bg-card p-5 shadow-sm md:mt-5">
+        <dl class="space-y-2 text-sm">
+            <div class="flex justify-between"><dt class="text-muted-foreground">Nature de la demande</dt><dd class="font-medium">{{ sav.natureDemande ?? '—' }}</dd></div>
+            <div class="flex justify-between"><dt class="text-muted-foreground">Motif</dt><dd class="font-medium">{{ sav.motif ?? '—' }}</dd></div>
+            <div class="flex justify-between"><dt class="text-muted-foreground">Statut</dt><dd class="font-medium">{{ sav.statut.label }}</dd></div>
+            <div class="flex justify-between"><dt class="text-muted-foreground">Montant</dt><dd class="font-medium">{{ sav.montant ?? '—' }}</dd></div>
+            <div class="flex justify-between"><dt class="text-muted-foreground">Gestionnaire</dt><dd class="font-medium">{{ sav.gestionnaire ? sav.gestionnaire.username : '—' }}</dd></div>
+            <div class="flex justify-between"><dt class="text-muted-foreground">Prochaine relance</dt><dd class="font-medium">{{ sav.relanceAt ? sav.relanceAt|date('d/m/Y H:i') : '—' }}</dd></div>
+            <div class="flex justify-between"><dt class="text-muted-foreground">Clôturé le</dt><dd class="font-medium">{{ sav.closedAt ? sav.closedAt|date('d/m/Y H:i') : '—' }}</dd></div>
+        </dl>
+    </div>
 
     {% if sav.statut.value != 'cloture' %}
-        <section>
-            <form method="post" action="{{ path('app_sav_relancer', {id: sav.id}) }}">
+        <div class="mt-4 flex flex-col gap-3 sm:flex-row md:mt-5">
+            <form method="post" action="{{ path('app_sav_relancer', {id: sav.id}) }}" class="admin-plain-form flex flex-1 flex-wrap items-center gap-2 rounded-2xl border border-border bg-card p-4 shadow-sm">
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                <input type="datetime-local" name="prochaineRelance">
-                <input type="text" name="comment" placeholder="Commentaire">
-                <button type="submit">Ajouter une relance</button>
+                <input type="datetime-local" name="prochaineRelance" class="h-9 rounded-lg border border-border bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                <input type="text" name="comment" placeholder="Commentaire" class="h-9 flex-1 min-w-[10rem] rounded-lg border border-border bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                <button type="submit" class="h-9 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90">Ajouter une relance</button>
             </form>
 
             {% if peutCloturer %}
-                <form method="post" action="{{ path('app_sav_cloturer', {id: sav.id}) }}">
+                <form method="post" action="{{ path('app_sav_cloturer', {id: sav.id}) }}" class="admin-plain-form flex items-center rounded-2xl border border-border bg-card p-4 shadow-sm">
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                    <button type="submit">Clôturer le SAV</button>
+                    <button type="submit" class="h-9 rounded-lg border border-destructive/30 bg-destructive/10 px-4 text-sm font-medium text-destructive hover:bg-destructive/20">Clôturer le SAV</button>
                 </form>
             {% endif %}
-        </section>
+        </div>
     {% endif %}
 
-    <section>
-        <h2>Historique des relances</h2>
-        <table>
+    <div class="mt-4 overflow-x-auto rounded-2xl border border-border bg-card shadow-sm md:mt-5">
+        <h2 class="px-5 pt-4 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Historique des relances</h2>
+        <table class="w-full text-left text-sm">
             <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Commentaire</th>
-                    <th>Auteur</th>
+                <tr class="border-b border-border text-xs uppercase tracking-wider text-muted-foreground">
+                    <th class="px-5 py-3 font-medium">Date</th>
+                    <th class="px-5 py-3 font-medium">Commentaire</th>
+                    <th class="px-5 py-3 font-medium">Auteur</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="divide-y divide-border">
                 {% for entry in sav.relanceHistory %}
                     <tr>
-                        <td>{{ entry.createdAt|date('d/m/Y H:i') }}</td>
-                        <td>{{ entry.comment ?? '—' }}</td>
-                        <td>{{ entry.auteur ? entry.auteur.username : '—' }}</td>
+                        <td class="px-5 py-3 text-muted-foreground">{{ entry.createdAt|date('d/m/Y H:i') }}</td>
+                        <td class="px-5 py-3 font-medium">{{ entry.comment ?? '—' }}</td>
+                        <td class="px-5 py-3 text-muted-foreground">{{ entry.auteur ? entry.auteur.username : '—' }}</td>
                     </tr>
                 {% else %}
-                    <tr><td colspan="3">Aucune relance enregistrée.</td></tr>
+                    <tr><td colspan="3" class="px-5 py-6 text-center text-muted-foreground">Aucune relance enregistrée.</td></tr>
                 {% endfor %}
             </tbody>
         </table>
-    </section>
+    </div>
 {% endblock %}

@@ -1,27 +1,41 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}SAV{% endblock %}
 
 {% block body %}
-    <h1>SAV</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Contrat</th>
-                <th>Nature</th>
-                <th>Statut</th>
-                <th>Créé le</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for sav in savs %}
-                <tr>
-                    <td><a href="{{ path('app_sav_show', {id: sav.id}) }}">Contrat {{ sav.contrat.numeroPolice ?? ('#' ~ sav.contrat.id) }}</a></td>
-                    <td>{{ sav.natureDemande ?? '—' }}</td>
-                    <td>{{ sav.statut.label }}</td>
-                    <td>{{ sav.createdAt|date('d/m/Y H:i') }}</td>
+    {{ include('admin/_header.html.twig', {
+        title: 'SAV',
+        description: 'Suivi des demandes après-vente'
+    }) }}
+
+    <div class="mt-4 overflow-x-auto rounded-2xl border border-border bg-card shadow-sm md:mt-5">
+        <table class="w-full text-left text-sm">
+            <thead>
+                <tr class="border-b border-border text-xs uppercase tracking-wider text-muted-foreground">
+                    <th class="px-4 py-3 font-medium">Contrat</th>
+                    <th class="px-4 py-3 font-medium">Nature</th>
+                    <th class="px-4 py-3 font-medium">Statut</th>
+                    <th class="px-4 py-3 font-medium">Créé le</th>
                 </tr>
-            {% else %}
-                <tr><td colspan="4">Aucun SAV.</td></tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody class="divide-y divide-border">
+                {% for sav in savs %}
+                    <tr class="transition-colors hover:bg-secondary/50">
+                        <td class="px-4 py-3 font-medium text-foreground">
+                            <a href="{{ path('app_sav_show', {id: sav.id}) }}" class="hover:text-primary hover:underline">Contrat {{ sav.contrat.numeroPolice ?? ('#' ~ sav.contrat.id) }}</a>
+                        </td>
+                        <td class="px-4 py-3 text-muted-foreground">{{ sav.natureDemande ?? '—' }}</td>
+                        <td class="px-4 py-3">
+                            <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium {{ sav.statut.value == 'cloture' ? 'bg-secondary text-muted-foreground' : (sav.statut.value == 'traite' ? 'bg-primary/10 text-primary' : 'bg-amber-100 text-amber-700') }}">
+                                {{ sav.statut.label }}
+                            </span>
+                        </td>
+                        <td class="px-4 py-3 text-muted-foreground">{{ sav.createdAt|date('d/m/Y H:i') }}</td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="4" class="px-4 py-6 text-center text-muted-foreground">Aucun SAV.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

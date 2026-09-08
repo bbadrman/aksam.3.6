@@ -1,15 +1,29 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Nouveau SAV{% endblock %}
 
 {% block body %}
-    <h1>Nouveau SAV — Contrat {{ contrat.numeroPolice ?? ('#' ~ contrat.id) }}</h1>
-    <form method="post">
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-        <label>Nature de la demande</label>
-        <input type="text" name="natureDemande">
-        <label>Motif</label>
-        <textarea name="motif"></textarea>
-        <label>Montant</label>
-        <input type="text" name="montant">
-        <button type="submit">Ouvrir le SAV</button>
-    </form>
+    {{ include('admin/_header.html.twig', {
+        title: 'Nouveau SAV',
+        description: 'Contrat ' ~ (contrat.numeroPolice ?? ('#' ~ contrat.id))
+    }) }}
+
+    <div class="mt-4 rounded-2xl border border-border bg-card p-5 shadow-sm md:mt-5">
+        <form method="post">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <div>
+                <label>Nature de la demande</label>
+                <input type="text" name="natureDemande">
+            </div>
+            <div>
+                <label>Motif</label>
+                <textarea name="motif"></textarea>
+            </div>
+            <div>
+                <label>Montant</label>
+                <input type="text" name="montant">
+            </div>
+            <button type="submit">Ouvrir le SAV</button>
+        </form>
+    </div>
 {% endblock %}
