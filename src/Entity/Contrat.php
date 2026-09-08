@@ -85,10 +85,17 @@ class Contrat
     #[ORM\OneToMany(targetEntity: Frais::class, mappedBy: 'contrat', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $frais;
 
+    /**
+     * @var Collection<int, Sav>
+     */
+    #[ORM\OneToMany(targetEntity: Sav::class, mappedBy: 'contrat')]
+    private Collection $savs;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->frais = new ArrayCollection();
+        $this->savs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -298,6 +305,14 @@ class Contrat
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Sav>
+     */
+    public function getSavs(): Collection
+    {
+        return $this->savs;
     }
 
     /**

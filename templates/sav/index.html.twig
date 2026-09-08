@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>SAV</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Contrat</th>
+                <th>Nature</th>
+                <th>Statut</th>
+                <th>Créé le</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sav in savs %}
+                <tr>
+                    <td><a href="{{ path('app_sav_show', {id: sav.id}) }}">Contrat {{ sav.contrat.numeroPolice ?? ('#' ~ sav.contrat.id) }}</a></td>
+                    <td>{{ sav.natureDemande ?? '—' }}</td>
+                    <td>{{ sav.statut.label }}</td>
+                    <td>{{ sav.createdAt|date('d/m/Y H:i') }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="4">Aucun SAV.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

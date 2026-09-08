@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>SAV #{{ sav.id }} — Contrat {{ sav.contrat.numeroPolice ?? ('#' ~ sav.contrat.id) }}</h1>
+
+    <section>
+        <ul>
+            <li>Nature de la demande : {{ sav.natureDemande ?? '—' }}</li>
+            <li>Motif : {{ sav.motif ?? '—' }}</li>
+            <li>Statut : {{ sav.statut.label }}</li>
+            <li>Montant : {{ sav.montant ?? '—' }}</li>
+            <li>Gestionnaire : {{ sav.gestionnaire ? sav.gestionnaire.username : '—' }}</li>
+            <li>Prochaine relance : {{ sav.relanceAt ? sav.relanceAt|date('d/m/Y H:i') : '—' }}</li>
+            <li>Clôturé le : {{ sav.closedAt ? sav.closedAt|date('d/m/Y H:i') : '—' }}</li>
+        </ul>
+    </section>
+
+    {% if sav.statut.value != 'cloture' %}
+        <section>
+            <form method="post" action="{{ path('app_sav_relancer', {id: sav.id}) }}">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <input type="datetime-local" name="prochaineRelance">
+                <input type="text" name="comment" placeholder="Commentaire">
+                <button type="submit">Ajouter une relance</button>
+            </form>
+
+            {% if peutCloturer %}
+                <form method="post" action="{{ path('app_sav_cloturer', {id: sav.id}) }}">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    <button type="submit">Clôturer le SAV</button>
+                </form>
+            {% endif %}
+        </section>
+    {% endif %}
+
+    <section>
+        <h2>Historique des relances</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Commentaire</th>
+                    <th>Auteur</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in sav.relanceHistory %}
+                    <tr>
+                        <td>{{ entry.createdAt|date('d/m/Y H:i') }}</td>
+                        <td>{{ entry.comment ?? '—' }}</td>
+                        <td>{{ entry.auteur ? entry.auteur.username : '—' }}</td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="3">Aucune relance enregistrée.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endblock %}
