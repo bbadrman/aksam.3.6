@@ -1,21 +1,55 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion — AksamCrm</title>
+    <link rel="stylesheet" href="{{ asset('styles/admin.css') }}">
+    {{ importmap('admin') }}
+    <style>html,body{height:100%;margin:0;}</style>
+</head>
+<body class="admin-scope bg-background text-foreground">
+<div class="fixed inset-0 flex items-center justify-center p-4">
+    <div class="mx-auto w-full max-w-xs animate-admin-fade-in rounded-xl border border-border bg-card p-6 shadow-sm">
+        <div class="mb-6 flex flex-col items-center text-center">
+            <div class="mb-3 flex h-11 w-11 items-center justify-center rounded-lg bg-primary text-lg font-semibold text-primary-foreground">A</div>
+            <h1 class="text-xl font-bold text-foreground">AksamCrm</h1>
+            <p class="mt-1 text-sm text-muted-foreground">Connectez-vous à votre espace</p>
+        </div>
 
-{% block body %}
-    <form method="post">
         {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            <div class="mb-4 flex items-start gap-2 rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2.5 text-sm text-destructive">
+                {{ include('admin/_icon.html.twig', { name: 'alert-circle', class: 'mt-0.5 h-4 w-4 flex-shrink-0' }) }}
+                <span>{{ error.messageKey|trans(error.messageData, 'security') }}</span>
+            </div>
         {% endif %}
 
-        <h1>Connexion</h1>
+        <form method="post" class="space-y-4">
+            <div>
+                <label for="inputUsername" class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Nom d'utilisateur</label>
+                <input type="text" value="{{ last_username }}" name="username" id="inputUsername"
+                       placeholder="votre identifiant"
+                       autocomplete="username" required autofocus
+                       class="h-10 w-full rounded-lg border border-border bg-card px-3 text-sm text-foreground transition-all duration-300 focus:shadow-lg focus:shadow-primary/10 focus:outline-none focus:ring-2 focus:ring-ring">
+            </div>
+            <div>
+                <label for="inputPassword" class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Mot de passe</label>
+                <input type="password" name="password" id="inputPassword"
+                       placeholder="••••••••"
+                       autocomplete="current-password" required
+                       class="h-10 w-full rounded-lg border border-border bg-card px-3 text-sm text-foreground transition-all duration-300 focus:shadow-lg focus:shadow-primary/10 focus:outline-none focus:ring-2 focus:ring-ring">
+            </div>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-        <label for="inputUsername">Nom d'utilisateur</label>
-        <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
+            <button type="submit"
+                    class="mt-2 flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-primary text-sm font-semibold text-primary-foreground shadow transition-all duration-300 hover:opacity-90">
+                Se connecter
+                {{ include('admin/_icon.html.twig', { name: 'arrow-right', class: 'h-4 w-4' }) }}
+            </button>
+        </form>
 
-        <label for="inputPassword">Mot de passe</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-        <button class="btn btn-lg btn-primary" type="submit">Se connecter</button>
-    </form>
-{% endblock %}
+        <p class="mt-6 text-center text-xs text-muted-foreground">AksamCrm — gestion assurance</p>
+    </div>
+</div>
+</body>
+</html>

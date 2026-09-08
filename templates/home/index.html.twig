@@ -1,7 +1,33 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
 
 {% block body %}
-    <h1>Connecté en tant que {{ user.username }}</h1>
-    <p>Rôles : {{ user.roles|join(', ') }}</p>
-    <a href="{{ path('app_logout') }}">Se déconnecter</a>
+    {{ include('admin/_header.html.twig', {
+        title: 'Tableau de bord',
+        description: 'Vue d\'ensemble de l\'activité AksamCrm'
+    }) }}
+
+    <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 md:mt-5">
+        {% set stats = [
+            { title: 'Nouveaux prospects', value: nouveauxCount, href: path('app_traitement_nouveaux'), primary: true },
+            { title: 'Relances du jour', value: relancesDuJourCount, href: path('app_traitement_relances_du_jour') },
+            { title: 'Clients', value: clientsCount, href: path('app_client_index') },
+            { title: 'Contrats', value: contratsCount, href: path('app_contrat_index') },
+            { title: 'SAV ouverts', value: savOuvertsCount, href: path('app_sav_index'), amber: true },
+        ] %}
+        {% for stat in stats %}
+            {% set isPrimary = stat.primary is defined and stat.primary %}
+            {% set isAmber = stat.amber is defined and stat.amber %}
+            <a href="{{ stat.href }}" class="animate-admin-slide-in-up rounded-2xl p-4 shadow-lg transition-all duration-500 ease-out hover:scale-105 hover:shadow-2xl {{ isPrimary ? 'bg-primary text-primary-foreground' : 'bg-card text-foreground' }}">
+                <div class="mb-3 flex items-start justify-between">
+                    <h3 class="text-xs font-medium opacity-90">{{ stat.title }}</h3>
+                    <div class="flex h-6 w-6 items-center justify-center rounded-full {{ isPrimary ? 'bg-primary-foreground/20' : 'bg-primary' }}">
+                        {{ include('admin/_icon.html.twig', { name: 'arrow-up-right', class: 'h-3 w-3 text-primary-foreground' }) }}
+                    </div>
+                </div>
+                <p class="mb-2 text-3xl font-bold {{ isAmber ? 'text-amber-600' : '' }}">{{ stat.value }}</p>
+            </a>
+        {% endfor %}
+    </div>
 {% endblock %}

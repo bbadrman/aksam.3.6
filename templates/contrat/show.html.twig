@@ -1,56 +1,67 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Contrat {{ contrat.numeroPolice ?? ('#' ~ contrat.id) }}{% endblock %}
 
 {% block body %}
-    <h1>Contrat {{ contrat.numeroPolice ?? '(brouillon)' }}</h1>
+    {{ include('admin/_header.html.twig', {
+        title: 'Contrat ' ~ (contrat.numeroPolice ?? '(brouillon)'),
+        description: contrat.client.displayName
+    }) }}
 
-    <section>
-        <h2>Informations</h2>
-        <ul>
-            <li>Client : {{ contrat.client.displayName }}</li>
-            <li>Produit : {{ contrat.product.nom }}</li>
-            <li>Compagnie : {{ contrat.compagnie ? contrat.compagnie.nom : '—' }}</li>
-            <li>Gestionnaire : {{ contrat.gestionnaire ? contrat.gestionnaire.username : '—' }}</li>
-            <li>Statut : {{ contrat.statut.label }}</li>
-            <li>Cotisation : {{ contrat.cotisation ?? '—' }}</li>
-            <li>Fraction : {{ contrat.fraction ?? '—' }}</li>
-            <li>Garanties : {{ contrat.garanties ?? '—' }}</li>
-        </ul>
-    </section>
+    <div class="mt-4 grid grid-cols-1 gap-4 md:mt-5 lg:grid-cols-2">
+        <div class="rounded-2xl border border-border bg-card p-5 shadow-sm">
+            <h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Informations</h2>
+            <dl class="space-y-2 text-sm">
+                <div class="flex justify-between"><dt class="text-muted-foreground">Client</dt><dd class="font-medium">{{ contrat.client.displayName }}</dd></div>
+                <div class="flex justify-between"><dt class="text-muted-foreground">Produit</dt><dd class="font-medium">{{ contrat.product.nom }}</dd></div>
+                <div class="flex justify-between"><dt class="text-muted-foreground">Compagnie</dt><dd class="font-medium">{{ contrat.compagnie ? contrat.compagnie.nom : '—' }}</dd></div>
+                <div class="flex justify-between"><dt class="text-muted-foreground">Gestionnaire</dt><dd class="font-medium">{{ contrat.gestionnaire ? contrat.gestionnaire.username : '—' }}</dd></div>
+                <div class="flex justify-between"><dt class="text-muted-foreground">Statut</dt><dd class="font-medium">{{ contrat.statut.label }}</dd></div>
+                <div class="flex justify-between"><dt class="text-muted-foreground">Cotisation</dt><dd class="font-medium">{{ contrat.cotisation ?? '—' }}</dd></div>
+                <div class="flex justify-between"><dt class="text-muted-foreground">Fraction</dt><dd class="font-medium">{{ contrat.fraction ?? '—' }}</dd></div>
+                <div class="flex justify-between"><dt class="text-muted-foreground">Garanties</dt><dd class="font-medium">{{ contrat.garanties ?? '—' }}</dd></div>
+            </dl>
+        </div>
 
-    {% if contrat.vehiculeDetails %}
-        <section>
-            <h2>Détails véhicule</h2>
-            <ul>
-                <li>Immatriculation : {{ contrat.vehiculeDetails.immatriculation ?? '—' }}</li>
-                <li>Conducteur : {{ contrat.vehiculeDetails.conducteur ?? '—' }}</li>
-                <li>Type de permis : {{ contrat.vehiculeDetails.typePermis ?? '—' }}</li>
-                <li>CRM actuel : {{ contrat.vehiculeDetails.crmActuel ?? '—' }}</li>
-            </ul>
-        </section>
-    {% endif %}
+        {% if contrat.vehiculeDetails %}
+            <div class="rounded-2xl border border-border bg-card p-5 shadow-sm">
+                <h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Détails véhicule</h2>
+                <dl class="space-y-2 text-sm">
+                    <div class="flex justify-between"><dt class="text-muted-foreground">Immatriculation</dt><dd class="font-medium">{{ contrat.vehiculeDetails.immatriculation ?? '—' }}</dd></div>
+                    <div class="flex justify-between"><dt class="text-muted-foreground">Conducteur</dt><dd class="font-medium">{{ contrat.vehiculeDetails.conducteur ?? '—' }}</dd></div>
+                    <div class="flex justify-between"><dt class="text-muted-foreground">Type de permis</dt><dd class="font-medium">{{ contrat.vehiculeDetails.typePermis ?? '—' }}</dd></div>
+                    <div class="flex justify-between"><dt class="text-muted-foreground">CRM actuel</dt><dd class="font-medium">{{ contrat.vehiculeDetails.crmActuel ?? '—' }}</dd></div>
+                </dl>
+            </div>
+        {% endif %}
 
-    {% if contrat.frais|length > 0 %}
-        <section>
-            <h2>Frais</h2>
-            <ul>
-                {% for f in contrat.frais %}
-                    <li>{{ f.libelle }} : {{ f.montant }}</li>
-                {% endfor %}
-            </ul>
-        </section>
-    {% endif %}
+        {% if contrat.frais|length > 0 %}
+            <div class="rounded-2xl border border-border bg-card p-5 shadow-sm">
+                <h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Frais</h2>
+                <ul class="space-y-1 text-sm">
+                    {% for f in contrat.frais %}
+                        <li class="flex justify-between"><span class="text-muted-foreground">{{ f.libelle }}</span><span class="font-medium">{{ f.montant }}</span></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
 
-    <section>
+    <div class="mt-4 flex flex-col gap-2 sm:flex-row md:mt-5">
         {% if contrat.statut.value == 'brouillon' %}
-            <form method="post" action="{{ path('app_contrat_valider', {id: contrat.id}) }}">
+            <form method="post" action="{{ path('app_contrat_valider', {id: contrat.id}) }}" class="admin-plain-form">
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                <button type="submit">Valider le contrat</button>
+                <button type="submit" class="flex h-9 items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-all duration-300 hover:scale-105 hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/30">
+                    Valider le contrat
+                </button>
             </form>
         {% endif %}
 
-        <form method="post" action="{{ path('app_contrat_dupliquer', {id: contrat.id}) }}">
+        <form method="post" action="{{ path('app_contrat_dupliquer', {id: contrat.id}) }}" class="admin-plain-form">
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-            <button type="submit">Dupliquer</button>
+            <button type="submit" class="flex h-9 items-center justify-center rounded-lg border border-border bg-transparent px-4 text-sm font-medium transition-all duration-300 hover:scale-105 hover:shadow-md">
+                Dupliquer
+            </button>
         </form>
-    </section>
+    </div>
 {% endblock %}

@@ -1,45 +1,58 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ titre }}{% endblock %}
 
 {% block body %}
-    <h1>{{ titre }} ({{ total }})</h1>
+    {{ include('admin/_header.html.twig', {
+        title: titre,
+        description: total ~ ' prospect(s) dans ce cycle'
+    }) }}
 
-    <table>
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Téléphone</th>
-                <th>Équipe</th>
-                <th>Commercial</th>
-                <th>Relance</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for prospect in prospects %}
-                <tr>
-                    <td><a href="{{ path('app_traitement_show', {id: prospect.id}) }}">{{ prospect.nom }} {{ prospect.prenom }}</a></td>
-                    <td>{{ prospect.phone }}</td>
-                    <td>{{ prospect.team ? prospect.team.nom : '' }}</td>
-                    <td>{{ prospect.commercial ? prospect.commercial.username : '' }}</td>
-                    <td>{{ prospect.relance ? prospect.relance.label : 'Jamais traité' }}</td>
-                    <td>
-                        <form method="post" action="{{ path('app_traitement_traiter', {id: prospect.id}) }}">
-                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                            <input type="hidden" name="retour" value="{{ app.request.attributes.get('_route') }}">
-                            <select name="motif" required>
-                                {% for motif in motifs %}
-                                    <option value="{{ motif.value }}">{{ motif.label }}</option>
-                                {% endfor %}
-                            </select>
-                            <input type="datetime-local" name="prochaineRelance">
-                            <input type="text" name="comment" placeholder="Commentaire">
-                            <button type="submit">Traiter</button>
-                        </form>
-                    </td>
+    <div class="mt-4 overflow-x-auto rounded-2xl border border-border bg-card shadow-sm md:mt-5">
+        <table class="w-full text-left text-sm">
+            <thead>
+                <tr class="border-b border-border text-xs uppercase tracking-wider text-muted-foreground">
+                    <th class="px-4 py-3 font-medium">Nom</th>
+                    <th class="px-4 py-3 font-medium">Téléphone</th>
+                    <th class="px-4 py-3 font-medium">Équipe</th>
+                    <th class="px-4 py-3 font-medium">Commercial</th>
+                    <th class="px-4 py-3 font-medium">Relance</th>
+                    <th class="px-4 py-3 font-medium">Action</th>
                 </tr>
-            {% else %}
-                <tr><td colspan="6">Aucun prospect dans ce cycle.</td></tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody class="divide-y divide-border">
+                {% for prospect in prospects %}
+                    <tr class="transition-colors hover:bg-secondary/50">
+                        <td class="px-4 py-3 font-medium text-foreground">
+                            <a href="{{ path('app_traitement_show', {id: prospect.id}) }}" class="hover:text-primary hover:underline">{{ prospect.nom }} {{ prospect.prenom }}</a>
+                        </td>
+                        <td class="px-4 py-3 text-muted-foreground">{{ prospect.phone }}</td>
+                        <td class="px-4 py-3 text-muted-foreground">{{ prospect.team ? prospect.team.nom : '—' }}</td>
+                        <td class="px-4 py-3 text-muted-foreground">{{ prospect.commercial ? prospect.commercial.username : '—' }}</td>
+                        <td class="px-4 py-3">
+                            <span class="inline-flex items-center rounded-full bg-secondary px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
+                                {{ prospect.relance ? prospect.relance.label : 'Jamais traité' }}
+                            </span>
+                        </td>
+                        <td class="px-4 py-3">
+                            <form method="post" action="{{ path('app_traitement_traiter', {id: prospect.id}) }}" class="admin-plain-form flex flex-wrap items-center gap-1.5">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                                <input type="hidden" name="retour" value="{{ app.request.attributes.get('_route') }}">
+                                <select name="motif" required class="h-8 rounded-lg border border-border bg-background px-2 text-xs focus:outline-none focus:ring-2 focus:ring-ring">
+                                    {% for motif in motifs %}
+                                        <option value="{{ motif.value }}">{{ motif.label }}</option>
+                                    {% endfor %}
+                                </select>
+                                <input type="datetime-local" name="prochaineRelance" class="h-8 rounded-lg border border-border bg-background px-2 text-xs focus:outline-none focus:ring-2 focus:ring-ring">
+                                <input type="text" name="comment" placeholder="Commentaire" class="h-8 w-32 rounded-lg border border-border bg-background px-2 text-xs focus:outline-none focus:ring-2 focus:ring-ring">
+                                <button type="submit" class="h-8 rounded-lg bg-primary px-3 text-xs font-medium text-primary-foreground hover:bg-primary/90">Traiter</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="6" class="px-4 py-6 text-center text-muted-foreground">Aucun prospect dans ce cycle.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

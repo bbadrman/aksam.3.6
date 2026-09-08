@@ -60,7 +60,7 @@ class SecurityControllerTest extends WebTestCase
 
         $this->assertResponseRedirects('/login');
         $client->followRedirect();
-        $this->assertSelectorExists('.alert-danger');
+        $this->assertSelectorExists('.text-destructive');
     }
 
     /**

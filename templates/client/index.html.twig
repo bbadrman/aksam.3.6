@@ -1,27 +1,35 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Clients{% endblock %}
 
 {% block body %}
-    <h1>Clients</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Téléphone</th>
-                <th>Email</th>
-                <th>Équipe</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for client in clients %}
-                <tr>
-                    <td>{{ client.displayName }}</td>
-                    <td>{{ client.phone }}</td>
-                    <td>{{ client.email }}</td>
-                    <td>{{ client.team ? client.team.nom : '' }}</td>
+    {{ include('admin/_header.html.twig', {
+        title: 'Clients',
+        description: 'Liste des clients enregistrés'
+    }) }}
+
+    <div class="mt-4 overflow-x-auto rounded-2xl border border-border bg-card shadow-sm md:mt-5">
+        <table class="w-full text-left text-sm">
+            <thead>
+                <tr class="border-b border-border text-xs uppercase tracking-wider text-muted-foreground">
+                    <th class="px-4 py-3 font-medium">Nom</th>
+                    <th class="px-4 py-3 font-medium">Téléphone</th>
+                    <th class="px-4 py-3 font-medium">Email</th>
+                    <th class="px-4 py-3 font-medium">Équipe</th>
                 </tr>
-            {% else %}
-                <tr><td colspan="4">Aucun client.</td></tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody class="divide-y divide-border">
+                {% for client in clients %}
+                    <tr class="transition-colors hover:bg-secondary/50">
+                        <td class="px-4 py-3 font-medium text-foreground">{{ client.displayName }}</td>
+                        <td class="px-4 py-3 text-muted-foreground">{{ client.phone }}</td>
+                        <td class="px-4 py-3 text-muted-foreground">{{ client.email ?? '—' }}</td>
+                        <td class="px-4 py-3 text-muted-foreground">{{ client.team ? client.team.nom : '—' }}</td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="4" class="px-4 py-6 text-center text-muted-foreground">Aucun client.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

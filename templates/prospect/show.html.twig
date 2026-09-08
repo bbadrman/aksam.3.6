@@ -1,88 +1,96 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ prospect.nom }} {{ prospect.prenom }}{% endblock %}
 
 {% block body %}
-    <h1>{{ prospect.nom }} {{ prospect.prenom }}</h1>
+    {{ include('admin/_header.html.twig', {
+        title: prospect.nom ~ ' ' ~ prospect.prenom,
+        description: prospect.product.nom
+    }) }}
 
-    <section>
-        <h2>Identité</h2>
-        <ul>
-            <li>Téléphone : {{ prospect.phone }}</li>
-            <li>Email : {{ prospect.email ?? '—' }}</li>
-            <li>Produit : {{ prospect.product.nom }}</li>
-            <li>Statut : {{ prospect.statut }}</li>
-            <li>Équipe : {{ prospect.team ? prospect.team.nom : '—' }}</li>
-            <li>Commercial : {{ prospect.commercial ? prospect.commercial.username : '—' }}</li>
-            <li>Créé le : {{ prospect.createdAt|date('d/m/Y H:i') }}</li>
-        </ul>
-    </section>
+    <div class="mt-4 grid grid-cols-1 gap-4 md:mt-5 lg:grid-cols-2">
+        <div class="rounded-2xl border border-border bg-card p-5 shadow-sm">
+            <h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Identité</h2>
+            <dl class="space-y-2 text-sm">
+                <div class="flex justify-between"><dt class="text-muted-foreground">Téléphone</dt><dd class="font-medium">{{ prospect.phone }}</dd></div>
+                <div class="flex justify-between"><dt class="text-muted-foreground">Email</dt><dd class="font-medium">{{ prospect.email ?? '—' }}</dd></div>
+                <div class="flex justify-between"><dt class="text-muted-foreground">Statut</dt><dd class="font-medium">{{ prospect.statut }}</dd></div>
+                <div class="flex justify-between"><dt class="text-muted-foreground">Équipe</dt><dd class="font-medium">{{ prospect.team ? prospect.team.nom : '—' }}</dd></div>
+                <div class="flex justify-between"><dt class="text-muted-foreground">Commercial</dt><dd class="font-medium">{{ prospect.commercial ? prospect.commercial.username : '—' }}</dd></div>
+                <div class="flex justify-between"><dt class="text-muted-foreground">Créé le</dt><dd class="font-medium">{{ prospect.createdAt|date('d/m/Y H:i') }}</dd></div>
+            </dl>
+        </div>
 
-    <section>
-        <h2>Détails produit</h2>
-        {% if prospect.vehiculeDetails %}
-            <ul>
-                <li>Immatriculation : {{ prospect.vehiculeDetails.immatriculation ?? '—' }}</li>
-                <li>Marque : {{ prospect.vehiculeDetails.marque ?? '—' }}</li>
-                <li>Modèle : {{ prospect.vehiculeDetails.modele ?? '—' }}</li>
-                <li>Date de mise en circulation : {{ prospect.vehiculeDetails.dateMiseCirculation ? prospect.vehiculeDetails.dateMiseCirculation|date('d/m/Y') : '—' }}</li>
-            </ul>
-        {% elseif prospect.prevoyanceDetails %}
-            <ul>
-                <li>Capital souhaité : {{ prospect.prevoyanceDetails.capitalSouhaite ?? '—' }}</li>
-                <li>Situation familiale : {{ prospect.prevoyanceDetails.situationFamiliale ?? '—' }}</li>
-                <li>Nombre d'enfants : {{ prospect.prevoyanceDetails.nombreEnfants ?? '—' }}</li>
-                <li>Profession : {{ prospect.prevoyanceDetails.profession ?? '—' }}</li>
-            </ul>
-        {% elseif prospect.constructionDetails %}
-            <ul>
-                <li>Type de bien : {{ prospect.constructionDetails.typeBien ?? '—' }}</li>
-                <li>Surface (m²) : {{ prospect.constructionDetails.surfaceM2 ?? '—' }}</li>
-                <li>Date de construction : {{ prospect.constructionDetails.dateConstruction ? prospect.constructionDetails.dateConstruction|date('d/m/Y') : '—' }}</li>
-                <li>Adresse du bien : {{ prospect.constructionDetails.adresseBien ?? '—' }}</li>
-            </ul>
-        {% else %}
-            <p>Aucun détail spécifique produit.</p>
-        {% endif %}
-    </section>
+        <div class="rounded-2xl border border-border bg-card p-5 shadow-sm">
+            <h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Détails produit</h2>
+            {% if prospect.vehiculeDetails %}
+                <dl class="space-y-2 text-sm">
+                    <div class="flex justify-between"><dt class="text-muted-foreground">Immatriculation</dt><dd class="font-medium">{{ prospect.vehiculeDetails.immatriculation ?? '—' }}</dd></div>
+                    <div class="flex justify-between"><dt class="text-muted-foreground">Marque</dt><dd class="font-medium">{{ prospect.vehiculeDetails.marque ?? '—' }}</dd></div>
+                    <div class="flex justify-between"><dt class="text-muted-foreground">Modèle</dt><dd class="font-medium">{{ prospect.vehiculeDetails.modele ?? '—' }}</dd></div>
+                    <div class="flex justify-between"><dt class="text-muted-foreground">Mise en circulation</dt><dd class="font-medium">{{ prospect.vehiculeDetails.dateMiseCirculation ? prospect.vehiculeDetails.dateMiseCirculation|date('d/m/Y') : '—' }}</dd></div>
+                </dl>
+            {% elseif prospect.prevoyanceDetails %}
+                <dl class="space-y-2 text-sm">
+                    <div class="flex justify-between"><dt class="text-muted-foreground">Capital souhaité</dt><dd class="font-medium">{{ prospect.prevoyanceDetails.capitalSouhaite ?? '—' }}</dd></div>
+                    <div class="flex justify-between"><dt class="text-muted-foreground">Situation familiale</dt><dd class="font-medium">{{ prospect.prevoyanceDetails.situationFamiliale ?? '—' }}</dd></div>
+                    <div class="flex justify-between"><dt class="text-muted-foreground">Enfants</dt><dd class="font-medium">{{ prospect.prevoyanceDetails.nombreEnfants ?? '—' }}</dd></div>
+                    <div class="flex justify-between"><dt class="text-muted-foreground">Profession</dt><dd class="font-medium">{{ prospect.prevoyanceDetails.profession ?? '—' }}</dd></div>
+                </dl>
+            {% elseif prospect.constructionDetails %}
+                <dl class="space-y-2 text-sm">
+                    <div class="flex justify-between"><dt class="text-muted-foreground">Type de bien</dt><dd class="font-medium">{{ prospect.constructionDetails.typeBien ?? '—' }}</dd></div>
+                    <div class="flex justify-between"><dt class="text-muted-foreground">Surface (m²)</dt><dd class="font-medium">{{ prospect.constructionDetails.surfaceM2 ?? '—' }}</dd></div>
+                    <div class="flex justify-between"><dt class="text-muted-foreground">Construction</dt><dd class="font-medium">{{ prospect.constructionDetails.dateConstruction ? prospect.constructionDetails.dateConstruction|date('d/m/Y') : '—' }}</dd></div>
+                    <div class="flex justify-between"><dt class="text-muted-foreground">Adresse</dt><dd class="font-medium">{{ prospect.constructionDetails.adresseBien ?? '—' }}</dd></div>
+                </dl>
+            {% else %}
+                <p class="text-sm text-muted-foreground">Aucun détail spécifique produit.</p>
+            {% endif %}
+        </div>
+    </div>
 
-    <section>
-        <h2>Relance</h2>
-        <p>Motif actuel : {{ prospect.relance ? prospect.relance.label : 'Jamais traité' }}</p>
-        <p>Prochaine relance : {{ prospect.relanceAt ? prospect.relanceAt|date('d/m/Y H:i') : '—' }}</p>
+    <div class="mt-4 rounded-2xl border border-border bg-card p-5 shadow-sm md:mt-5">
+        <h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Relance</h2>
+        <p class="mb-1 text-sm">Motif actuel : <span class="font-medium">{{ prospect.relance ? prospect.relance.label : 'Jamais traité' }}</span></p>
+        <p class="mb-4 text-sm">Prochaine relance : <span class="font-medium">{{ prospect.relanceAt ? prospect.relanceAt|date('d/m/Y H:i') : '—' }}</span></p>
 
-        <form method="post" action="{{ path('app_traitement_traiter', {id: prospect.id}) }}">
+        <form method="post" action="{{ path('app_traitement_traiter', {id: prospect.id}) }}" class="admin-plain-form flex flex-wrap items-center gap-2">
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-            <select name="motif" required>
+            <select name="motif" required class="h-9 rounded-lg border border-border bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
                 {% for motif in motifs %}
                     <option value="{{ motif.value }}">{{ motif.label }}</option>
                 {% endfor %}
             </select>
-            <input type="datetime-local" name="prochaineRelance">
-            <input type="text" name="comment" placeholder="Commentaire">
-            <button type="submit">Traiter</button>
+            <input type="datetime-local" name="prochaineRelance" class="h-9 rounded-lg border border-border bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+            <input type="text" name="comment" placeholder="Commentaire" class="h-9 flex-1 min-w-[10rem] rounded-lg border border-border bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+            <button type="submit" class="h-9 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90">Traiter</button>
         </form>
+    </div>
 
-        <h3>Historique des relances</h3>
-        <table>
+    <div class="mt-4 overflow-x-auto rounded-2xl border border-border bg-card shadow-sm md:mt-5">
+        <h2 class="px-5 pt-4 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Historique des relances</h2>
+        <table class="w-full text-left text-sm">
             <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Motif</th>
-                    <th>Commentaire</th>
-                    <th>Auteur</th>
+                <tr class="border-b border-border text-xs uppercase tracking-wider text-muted-foreground">
+                    <th class="px-5 py-3 font-medium">Date</th>
+                    <th class="px-5 py-3 font-medium">Motif</th>
+                    <th class="px-5 py-3 font-medium">Commentaire</th>
+                    <th class="px-5 py-3 font-medium">Auteur</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="divide-y divide-border">
                 {% for entry in prospect.relanceHistory %}
                     <tr>
-                        <td>{{ entry.relancedAt|date('d/m/Y H:i') }}</td>
-                        <td>{{ entry.motif.label }}</td>
-                        <td>{{ entry.comment ?? '—' }}</td>
-                        <td>{{ entry.auteur ? entry.auteur.username : '—' }}</td>
+                        <td class="px-5 py-3 text-muted-foreground">{{ entry.relancedAt|date('d/m/Y H:i') }}</td>
+                        <td class="px-5 py-3 font-medium">{{ entry.motif.label }}</td>
+                        <td class="px-5 py-3 text-muted-foreground">{{ entry.comment ?? '—' }}</td>
+                        <td class="px-5 py-3 text-muted-foreground">{{ entry.auteur ? entry.auteur.username : '—' }}</td>
                     </tr>
                 {% else %}
-                    <tr><td colspan="4">Aucune relance enregistrée.</td></tr>
+                    <tr><td colspan="4" class="px-5 py-6 text-center text-muted-foreground">Aucune relance enregistrée.</td></tr>
                 {% endfor %}
             </tbody>
         </table>
-    </section>
+    </div>
 {% endblock %}

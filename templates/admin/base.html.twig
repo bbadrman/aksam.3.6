@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Tableau de bord{% endblock %} — AksamCrm</title>
+
+        <script>
+            (function () {
+                var stored = localStorage.getItem('admin-theme');
+                if (stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark');
+                }
+            })();
+        </script>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('styles/admin.css') }}">
+        {% endblock %}
+        {% block javascripts %}
+            {% block importmap %}{{ importmap('admin') }}{% endblock %}
+        {% endblock %}
+    </head>
+    <body class="admin-scope bg-background text-foreground" data-controller="admin-sidebar">
+        <div class="flex min-h-screen">
+            {% include 'admin/_sidebar.html.twig' %}
+
+            <div class="fixed inset-0 z-40 hidden bg-black/40 lg:hidden" data-admin-sidebar-target="backdrop" data-action="click->admin-sidebar#close"></div>
+
+            <main class="flex-1 flex flex-col min-h-screen lg:ml-64">
+                <div class="flex-1 p-3 md:p-4 lg:p-5">
+                    {% for label, messages in app.flashes %}
+                        {% for message in messages %}
+                            <div class="mb-3 rounded-lg border px-3 py-2.5 text-sm {{ label == 'error' ? 'border-destructive/30 bg-destructive/10 text-destructive' : 'border-border bg-secondary text-foreground' }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+
+                    {% block body %}{% endblock %}
+                </div>
+
+                <footer class="border-t border-border px-3 py-3 text-center text-xs text-muted-foreground md:px-4 lg:px-5">
+                    <p>AksamCrm — v2</p>
+                </footer>
+            </main>
+        </div>
+    </body>
+</html>
