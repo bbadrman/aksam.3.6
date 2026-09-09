@@ -1,0 +1,17 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Nouveau prospect{% endblock %}
+
+{% block body %}
+    {{ include('admin/_header.html.twig', {
+        title: 'Nouveau prospect',
+        description: 'Créer un prospect manuellement'
+    }) }}
+
+    <div class="mt-4 rounded-2xl border border-border bg-card p-5 shadow-sm md:mt-5">
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit">Créer le prospect</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

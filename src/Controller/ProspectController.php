@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Dto\ProspectFormDTO;
 use App\Entity\RelanceMotif;
+use App\Form\ProspectType;
 use App\Repository\ProspectRepository;
+use App\Service\ProspectService;
 use App\Service\ProspectTraitementService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,8 +27,27 @@ class ProspectController extends AbstractController
         'app_traitement_injoignables',
     ];
 
-    public function __construct(private readonly ProspectTraitementService $traitementService)
+    public function __construct(
+        private readonly ProspectTraitementService $traitementService,
+        private readonly ProspectService $prospectService,
+    ) {
+    }
+
+    #[Route('/nouveau', name: 'new', methods: ['GET', 'POST'])]
+    public function new(Request $request): Response
     {
+        $dto = new ProspectFormDTO();
+        $form = $this->createForm(ProspectType::class, $dto);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $prospect = $this->prospectService->createManually($dto);
+            $this->addFlash('info', sprintf('Prospect "%s" créé.', $prospect->getNom()));
+
+            return $this->redirectToRoute('app_traitement_show', ['id' => $prospect->getId()]);
+        }
+
+        return $this->render('prospect/new.html.twig', ['form' => $form]);
     }
 
     #[Route('/nouveaux', name: 'nouveaux', methods: ['GET'])]
