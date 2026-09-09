@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Dto\ProspectFormDTO;
 use App\Entity\Compartenaire;
 use App\Entity\Product;
 use App\Entity\Prospect;
@@ -42,6 +43,52 @@ class ProspectService
             Product::CODE_VEHICULE => $prospect->setVehiculeDetails($this->buildVehiculeDetails($data)),
             Product::CODE_PREVOYANCE => $prospect->setPrevoyanceDetails($this->buildPrevoyanceDetails($data)),
             Product::CODE_CONSTRUCTION => $prospect->setConstructionDetails($this->buildConstructionDetails($data)),
+            default => null,
+        };
+
+        $this->entityManager->persist($prospect);
+        $this->entityManager->flush();
+
+        return $prospect;
+    }
+
+    /**
+     * Création manuelle depuis l'écran "Nouveau prospect" (cf. l'ancien
+     * /prospect/new) — équipe/commercial peuvent être choisis directement
+     * ici, sans passer par le flux d'ingestion API.
+     */
+    public function createManually(ProspectFormDTO $dto): Prospect
+    {
+        $prospect = new Prospect();
+        $prospect->setNom((string) $dto->nom);
+        $prospect->setPrenom($dto->prenom);
+        $prospect->setPhone((string) $dto->phone);
+        $prospect->setEmail($dto->email);
+        $prospect->setProduct($dto->product);
+        $prospect->setTeam($dto->team);
+        $prospect->setCommercial($dto->commercial);
+
+        if ($dto->team !== null || $dto->commercial !== null) {
+            $prospect->setAffectAt(new \DateTimeImmutable());
+        }
+
+        match ($dto->product?->getCode()) {
+            Product::CODE_VEHICULE => $prospect->setVehiculeDetails(
+                (new ProspectVehiculeDetails())
+                    ->setImmatriculation($dto->immatriculation)
+                    ->setMarque($dto->marque)
+                    ->setModele($dto->modele)
+            ),
+            Product::CODE_PREVOYANCE => $prospect->setPrevoyanceDetails(
+                (new ProspectPrevoyanceDetails())
+                    ->setSituationFamiliale($dto->situationFamiliale)
+                    ->setProfession($dto->profession)
+            ),
+            Product::CODE_CONSTRUCTION => $prospect->setConstructionDetails(
+                (new ProspectConstructionDetails())
+                    ->setTypeBien($dto->typeBien)
+                    ->setAdresseBien($dto->adresseBien)
+            ),
             default => null,
         };
 
