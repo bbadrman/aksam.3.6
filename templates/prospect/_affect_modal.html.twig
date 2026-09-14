@@ -1,7 +1,10 @@
 {#
     Modale d'affectation d'un prospect à une équipe/un commercial.
-    Attend : prospect, teams, commercials, et optionnellement retour
-    (nom de route de cycle vers laquelle revenir après soumission).
+    Le select "Commercial" est filtré dynamiquement selon l'équipe
+    choisie (ne montre que les commerciaux rattachés à cette équipe),
+    via prospect_affectation_controller.js + GET /traitement/api/equipes-commerciaux.
+    Attend : prospect, teams, et optionnellement retour (nom de route de
+    cycle vers laquelle revenir après soumission).
 #}
 <div data-controller="modal" class="inline-flex">
     <button type="button" data-action="modal#open"
@@ -11,7 +14,9 @@
     </button>
 
     <dialog data-modal-target="dialog" data-action="click->modal#closeOnBackdrop" class="admin-modal w-full max-w-sm">
-        <form method="post" action="{{ path('app_traitement_affecter', {id: prospect.id}) }}" class="admin-plain-form">
+        <form method="post" action="{{ path('app_traitement_affecter', {id: prospect.id}) }}" class="admin-plain-form"
+              data-controller="prospect-affectation"
+              data-prospect-affectation-url-value="{{ path('app_traitement_teams_commerciaux') }}">
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
             {% if retour is defined and retour %}
                 <input type="hidden" name="retour" value="{{ retour }}">
@@ -30,20 +35,22 @@
             <div class="space-y-3 p-4">
                 <div>
                     <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Équipe</label>
-                    <select name="team" class="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                    <select name="team" data-prospect-affectation-target="team" data-action="change->prospect-affectation#refresh"
+                            class="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
                         <option value="">— Aucune —</option>
                         {% for team in teams %}
                             <option value="{{ team.id }}" {{ prospect.team and prospect.team.id == team.id ? 'selected' }}>{{ team.nom }}</option>
                         {% endfor %}
                     </select>
                 </div>
-                <div>
+                <div data-prospect-affectation-target="commercialField">
                     <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Commercial</label>
-                    <select name="commercial" class="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                    <select name="commercial" data-prospect-affectation-target="commercial"
+                            class="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
                         <option value="">— Aucun —</option>
-                        {% for commercial in commercials %}
-                            <option value="{{ commercial.id }}" {{ prospect.commercial and prospect.commercial.id == commercial.id ? 'selected' }}>{{ commercial.username }}</option>
-                        {% endfor %}
+                        {% if prospect.commercial %}
+                            <option value="{{ prospect.commercial.id }}" selected>{{ prospect.commercial.username }}</option>
+                        {% endif %}
                     </select>
                 </div>
             </div>

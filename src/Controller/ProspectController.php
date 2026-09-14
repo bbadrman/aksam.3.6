@@ -102,8 +102,28 @@ class ProspectController extends AbstractController
             'prospect' => $prospect,
             'motifs' => RelanceMotif::cases(),
             'teams' => $this->teamRepository->findAll(),
-            'commercials' => $this->userRepository->findAll(),
         ]);
+    }
+
+    /**
+     * Équipes + commerciaux qui leur sont rattachés, pour filtrer
+     * dynamiquement le select "Commercial" de la modale d'affectation
+     * selon l'équipe choisie (même principe que l'ancien
+     * TeamController::teamsApi()).
+     */
+    #[Route('/api/equipes-commerciaux', name: 'teams_commerciaux', methods: ['GET'])]
+    public function teamsCommerciaux(): Response
+    {
+        $data = array_map(fn ($team) => [
+            'id' => $team->getId(),
+            'nom' => $team->getNom(),
+            'commercials' => array_values(array_map(
+                fn ($user) => ['id' => $user->getId(), 'username' => $user->getUsername()],
+                array_filter($team->getUsers()->toArray(), fn ($user) => $user->isActif()),
+            )),
+        ], $this->teamRepository->findAll());
+
+        return $this->json($data);
     }
 
     #[Route('/{id}/affecter', name: 'affecter', methods: ['POST'], requirements: ['id' => '\d+'])]
@@ -185,7 +205,6 @@ class ProspectController extends AbstractController
             'page' => $this->page($request),
             'motifs' => RelanceMotif::cases(),
             'teams' => $this->teamRepository->findAll(),
-            'commercials' => $this->userRepository->findAll(),
         ]);
     }
 
