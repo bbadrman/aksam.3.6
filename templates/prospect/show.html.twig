@@ -51,23 +51,15 @@
     </div>
 
     <div class="mt-4 rounded-2xl border border-border bg-card p-5 shadow-sm md:mt-5">
-        <h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Affectation</h2>
-        <form method="post" action="{{ path('app_traitement_affecter', {id: prospect.id}) }}" class="admin-plain-form flex flex-wrap items-center gap-2">
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-            <select name="team" class="h-9 rounded-lg border border-border bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
-                <option value="">Équipe…</option>
-                {% for team in teams %}
-                    <option value="{{ team.id }}" {{ prospect.team and prospect.team.id == team.id ? 'selected' }}>{{ team.nom }}</option>
-                {% endfor %}
-            </select>
-            <select name="commercial" class="h-9 rounded-lg border border-border bg-background px-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
-                <option value="">Commercial…</option>
-                {% for commercial in commercials %}
-                    <option value="{{ commercial.id }}" {{ prospect.commercial and prospect.commercial.id == commercial.id ? 'selected' }}>{{ commercial.username }}</option>
-                {% endfor %}
-            </select>
-            <button type="submit" class="h-9 rounded-lg border border-border px-4 text-sm font-medium text-foreground hover:bg-secondary">Affecter</button>
-        </form>
+        <div class="flex items-center justify-between">
+            <h2 class="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Affectation</h2>
+            {{ include('prospect/_affect_modal.html.twig', { prospect: prospect, teams: teams, commercials: commercials }) }}
+        </div>
+        <dl class="mt-3 space-y-2 text-sm">
+            <div class="flex justify-between"><dt class="text-muted-foreground">Équipe</dt><dd class="font-medium">{{ prospect.team ? prospect.team.nom : '—' }}</dd></div>
+            <div class="flex justify-between"><dt class="text-muted-foreground">Commercial</dt><dd class="font-medium">{{ prospect.commercial ? prospect.commercial.username : '—' }}</dd></div>
+            <div class="flex justify-between"><dt class="text-muted-foreground">Affecté le</dt><dd class="font-medium">{{ prospect.affectAt ? prospect.affectAt|date('d/m/Y H:i') : '—' }}</dd></div>
+        </dl>
     </div>
 
     <div class="mt-4 rounded-2xl border border-border bg-card p-5 shadow-sm md:mt-5">

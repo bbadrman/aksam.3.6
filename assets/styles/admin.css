@@ -151,6 +151,29 @@ html.dark {
 }
 
 /*
+ * <dialog> native utilisée pour les modales (ex: affectation prospect) —
+ * on retire le style par défaut du navigateur (bordure, fond blanc,
+ * position figée) pour la faire correspondre au thème.
+ */
+.admin-modal {
+  margin: auto;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-card);
+  color: var(--color-foreground);
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.2), 0 8px 10px -6px rgb(0 0 0 / 0.2);
+}
+
+.admin-modal::backdrop {
+  background-color: rgb(0 0 0 / 0.5);
+}
+
+.admin-modal[open] {
+  animation: admin-fade-in 0.2s ease-out forwards;
+}
+
+/*
  * Style par défaut des formulaires Symfony (form_widget/form_start) dans
  * l'espace admin — évite de reprendre chaque FormType avec des classes
  * Tailwind ligne par ligne, tout en gardant le même langage visuel que
