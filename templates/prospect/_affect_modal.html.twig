@@ -1,0 +1,68 @@
+{#
+    Modale d'affectation d'un prospect à une équipe/un commercial.
+    Le select "Commercial" est filtré dynamiquement selon l'équipe
+    choisie (ne montre que les commerciaux rattachés à cette équipe),
+    via prospect_affectation_controller.js + GET /traitement/api/equipes-commerciaux.
+    Attend : prospect, teams, et optionnellement retour (nom de route de
+    cycle vers laquelle revenir après soumission).
+#}
+<div data-controller="modal" class="inline-flex">
+    <button type="button" data-action="modal#open"
+            class="inline-flex h-8 items-center gap-1.5 rounded-lg border border-border px-3 text-xs font-medium text-foreground hover:bg-secondary">
+        {{ include('admin/_icon.html.twig', { name: 'team', class: 'h-3.5 w-3.5' }) }}
+        Affecter
+    </button>
+
+    <dialog data-modal-target="dialog" data-action="click->modal#closeOnBackdrop" class="admin-modal w-full max-w-sm">
+        <form method="post" action="{{ path('app_traitement_affecter', {id: prospect.id}) }}" class="admin-plain-form"
+              data-controller="prospect-affectation"
+              data-prospect-affectation-url-value="{{ path('app_traitement_teams_commerciaux') }}">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            {% if retour is defined and retour %}
+                <input type="hidden" name="retour" value="{{ retour }}">
+            {% endif %}
+
+            <div class="flex items-center gap-3 border-b border-border p-4">
+                <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    {{ include('admin/_icon.html.twig', { name: 'team', class: 'h-4 w-4' }) }}
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-foreground">Affectation du prospect</h3>
+                    <p class="text-xs text-muted-foreground">{{ prospect.nom }} {{ prospect.prenom }}</p>
+                </div>
+            </div>
+
+            <div class="space-y-3 p-4">
+                <div>
+                    <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Équipe</label>
+                    <select name="team" data-prospect-affectation-target="team" data-action="change->prospect-affectation#refresh"
+                            class="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                        <option value="">— Aucune —</option>
+                        {% for team in teams %}
+                            <option value="{{ team.id }}" {{ prospect.team and prospect.team.id == team.id ? 'selected' }}>{{ team.nom }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div data-prospect-affectation-target="commercialField">
+                    <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Commercial</label>
+                    <select name="commercial" data-prospect-affectation-target="commercial"
+                            class="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                        <option value="">— Aucun —</option>
+                        {% if prospect.commercial %}
+                            <option value="{{ prospect.commercial.id }}" selected>{{ prospect.commercial.username }}</option>
+                        {% endif %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-2 border-t border-border p-4">
+                <button type="button" data-action="modal#close" class="h-9 rounded-lg border border-border px-4 text-sm font-medium text-foreground hover:bg-secondary">
+                    Annuler
+                </button>
+                <button type="submit" class="h-9 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90">
+                    Enregistrer
+                </button>
+            </div>
+        </form>
+    </dialog>
+</div>

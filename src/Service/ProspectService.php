@@ -9,6 +9,8 @@ use App\Entity\Prospect;
 use App\Entity\ProspectConstructionDetails;
 use App\Entity\ProspectPrevoyanceDetails;
 use App\Entity\ProspectVehiculeDetails;
+use App\Entity\Team;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ProspectService
@@ -96,6 +98,20 @@ class ProspectService
         $this->entityManager->flush();
 
         return $prospect;
+    }
+
+    /**
+     * Affecte (ou réaffecte) un prospect à une équipe et/ou un commercial —
+     * depuis les écrans de cycle de traitement. Met à jour la date
+     * d'affectation à chaque affectation, y compris une réaffectation.
+     */
+    public function affecter(Prospect $prospect, ?Team $team, ?User $commercial): void
+    {
+        $prospect->setTeam($team);
+        $prospect->setCommercial($commercial);
+        $prospect->setAffectAt($team !== null || $commercial !== null ? new \DateTimeImmutable() : null);
+
+        $this->entityManager->flush();
     }
 
     /**

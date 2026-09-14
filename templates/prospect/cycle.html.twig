@@ -48,7 +48,9 @@
                         </td>
                         <td class="px-4 py-3">
                             <div class="flex flex-wrap items-center gap-1.5">
-                            
+
+                            {{ include('prospect/_affect_modal.html.twig', { prospect: prospect, teams: teams, retour: app.request.attributes.get('_route') }) }}
+
                             <form method="post" action="{{ path('app_traitement_traiter', {id: prospect.id}) }}" class="admin-plain-form flex flex-wrap items-center gap-1.5">
                                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                                 <input type="hidden" name="retour" value="{{ app.request.attributes.get('_route') }}">
@@ -68,7 +70,7 @@
                         </td>
                     </tr>
                 {% else %}
-                    <tr><td colspan="6" class="px-4 py-6 text-center text-muted-foreground">Aucun prospect dans ce cycle.</td></tr>
+                    <tr><td colspan="9" class="px-4 py-6 text-center text-muted-foreground">Aucun prospect dans ce cycle.</td></tr>
                 {% endfor %}
             </tbody>
         </table>
