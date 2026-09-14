@@ -48,7 +48,25 @@
                         </td>
                         <td class="px-4 py-3">
                             <div class="flex flex-wrap items-center gap-1.5">
-                            
+
+                            <form method="post" action="{{ path('app_traitement_affecter', {id: prospect.id}) }}" class="admin-plain-form flex flex-wrap items-center gap-1.5">
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                                <input type="hidden" name="retour" value="{{ app.request.attributes.get('_route') }}">
+                                <select name="team" class="h-8 rounded-lg border border-border bg-background px-2 text-xs focus:outline-none focus:ring-2 focus:ring-ring">
+                                    <option value="">Équipe…</option>
+                                    {% for team in teams %}
+                                        <option value="{{ team.id }}" {{ prospect.team and prospect.team.id == team.id ? 'selected' }}>{{ team.nom }}</option>
+                                    {% endfor %}
+                                </select>
+                                <select name="commercial" class="h-8 rounded-lg border border-border bg-background px-2 text-xs focus:outline-none focus:ring-2 focus:ring-ring">
+                                    <option value="">Commercial…</option>
+                                    {% for commercial in commercials %}
+                                        <option value="{{ commercial.id }}" {{ prospect.commercial and prospect.commercial.id == commercial.id ? 'selected' }}>{{ commercial.username }}</option>
+                                    {% endfor %}
+                                </select>
+                                <button type="submit" class="h-8 rounded-lg border border-border px-3 text-xs font-medium text-foreground hover:bg-secondary">Affecter</button>
+                            </form>
+
                             <form method="post" action="{{ path('app_traitement_traiter', {id: prospect.id}) }}" class="admin-plain-form flex flex-wrap items-center gap-1.5">
                                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                                 <input type="hidden" name="retour" value="{{ app.request.attributes.get('_route') }}">
@@ -68,7 +86,7 @@
                         </td>
                     </tr>
                 {% else %}
-                    <tr><td colspan="6" class="px-4 py-6 text-center text-muted-foreground">Aucun prospect dans ce cycle.</td></tr>
+                    <tr><td colspan="9" class="px-4 py-6 text-center text-muted-foreground">Aucun prospect dans ce cycle.</td></tr>
                 {% endfor %}
             </tbody>
         </table>

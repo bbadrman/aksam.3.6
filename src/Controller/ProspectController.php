@@ -6,6 +6,8 @@ use App\Dto\ProspectFormDTO;
 use App\Entity\RelanceMotif;
 use App\Form\ProspectType;
 use App\Repository\ProspectRepository;
+use App\Repository\TeamRepository;
+use App\Repository\UserRepository;
 use App\Service\ProspectService;
 use App\Service\ProspectTraitementService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,6 +32,8 @@ class ProspectController extends AbstractController
     public function __construct(
         private readonly ProspectTraitementService $traitementService,
         private readonly ProspectService $prospectService,
+        private readonly TeamRepository $teamRepository,
+        private readonly UserRepository $userRepository,
     ) {
     }
 
@@ -97,7 +101,40 @@ class ProspectController extends AbstractController
         return $this->render('prospect/show.html.twig', [
             'prospect' => $prospect,
             'motifs' => RelanceMotif::cases(),
+            'teams' => $this->teamRepository->findAll(),
+            'commercials' => $this->userRepository->findAll(),
         ]);
+    }
+
+    #[Route('/{id}/affecter', name: 'affecter', methods: ['POST'], requirements: ['id' => '\d+'])]
+    public function affecter(int $id, Request $request, ProspectRepository $prospectRepository): Response
+    {
+        $prospect = $prospectRepository->find($id);
+        if (!$prospect) {
+            throw $this->createNotFoundException('Prospect introuvable.');
+        }
+
+        $teamId = $request->request->get('team');
+        $commercialId = $request->request->get('commercial');
+
+        $team = $teamId ? $this->teamRepository->find($teamId) : null;
+        $commercial = $commercialId ? $this->userRepository->find($commercialId) : null;
+
+        $this->prospectService->affecter($prospect, $team, $commercial);
+
+        $this->addFlash('info', sprintf(
+            'Prospect "%s" affecté%s%s.',
+            $prospect->getNom(),
+            $team ? ' à l\'équipe ' . $team->getNom() : '',
+            $commercial ? ' (commercial : ' . $commercial->getUsername() . ')' : '',
+        ));
+
+        $retour = $request->request->get('retour');
+        if ($retour && \in_array($retour, self::ROUTES_CYCLE, true)) {
+            return $this->redirectToRoute($retour);
+        }
+
+        return $this->redirectToRoute('app_traitement_show', ['id' => $prospect->getId()]);
     }
 
     #[Route('/{id}/traiter', name: 'traiter', methods: ['POST'], requirements: ['id' => '\d+'])]
@@ -147,6 +184,8 @@ class ProspectController extends AbstractController
             'total' => $resultats['total'],
             'page' => $this->page($request),
             'motifs' => RelanceMotif::cases(),
+            'teams' => $this->teamRepository->findAll(),
+            'commercials' => $this->userRepository->findAll(),
         ]);
     }
 
