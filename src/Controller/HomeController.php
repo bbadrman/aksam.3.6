@@ -23,7 +23,10 @@ class HomeController extends AbstractController
     ): Response {
         return $this->render('home/index.html.twig', [
             'nouveauxCount' => $traitementService->nouveaux()['total'],
+            'nonTraitesCount' => $traitementService->nonTraites()['total'],
             'relancesDuJourCount' => $traitementService->relancesDuJour()['total'],
+            'relancesAVenirCount' => $traitementService->relancesAVenir()['total'],
+            'injoignablesCount' => $traitementService->injoignables()['total'],
             'relancesNonTraiteesCount' => $traitementService->relancesNonTraitees()['total'],
             'clientsCount' => \count($clientRepository->findAll()),
             'contratsCount' => \count($contratRepository->findAll()),

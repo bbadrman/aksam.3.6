@@ -17,36 +17,52 @@
             <p class="mt-1 text-sm text-muted-foreground">Connectez-vous à votre espace</p>
         </div>
 
-        {% if error %}
-            <div class="mb-4 flex items-start gap-2 rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2.5 text-sm text-destructive">
-                {{ include('admin/_icon.html.twig', { name: 'alert-circle', class: 'mt-0.5 h-4 w-4 flex-shrink-0' }) }}
-                <span>{{ error.messageKey|trans(error.messageData, 'security') }}</span>
+        {% if app.user %}
+            <div class="mb-4 flex items-start gap-2 rounded-lg border border-border bg-muted px-3 py-2.5 text-sm text-foreground">
+                {{ include('admin/_icon.html.twig', { name: 'team', class: 'mt-0.5 h-4 w-4 flex-shrink-0' }) }}
+                <span>Vous êtes déjà authentifié en tant que <strong>{{ app.user.userIdentifier }}</strong>.</span>
             </div>
+
+            <a href="{{ path('app_home') }}"
+               class="flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-primary text-sm font-semibold text-primary-foreground shadow transition-all duration-300 hover:opacity-90">
+                Accéder à mon espace
+            </a>
+            <a href="{{ path('app_logout') }}"
+               class="mt-2 flex h-10 w-full items-center justify-center gap-2 rounded-lg border border-border text-sm font-semibold text-foreground transition-all duration-300 hover:bg-muted">
+                Se déconnecter
+            </a>
+        {% else %}
+            {% if error %}
+                <div class="mb-4 flex items-start gap-2 rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2.5 text-sm text-destructive">
+                    {{ include('admin/_icon.html.twig', { name: 'alert-circle', class: 'mt-0.5 h-4 w-4 flex-shrink-0' }) }}
+                    <span>{{ error.messageKey|trans(error.messageData, 'security') }}</span>
+                </div>
+            {% endif %}
+
+            <form method="post" class="space-y-4">
+                <div>
+                    <label for="inputUsername" class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Nom d'utilisateur</label>
+                    <input type="text" value="{{ last_username }}" name="username" id="inputUsername"
+                           placeholder="votre identifiant"
+                           autocomplete="username" required autofocus
+                           class="h-10 w-full rounded-lg border border-border bg-card px-3 text-sm text-foreground transition-all duration-300 focus:shadow-lg focus:shadow-primary/10 focus:outline-none focus:ring-2 focus:ring-ring">
+                </div>
+                <div>
+                    <label for="inputPassword" class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Mot de passe</label>
+                    <input type="password" name="password" id="inputPassword"
+                           placeholder="••••••••"
+                           autocomplete="current-password" required
+                           class="h-10 w-full rounded-lg border border-border bg-card px-3 text-sm text-foreground transition-all duration-300 focus:shadow-lg focus:shadow-primary/10 focus:outline-none focus:ring-2 focus:ring-ring">
+                </div>
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <button type="submit"
+                        class="mt-2 flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-primary text-sm font-semibold text-primary-foreground shadow transition-all duration-300 hover:opacity-90">
+                    Se connecter
+                    {{ include('admin/_icon.html.twig', { name: 'arrow-right', class: 'h-4 w-4' }) }}
+                </button>
+            </form>
         {% endif %}
-
-        <form method="post" class="space-y-4">
-            <div>
-                <label for="inputUsername" class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Nom d'utilisateur</label>
-                <input type="text" value="{{ last_username }}" name="username" id="inputUsername"
-                       placeholder="votre identifiant"
-                       autocomplete="username" required autofocus
-                       class="h-10 w-full rounded-lg border border-border bg-card px-3 text-sm text-foreground transition-all duration-300 focus:shadow-lg focus:shadow-primary/10 focus:outline-none focus:ring-2 focus:ring-ring">
-            </div>
-            <div>
-                <label for="inputPassword" class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Mot de passe</label>
-                <input type="password" name="password" id="inputPassword"
-                       placeholder="••••••••"
-                       autocomplete="current-password" required
-                       class="h-10 w-full rounded-lg border border-border bg-card px-3 text-sm text-foreground transition-all duration-300 focus:shadow-lg focus:shadow-primary/10 focus:outline-none focus:ring-2 focus:ring-ring">
-            </div>
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-            <button type="submit"
-                    class="mt-2 flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-primary text-sm font-semibold text-primary-foreground shadow transition-all duration-300 hover:opacity-90">
-                Se connecter
-                {{ include('admin/_icon.html.twig', { name: 'arrow-right', class: 'h-4 w-4' }) }}
-            </button>
-        </form>
 
         <p class="mt-6 text-center text-xs text-muted-foreground">AksamCrm — gestion assurance</p>
     </div>

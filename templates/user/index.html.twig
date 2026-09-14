@@ -1,0 +1,58 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Utilisateurs{% endblock %}
+
+{% block body %}
+    {% set actions %}
+        <a href="{{ path('app_user_new') }}" class="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-sm font-medium text-primary-foreground transition-all hover:opacity-90">
+            {{ include('admin/_icon.html.twig', { name: 'plus', class: 'h-4 w-4' }) }}
+            Nouvel utilisateur
+        </a>
+    {% endset %}
+
+    {{ include('admin/_header.html.twig', {
+        title: 'Utilisateurs',
+        description: 'Comptes et rôles des utilisateurs de la plateforme',
+        actions: actions
+    }) }}
+
+    <div class="mt-4 overflow-x-auto rounded-2xl border border-border bg-card shadow-sm md:mt-5">
+        <table class="w-full text-left text-sm">
+            <thead>
+                <tr class="border-b border-border text-xs uppercase tracking-wider text-muted-foreground">
+                    <th class="px-4 py-3 font-medium">Nom</th>
+                    <th class="px-4 py-3 font-medium">Identifiant</th>
+                    <th class="px-4 py-3 font-medium">Rôles</th>
+                    <th class="px-4 py-3 font-medium">Équipes</th>
+                    <th class="px-4 py-3 font-medium">Statut</th>
+                    <th class="px-4 py-3 font-medium text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-border">
+                {% for user in users %}
+                    <tr class="transition-colors hover:bg-secondary/50">
+                        <td class="px-4 py-3 font-medium text-foreground">{{ user.prenom }} {{ user.nom }}</td>
+                        <td class="px-4 py-3 text-muted-foreground">{{ user.username }}</td>
+                        <td class="px-4 py-3 text-muted-foreground">{{ user.roles|join(', ') }}</td>
+                        <td class="px-4 py-3 text-muted-foreground">
+                            {{ user.teams|map(t => t.nom)|join(', ') ?: '—' }}
+                        </td>
+                        <td class="px-4 py-3">
+                            <span class="rounded-full px-2 py-0.5 text-xs font-semibold {{ user.actif ? 'bg-primary/10 text-primary' : 'bg-destructive/10 text-destructive' }}">
+                                {{ user.actif ? 'Actif' : 'Inactif' }}
+                            </span>
+                        </td>
+                        <td class="px-4 py-3 text-right">
+                            <a href="{{ path('app_user_edit', { id: user.id }) }}" class="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground">
+                                {{ include('admin/_icon.html.twig', { name: 'pencil', class: 'h-3.5 w-3.5' }) }}
+                                Éditer
+                            </a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="6" class="px-4 py-6 text-center text-muted-foreground">Aucun utilisateur.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

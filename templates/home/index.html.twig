@@ -17,7 +17,10 @@
     <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 md:mt-5">
         {% set stats = [
             { title: 'Nouveaux prospects', value: nouveauxCount, href: path('app_traitement_nouveaux'), primary: true },
+            { title: 'Prospects non traités', value: nonTraitesCount, href: path('app_traitement_non_traites') },
             { title: 'Relances du jour', value: relancesDuJourCount, href: path('app_traitement_relances_du_jour') },
+            { title: 'Relances à venir', value: relancesAVenirCount, href: path('app_traitement_relances_a_venir') },
+            { title: 'Injoignables', value: injoignablesCount, href: path('app_traitement_injoignables') },
             { title: 'Relances non traitées', value: relancesNonTraiteesCount, href: path('app_traitement_relances_non_traitees'), amber: true },
             { title: 'Clients', value: clientsCount, href: path('app_client_index') },
             { title: 'Contrats', value: contratsCount, href: path('app_contrat_index') },

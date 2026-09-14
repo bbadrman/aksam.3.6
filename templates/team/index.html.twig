@@ -1,0 +1,48 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Équipes{% endblock %}
+
+{% block body %}
+    {% set actions %}
+        <a href="{{ path('app_team_new') }}" class="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-sm font-medium text-primary-foreground transition-all hover:opacity-90">
+            {{ include('admin/_icon.html.twig', { name: 'plus', class: 'h-4 w-4' }) }}
+            Nouvelle équipe
+        </a>
+    {% endset %}
+
+    {{ include('admin/_header.html.twig', {
+        title: 'Équipes',
+        description: 'Équipes commerciales utilisées pour le scope des prospects',
+        actions: actions
+    }) }}
+
+    <div class="mt-4 overflow-x-auto rounded-2xl border border-border bg-card shadow-sm md:mt-5">
+        <table class="w-full text-left text-sm">
+            <thead>
+                <tr class="border-b border-border text-xs uppercase tracking-wider text-muted-foreground">
+                    <th class="px-4 py-3 font-medium">Nom</th>
+                    <th class="px-4 py-3 font-medium">Description</th>
+                    <th class="px-4 py-3 font-medium">Membres</th>
+                    <th class="px-4 py-3 font-medium text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-border">
+                {% for team in teams %}
+                    <tr class="transition-colors hover:bg-secondary/50">
+                        <td class="px-4 py-3 font-medium text-foreground">{{ team.nom }}</td>
+                        <td class="px-4 py-3 text-muted-foreground">{{ team.description ?? '—' }}</td>
+                        <td class="px-4 py-3 text-muted-foreground">{{ team.users|length }}</td>
+                        <td class="px-4 py-3 text-right">
+                            <a href="{{ path('app_team_edit', { id: team.id }) }}" class="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground">
+                                {{ include('admin/_icon.html.twig', { name: 'pencil', class: 'h-3.5 w-3.5' }) }}
+                                Éditer
+                            </a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="4" class="px-4 py-6 text-center text-muted-foreground">Aucune équipe.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
