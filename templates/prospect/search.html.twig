@@ -1,0 +1,83 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Recherche prospects{% endblock %}
+
+{% block body %}
+    {% set actions %}
+        {% if is_granted('PERM_CREER_PROSPECT') %}
+            <a href="{{ path('app_traitement_new') }}" class="flex h-9 w-full items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-all duration-300 hover:scale-105 hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/30 sm:w-auto">
+                Nouveau prospect
+            </a>
+        {% endif %}
+    {% endset %}
+    {{ include('admin/_header.html.twig', {
+        title: 'Recherche prospects',
+        description: total ~ ' prospect(s) trouvé(s)',
+        actions: actions
+    }) }}
+
+    <form method="get" class="mt-4 flex flex-col gap-2 sm:flex-row md:mt-5">
+        <input
+            type="text"
+            name="q"
+            value="{{ q }}"
+            placeholder="Nom, prénom, téléphone ou email…"
+            class="h-10 w-full rounded-lg border border-border bg-card px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 sm:max-w-sm"
+        >
+        <button type="submit" class="flex h-10 items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-all duration-300 hover:scale-105 hover:bg-primary/90 sm:w-auto">
+            Rechercher
+        </button>
+    </form>
+
+    <div class="mt-4 overflow-x-auto rounded-2xl border border-border bg-card shadow-sm md:mt-5">
+        <table class="w-full text-left text-sm">
+            <thead>
+                <tr class="border-b border-border text-xs uppercase tracking-wider text-muted-foreground">
+                    <th class="px-4 py-3 font-medium">Nom</th>
+                    <th class="px-4 py-3 font-medium">Téléphone</th>
+                    <th class="px-4 py-3 font-medium">Email</th>
+                    <th class="px-4 py-3 font-medium">Produit</th>
+                    <th class="px-4 py-3 font-medium">Créé le</th>
+                    <th class="px-4 py-3 font-medium">Équipe</th>
+                    <th class="px-4 py-3 font-medium">Commercial</th>
+                    <th class="px-4 py-3 font-medium">Relance</th>
+                    <th class="px-4 py-3 font-medium">Action</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-border">
+                {% for prospect in prospects %}
+                    <tr class="transition-colors hover:bg-secondary/50">
+                        <td class="px-4 py-3 font-medium text-foreground">
+                            <a href="{{ path('app_traitement_show', {id: prospect.id}) }}" class="hover:text-primary hover:underline">{{ prospect.nom }} {{ prospect.prenom }}</a>
+                        </td>
+                        <td class="px-4 py-3 text-muted-foreground">{{ prospect.phone }}</td>
+                        <td class="px-4 py-3 text-muted-foreground">{{ prospect.email }}</td>
+                        <td class="px-4 py-3 text-muted-foreground">{{ prospect.product ? prospect.product.nom : '—' }}</td>
+                        <td class="px-4 py-3 text-muted-foreground">{{ prospect.createdAt ? prospect.createdAt|date('d/m/Y H:i') : '—' }}</td>
+                        <td class="px-4 py-3 text-muted-foreground">{{ prospect.team ? prospect.team.nom : '—' }}</td>
+                        <td class="px-4 py-3 text-muted-foreground">{{ prospect.commercial ? prospect.commercial.username : '—' }}</td>
+                        <td class="px-4 py-3">
+                            <span class="inline-flex items-center rounded-full bg-secondary px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
+                                {{ prospect.relance ? prospect.relance.label : 'Jamais traité' }}
+                            </span>
+                        </td>
+                        <td class="px-4 py-3">
+                            <div class="flex flex-wrap items-center gap-1.5">
+
+                            {{ include('prospect/_affect_modal.html.twig', { prospect: prospect, teams: teams, retour: app.request.attributes.get('_route') }) }}
+
+                            {{ include('prospect/_traiter_modal.html.twig', { prospect: prospect, motifs: motifs, retour: app.request.attributes.get('_route') }) }}
+                            <a href="{{ path('app_traitement_show', {id: prospect.id}) }}" title="Voir" class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-border text-muted-foreground hover:bg-secondary hover:text-foreground">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"/><circle cx="12" cy="12" r="3"/></svg>
+                            </a>
+                            </div>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="9" class="px-4 py-6 text-center text-muted-foreground">{{ q ? 'Aucun prospect ne correspond à cette recherche.' : 'Saisissez un critère de recherche.' }}</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {{ include('prospect/_pagination.html.twig', { total: total, page: page }) }}
+    </div>
+{% endblock %}

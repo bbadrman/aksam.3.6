@@ -28,6 +28,7 @@ class HomeController extends AbstractController
             'relancesAVenirCount' => $traitementService->relancesAVenir()['total'],
             'injoignablesCount' => $traitementService->injoignables()['total'],
             'relancesNonTraiteesCount' => $traitementService->relancesNonTraitees()['total'],
+            'prospectsTotalCount' => $traitementService->totalCount(),
             'clientsCount' => \count($clientRepository->findAll()),
             'contratsCount' => \count($contratRepository->findAll()),
             'savOuvertsCount' => \count($savRepository->findBy(['statut' => 'ouvert'])),

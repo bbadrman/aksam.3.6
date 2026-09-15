@@ -4,9 +4,11 @@
 
 {% block body %}
     {% set actions %}
-        <a href="{{ path('app_traitement_new') }}" class="flex h-9 w-full items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-all duration-300 hover:scale-105 hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/30 sm:w-auto">
-            Nouveau prospect
-        </a>
+        {% if is_granted('PERM_CREER_PROSPECT') %}
+            <a href="{{ path('app_traitement_new') }}" class="flex h-9 w-full items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-all duration-300 hover:scale-105 hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/30 sm:w-auto">
+                Nouveau prospect
+            </a>
+        {% endif %}
     {% endset %}
     {{ include('admin/_header.html.twig', {
         title: 'Tableau de bord',
@@ -22,6 +24,7 @@
             { title: 'Relances à venir', value: relancesAVenirCount, href: path('app_traitement_relances_a_venir') },
             { title: 'Injoignables', value: injoignablesCount, href: path('app_traitement_injoignables') },
             { title: 'Relances non traitées', value: relancesNonTraiteesCount, href: path('app_traitement_relances_non_traitees'), amber: true },
+            { title: 'Recherche prospects', value: prospectsTotalCount, href: path('app_traitement_recherche') },
             { title: 'Clients', value: clientsCount, href: path('app_client_index') },
             { title: 'Contrats', value: contratsCount, href: path('app_contrat_index') },
             { title: 'SAV ouverts', value: savOuvertsCount, href: path('app_sav_index'), amber: true },

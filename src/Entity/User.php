@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Security\Permission;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -37,6 +38,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     /**
+     * Overrides des permissions applicatives fines (Permission::*) par
+     * rapport à leur valeur par défaut (Permission::defaultGranted()) —
+     * ex: ['PERM_CREER_PROSPECT' => false] pour un user à qui on l'a
+     * retirée. Une permission absente de ce tableau garde sa valeur par
+     * défaut. Distinct des rôles Symfony ci-dessus.
+     *
+     * @var array<string, bool>
+     */
+    #[ORM\Column]
+    private array $permissions = [];
+
+    /**
      * @var string The hashed password
      */
     #[ORM\Column]
@@ -48,9 +61,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Team::class, inversedBy: 'users')]
     private Collection $teams;
 
+    /**
+     * @var Collection<int, Product>
+     */
+    #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'users')]
+    private Collection $products;
+
     public function __construct()
     {
         $this->teams = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -139,6 +159,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
+     * @return array<string, bool>
+     */
+    public function getPermissions(): array
+    {
+        return $this->permissions;
+    }
+
+    /**
+     * @param array<string, bool> $permissions
+     */
+    public function setPermissions(array $permissions): static
+    {
+        $this->permissions = $permissions;
+
+        return $this;
+    }
+
+    public function hasPermission(Permission $permission): bool
+    {
+        return $this->permissions[$permission->value] ?? $permission->defaultGranted();
+    }
+
+    /**
      * @see PasswordAuthenticatedUserInterface
      */
     public function getPassword(): ?string
@@ -190,6 +233,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeTeam(Team $team): static
     {
         $this->teams->removeElement($team);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): static
+    {
+        if (!$this->products->contains($product)) {
+            $this->products->add($product);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): static
+    {
+        $this->products->removeElement($product);
 
         return $this;
     }

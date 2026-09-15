@@ -1,0 +1,39 @@
+{# expects: form (UserType) #}
+
+<div class="space-y-4 md:space-y-5">
+    <section class="rounded-2xl border border-border bg-card p-5 shadow-sm">
+        <h2 class="mb-4 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Identité</h2>
+        <div class="grid grid-cols-1 gap-x-4 sm:grid-cols-3">
+            {{ form_row(form.username) }}
+            {{ form_row(form.nom) }}
+            {{ form_row(form.prenom) }}
+        </div>
+    </section>
+
+    <section class="rounded-2xl border border-border bg-card p-5 shadow-sm">
+        <h2 class="mb-4 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Sécurité</h2>
+        <div class="grid grid-cols-1 gap-x-4 sm:grid-cols-2">
+            {{ form_row(form.plainPassword) }}
+            {{ form_row(form.actif) }}
+        </div>
+    </section>
+
+    <section class="rounded-2xl border border-border bg-card p-5 shadow-sm">
+        <h2 class="mb-4 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Équipes &amp; produits</h2>
+        <div class="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
+            {{ form_row(form.teams) }}
+            {{ form_row(form.products) }}
+        </div>
+    </section>
+
+    <section class="rounded-2xl border border-border bg-card p-5 shadow-sm">
+        <h2 class="mb-4 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Rôles</h2>
+        {{ form_row(form.roles) }}
+    </section>
+
+    <section class="rounded-2xl border border-border bg-card p-5 shadow-sm">
+        <h2 class="mb-1 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Permissions</h2>
+        <p class="mb-4 text-xs text-muted-foreground">Décocher une permission la retire spécifiquement à cet utilisateur, même si son rôle y donne accès par défaut.</p>
+        {{ form_row(form.permissions) }}
+    </section>
+</div>

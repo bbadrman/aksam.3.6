@@ -1,0 +1,62 @@
+{#
+    Modale de traitement d'un prospect (motif de relance, prochaine relance, commentaire).
+    Attend : prospect, motifs, et optionnellement retour (nom de route de
+    cycle vers laquelle revenir après soumission).
+#}
+<div data-controller="modal" class="inline-flex">
+    <button type="button" data-action="modal#open"
+            class="inline-flex h-8 items-center gap-1.5 rounded-lg border border-border px-3 text-xs font-medium text-foreground hover:bg-secondary">
+        {{ include('admin/_icon.html.twig', { name: 'tasks', class: 'h-3.5 w-3.5' }) }}
+        Traiter
+    </button>
+
+    <dialog data-modal-target="dialog" data-action="click->modal#closeOnBackdrop" class="admin-modal w-full max-w-sm">
+        <form method="post" action="{{ path('app_traitement_traiter', {id: prospect.id}) }}" class="admin-plain-form">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            {% if retour is defined and retour %}
+                <input type="hidden" name="retour" value="{{ retour }}">
+            {% endif %}
+
+            <div class="flex items-center gap-3 border-b border-border p-4">
+                <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    {{ include('admin/_icon.html.twig', { name: 'tasks', class: 'h-4 w-4' }) }}
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-foreground">Traitement du prospect</h3>
+                    <p class="text-xs text-muted-foreground">{{ prospect.nom }} {{ prospect.prenom }}</p>
+                </div>
+            </div>
+
+            <div class="space-y-3 p-4">
+                <div>
+                    <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Motif</label>
+                    <select name="motif" required
+                            class="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                        {% for motif in motifs %}
+                            <option value="{{ motif.value }}">{{ motif.label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Prochaine relance</label>
+                    <input type="datetime-local" name="prochaineRelance"
+                           class="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                </div>
+                <div>
+                    <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Commentaire</label>
+                    <input type="text" name="comment" placeholder="Commentaire"
+                           class="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-2 border-t border-border p-4">
+                <button type="button" data-action="modal#close" class="h-9 rounded-lg border border-border px-4 text-sm font-medium text-foreground hover:bg-secondary">
+                    Annuler
+                </button>
+                <button type="submit" class="h-9 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90">
+                    Enregistrer
+                </button>
+            </div>
+        </form>
+    </dialog>
+</div>

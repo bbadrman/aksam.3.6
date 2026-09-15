@@ -6,6 +6,7 @@ use App\Dto\UserFormDTO;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Security\Permission;
 use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,6 +35,11 @@ class UserController extends AbstractController
     {
         $dto = new UserFormDTO();
         $dto->roles = ['ROLE_USER'];
+        foreach (Permission::cases() as $permission) {
+            if ($permission->defaultGranted()) {
+                $dto->permissions[] = $permission->value;
+            }
+        }
         $form = $this->createForm(UserType::class, $dto);
         $form->handleRequest($request);
 
@@ -61,8 +67,16 @@ class UserController extends AbstractController
         $dto->prenom = $user->getPrenom();
         $dto->actif = $user->isActif();
         $dto->roles = $user->getRoles();
+        foreach (Permission::cases() as $permission) {
+            if ($user->hasPermission($permission)) {
+                $dto->permissions[] = $permission->value;
+            }
+        }
         foreach ($user->getTeams() as $team) {
             $dto->teams->add($team);
+        }
+        foreach ($user->getProducts() as $product) {
+            $dto->products->add($product);
         }
 
         $form = $this->createForm(UserType::class, $dto, ['is_edit' => true]);

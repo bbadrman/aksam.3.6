@@ -107,6 +107,22 @@ class ProspectTraitementService
         return $this->prospectRepository->findInjoignables($this->resolveScope(), $page);
     }
 
+    /**
+     * Recherche globale sur tous les prospects du scope courant, tous
+     * cycles confondus.
+     *
+     * @return array{items: Prospect[], total: int}
+     */
+    public function search(?string $q, int $page = 1): array
+    {
+        return $this->prospectRepository->search($this->resolveScope(), $q, [], $page);
+    }
+
+    public function totalCount(): int
+    {
+        return $this->prospectRepository->countByScope($this->resolveScope());
+    }
+
     private function resolveScope(): ProspectScope
     {
         return $this->scopeResolver->resolve();

@@ -21,13 +21,14 @@ class ProspectRepository extends ServiceEntityRepository
     }
 
     /**
-     * Liste paginée avec filtres, JOIN FETCH ciblé sur team/commercial
-     * (jamais EAGER par défaut sur l'entité — cf. leçon de l'ancien projet).
+     * Recherche globale (tous cycles confondus), respectant le scope de
+     * l'utilisateur courant. Filtre texte libre sur nom/prénom/téléphone/
+     * email, combinable avec les filtres habituels.
      *
      * @param array{statut?: string, productId?: int, teamId?: int, commercialId?: int} $filters
      * @return array{items: Prospect[], total: int}
      */
-    public function search(array $filters, int $page = 1, int $limit = 20): array
+    public function search(ProspectScope $scope, ?string $q, array $filters = [], int $page = 1, int $limit = 10): array
     {
         $qb = $this->createSearchQueryBuilder($filters)
             ->addSelect('team', 'commercial')
@@ -35,7 +36,22 @@ class ProspectRepository extends ServiceEntityRepository
             ->leftJoin('p.commercial', 'commercial')
             ->orderBy('p.createdAt', 'DESC');
 
+        $this->applyScope($qb, $scope);
+
+        if ($q !== null && $q !== '') {
+            $qb->andWhere('p.nom LIKE :q OR p.prenom LIKE :q OR p.phone LIKE :q OR p.email LIKE :q')
+                ->setParameter('q', '%' . $q . '%');
+        }
+
         return $this->paginate($qb, $page, $limit);
+    }
+
+    public function countByScope(ProspectScope $scope): int
+    {
+        $qb = $this->createQueryBuilder('p')->select('COUNT(p.id)');
+        $this->applyScope($qb, $scope);
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
     }
 
     /**
@@ -44,7 +60,7 @@ class ProspectRepository extends ServiceEntityRepository
      *
      * @return array{items: Prospect[], total: int}
      */
-    public function findNouveaux(ProspectScope $scope, int $page = 1, int $limit = 20): array
+    public function findNouveaux(ProspectScope $scope, int $page = 1, int $limit = 10): array
     {
         $qb = $this->baseQueryBuilder($scope)
             ->andWhere('p.team IS NULL')
@@ -61,7 +77,7 @@ class ProspectRepository extends ServiceEntityRepository
      *
      * @return array{items: Prospect[], total: int}
      */
-    public function findNonTraites(ProspectScope $scope, \DateTimeImmutable $avant, int $page = 1, int $limit = 20): array
+    public function findNonTraites(ProspectScope $scope, \DateTimeImmutable $avant, int $page = 1, int $limit = 10): array
     {
         $qb = $this->baseQueryBuilder($scope)
             ->andWhere('p.team IS NOT NULL')
@@ -80,7 +96,7 @@ class ProspectRepository extends ServiceEntityRepository
      *
      * @return array{items: Prospect[], total: int}
      */
-    public function findRelancesDuJour(ProspectScope $scope, \DateTimeImmutable $debutJour, \DateTimeImmutable $finJour, int $page = 1, int $limit = 20): array
+    public function findRelancesDuJour(ProspectScope $scope, \DateTimeImmutable $debutJour, \DateTimeImmutable $finJour, int $page = 1, int $limit = 10): array
     {
         $qb = $this->baseQueryBuilder($scope)
             ->andWhere('p.relanceAt BETWEEN :debut AND :fin')
@@ -99,7 +115,7 @@ class ProspectRepository extends ServiceEntityRepository
      *
      * @return array{items: Prospect[], total: int}
      */
-    public function findRelancesAVenir(ProspectScope $scope, \DateTimeImmutable $apres, int $page = 1, int $limit = 20): array
+    public function findRelancesAVenir(ProspectScope $scope, \DateTimeImmutable $apres, int $page = 1, int $limit = 10): array
     {
         $qb = $this->baseQueryBuilder($scope)
             ->andWhere('p.relanceAt > :apres')
@@ -118,7 +134,7 @@ class ProspectRepository extends ServiceEntityRepository
      *
      * @return array{items: Prospect[], total: int}
      */
-    public function findRelancesNonTraitees(ProspectScope $scope, \DateTimeImmutable $avant, int $page = 1, int $limit = 20): array
+    public function findRelancesNonTraitees(ProspectScope $scope, \DateTimeImmutable $avant, int $page = 1, int $limit = 10): array
     {
         $qb = $this->baseQueryBuilder($scope)
             ->andWhere('p.relanceAt IS NOT NULL')
@@ -137,7 +153,7 @@ class ProspectRepository extends ServiceEntityRepository
      *
      * @return array{items: Prospect[], total: int}
      */
-    public function findInjoignables(ProspectScope $scope, int $page = 1, int $limit = 20): array
+    public function findInjoignables(ProspectScope $scope, int $page = 1, int $limit = 10): array
     {
         $qb = $this->baseQueryBuilder($scope)
             ->andWhere('p.relance = :motif')

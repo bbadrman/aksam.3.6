@@ -1,0 +1,24 @@
+{% set limit = limit|default(10) %}
+{% set totalPages = (total / limit)|round(0, 'ceil') %}
+{% if totalPages > 1 %}
+    {% set params = app.request.query.all|merge({page: page}) %}
+    <div class="mt-4 flex items-center justify-between gap-3 border-t border-border px-4 py-3">
+        <p class="text-xs text-muted-foreground">
+            Page {{ page }} sur {{ totalPages }} — {{ total }} prospect(s)
+        </p>
+        <div class="flex items-center gap-1.5">
+            <a
+                href="{{ path(app.request.attributes.get('_route'), params|merge({page: max(page - 1, 1)})) }}"
+                class="inline-flex h-8 items-center justify-center rounded-lg border border-border px-3 text-xs font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground {{ page <= 1 ? 'pointer-events-none opacity-40' : '' }}"
+            >
+                Précédent
+            </a>
+            <a
+                href="{{ path(app.request.attributes.get('_route'), params|merge({page: min(page + 1, totalPages)})) }}"
+                class="inline-flex h-8 items-center justify-center rounded-lg border border-border px-3 text-xs font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground {{ page >= totalPages ? 'pointer-events-none opacity-40' : '' }}"
+            >
+                Suivant
+            </a>
+        </div>
+    </div>
+{% endif %}

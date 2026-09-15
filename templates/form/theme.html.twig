@@ -1,0 +1,78 @@
+{% use 'form_div_layout.html.twig' %}
+
+{#
+    Thème de formulaire global — habille les champs Symfony avec les tokens
+    Tailwind du design system admin (admin.css) au lieu du HTML brut par défaut.
+    Enregistré globalement dans twig.yaml (form_themes), s'applique à tous les
+    formulaires du back-office.
+#}
+
+{% block form_label -%}
+    {%- if label is not same as(false) -%}
+        {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' mb-1.5 block text-sm font-medium text-foreground')|trim}) -%}
+    {%- endif -%}
+    {{- parent() -}}
+{%- endblock %}
+
+{% block form_help -%}
+    {%- set help_attr = help_attr|merge({class: (help_attr.class|default('') ~ ' mt-1.5 text-xs text-muted-foreground')|trim}) -%}
+    {{- parent() -}}
+{%- endblock %}
+
+{% block form_errors -%}
+    {%- if errors|length > 0 -%}
+        <ul class="mt-1.5 space-y-0.5 text-xs font-medium text-destructive">
+            {%- for error in errors -%}
+                <li class="flex items-center gap-1">
+                    <span>⚠</span> {{ error.message }}
+                </li>
+            {%- endfor -%}
+        </ul>
+    {%- endif -%}
+{%- endblock %}
+
+{% block form_row -%}
+    <div class="mb-4 last:mb-0">
+        {{- form_label(form) -}}
+        {{- form_widget(form) -}}
+        {{- form_help(form) -}}
+        {{- form_errors(form) -}}
+    </div>
+{%- endblock %}
+
+{% block form_widget_simple -%}
+    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm transition-colors placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/25')|trim}) -%}
+    {{- parent() -}}
+{%- endblock %}
+
+{% block choice_widget_collapsed -%}
+    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/25' ~ (multiple ? ' min-h-32' : ''))|trim}) -%}
+    {{- parent() -}}
+{%- endblock %}
+
+{% block checkbox_widget -%}
+    {%- set attr = attr|merge({class: (attr.class|default('') ~ ' h-4 w-4 shrink-0 rounded border-input text-primary accent-primary focus:ring-2 focus:ring-primary/25 focus:ring-offset-0')|trim}) -%}
+    {{- parent() -}}
+{%- endblock %}
+
+{% block checkbox_row -%}
+    <div class="mb-4 last:mb-0">
+        <label for="{{ form.vars.id }}" class="flex cursor-pointer items-center gap-2.5 rounded-lg border border-border bg-background px-3 py-2.5 text-sm font-medium text-foreground transition-colors hover:border-primary/50">
+            {{- form_widget(form) -}}
+            {{- form.vars.label|trans({}, translation_domain) -}}
+        </label>
+        {{- form_help(form) -}}
+        {{- form_errors(form) -}}
+    </div>
+{%- endblock %}
+
+{% block choice_widget_expanded -%}
+    <div class="grid grid-cols-1 gap-2 sm:grid-cols-2">
+        {%- for child in form %}
+            <label for="{{ child.vars.id }}" class="flex cursor-pointer items-center gap-2.5 rounded-lg border border-border bg-background px-3 py-2.5 text-sm text-foreground transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/10 has-[:checked]:font-medium hover:border-primary/50">
+                {{- form_widget(child, {attr: {class: 'h-4 w-4 shrink-0 rounded border-input text-primary accent-primary focus:ring-2 focus:ring-primary/25 focus:ring-offset-0'}}) -}}
+                <span>{{ child.vars.label|trans({}, choice_translation_domain) }}</span>
+            </label>
+        {%- endfor %}
+    </div>
+{%- endblock %}

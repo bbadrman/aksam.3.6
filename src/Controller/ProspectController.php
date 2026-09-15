@@ -8,6 +8,7 @@ use App\Form\ProspectType;
 use App\Repository\ProspectRepository;
 use App\Repository\TeamRepository;
 use App\Repository\UserRepository;
+use App\Security\Permission;
 use App\Service\ProspectService;
 use App\Service\ProspectTraitementService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,6 +28,7 @@ class ProspectController extends AbstractController
         'app_traitement_relances_a_venir',
         'app_traitement_relances_non_traitees',
         'app_traitement_injoignables',
+        'app_traitement_recherche',
     ];
 
     public function __construct(
@@ -37,6 +39,7 @@ class ProspectController extends AbstractController
     ) {
     }
 
+    #[IsGranted(Permission::CREER_PROSPECT->value)]
     #[Route('/nouveau', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
@@ -88,6 +91,22 @@ class ProspectController extends AbstractController
     public function injoignables(Request $request): Response
     {
         return $this->renderCycle('Injoignables', $this->traitementService->injoignables($this->page($request)), $request);
+    }
+
+    #[Route('/recherche', name: 'recherche', methods: ['GET'])]
+    public function recherche(Request $request): Response
+    {
+        $q = trim((string) $request->query->get('q', ''));
+        $resultats = $this->traitementService->search($q !== '' ? $q : null, $this->page($request));
+
+        return $this->render('prospect/search.html.twig', [
+            'q' => $q,
+            'prospects' => $resultats['items'],
+            'total' => $resultats['total'],
+            'page' => $this->page($request),
+            'motifs' => RelanceMotif::cases(),
+            'teams' => $this->teamRepository->findAll(),
+        ]);
     }
 
     #[Route('/{id}', name: 'show', methods: ['GET'], requirements: ['id' => '\d+'])]

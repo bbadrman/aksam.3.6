@@ -3,7 +3,9 @@
 namespace App\Form;
 
 use App\Dto\UserFormDTO;
+use App\Entity\Product;
 use App\Entity\Team;
+use App\Security\Permission;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -54,6 +56,21 @@ class UserType extends AbstractType
                 'class' => Team::class,
                 'choice_label' => 'nom',
                 'label' => 'Équipes',
+                'multiple' => true,
+                'expanded' => false,
+                'required' => false,
+            ])
+            ->add('products', EntityType::class, [
+                'class' => Product::class,
+                'choice_label' => 'nom',
+                'label' => 'Produits',
+                'multiple' => true,
+                'expanded' => false,
+                'required' => false,
+            ])
+            ->add('permissions', ChoiceType::class, [
+                'label' => 'Permissions',
+                'choices' => Permission::choices(),
                 'multiple' => true,
                 'expanded' => true,
                 'required' => false,
