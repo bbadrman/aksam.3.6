@@ -9,6 +9,7 @@ use App\Repository\ProspectRepository;
 use App\Repository\TeamRepository;
 use App\Repository\UserRepository;
 use App\Security\Permission;
+use App\Service\ProspectDuplicateService;
 use App\Service\ProspectService;
 use App\Service\ProspectTraitementService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,6 +24,7 @@ class ProspectController extends AbstractController
 {
     private const ROUTES_CYCLE = [
         'app_traitement_nouveaux',
+        'app_traitement_mes_nouveaux',
         'app_traitement_non_traites',
         'app_traitement_relances_du_jour',
         'app_traitement_relances_a_venir',
@@ -34,6 +36,7 @@ class ProspectController extends AbstractController
     public function __construct(
         private readonly ProspectTraitementService $traitementService,
         private readonly ProspectService $prospectService,
+        private readonly ProspectDuplicateService $duplicateService,
         private readonly TeamRepository $teamRepository,
         private readonly UserRepository $userRepository,
     ) {
@@ -57,42 +60,56 @@ class ProspectController extends AbstractController
         return $this->render('prospect/new.html.twig', ['form' => $form]);
     }
 
+    #[IsGranted(Permission::NOUVEAU_PROSPECT->value)]
     #[Route('/nouveaux', name: 'nouveaux', methods: ['GET'])]
     public function nouveaux(Request $request): Response
     {
         return $this->renderCycle('Nouveaux prospects', $this->traitementService->nouveaux($this->page($request)), $request);
     }
 
+    #[IsGranted(Permission::MES_NOUVEAUX_PROSPECTS->value)]
+    #[Route('/mes-nouveaux', name: 'mes_nouveaux', methods: ['GET'])]
+    public function mesNouveaux(Request $request): Response
+    {
+        return $this->renderCycle('Mes nouveaux prospects', $this->traitementService->mesNouveaux($this->page($request)), $request);
+    }
+
+    #[IsGranted(Permission::PROSPECTS_NON_TRAITES->value)]
     #[Route('/non-traites', name: 'non_traites', methods: ['GET'])]
     public function nonTraites(Request $request): Response
     {
         return $this->renderCycle('Prospects non traités', $this->traitementService->nonTraites($this->page($request)), $request);
     }
 
+    #[IsGranted(Permission::RELANCES_DU_JOUR->value)]
     #[Route('/relances-du-jour', name: 'relances_du_jour', methods: ['GET'])]
     public function relancesDuJour(Request $request): Response
     {
         return $this->renderCycle('Relances du jour', $this->traitementService->relancesDuJour($this->page($request)), $request);
     }
 
+    #[IsGranted(Permission::RELANCES_A_VENIR->value)]
     #[Route('/relances-a-venir', name: 'relances_a_venir', methods: ['GET'])]
     public function relancesAVenir(Request $request): Response
     {
         return $this->renderCycle('Relances à venir', $this->traitementService->relancesAVenir($this->page($request)), $request);
     }
 
+    #[IsGranted(Permission::RELANCES_NON_TRAITEES->value)]
     #[Route('/relances-non-traitees', name: 'relances_non_traitees', methods: ['GET'])]
     public function relancesNonTraitees(Request $request): Response
     {
         return $this->renderCycle('Relances non traitées', $this->traitementService->relancesNonTraitees($this->page($request)), $request);
     }
 
+    #[IsGranted(Permission::INJOIGNABLES->value)]
     #[Route('/injoignables', name: 'injoignables', methods: ['GET'])]
     public function injoignables(Request $request): Response
     {
         return $this->renderCycle('Injoignables', $this->traitementService->injoignables($this->page($request)), $request);
     }
 
+    #[IsGranted(Permission::RECHERCHE_PROSPECTS->value)]
     #[Route('/recherche', name: 'recherche', methods: ['GET'])]
     public function recherche(Request $request): Response
     {
@@ -106,6 +123,7 @@ class ProspectController extends AbstractController
             'page' => $this->page($request),
             'motifs' => RelanceMotif::cases(),
             'teams' => $this->teamRepository->findAll(),
+            'duplicates' => $this->duplicateService->detect($resultats['items']),
         ]);
     }
 
@@ -133,6 +151,8 @@ class ProspectController extends AbstractController
     #[Route('/api/equipes-commerciaux', name: 'teams_commerciaux', methods: ['GET'])]
     public function teamsCommerciaux(): Response
     {
+        $this->denyAccessUnlessGrantedAffectation();
+
         $data = array_map(fn ($team) => [
             'id' => $team->getId(),
             'nom' => $team->getNom(),
@@ -148,6 +168,8 @@ class ProspectController extends AbstractController
     #[Route('/{id}/affecter', name: 'affecter', methods: ['POST'], requirements: ['id' => '\d+'])]
     public function affecter(int $id, Request $request, ProspectRepository $prospectRepository): Response
     {
+        $this->denyAccessUnlessGrantedAffectation();
+
         $prospect = $prospectRepository->find($id);
         if (!$prospect) {
             throw $this->createNotFoundException('Prospect introuvable.');
@@ -224,11 +246,23 @@ class ProspectController extends AbstractController
             'page' => $this->page($request),
             'motifs' => RelanceMotif::cases(),
             'teams' => $this->teamRepository->findAll(),
+            'duplicates' => $this->duplicateService->detect($resultats['items']),
         ]);
     }
 
     private function page(Request $request): int
     {
         return max(1, (int) $request->query->get('page', 1));
+    }
+
+    /**
+     * Affecter un prospect (équipe/commercial) est réservé à l'admin et au
+     * chef d'équipe — un simple commercial n'a pas ce droit.
+     */
+    private function denyAccessUnlessGrantedAffectation(): void
+    {
+        if (!$this->isGranted('ROLE_ADMIN') && !$this->isGranted('ROLE_CHEF_EQUIPE')) {
+            throw $this->createAccessDeniedException("Vous n'avez pas les droits pour affecter un prospect.");
+        }
     }
 }

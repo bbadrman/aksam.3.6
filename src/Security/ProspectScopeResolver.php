@@ -34,4 +34,20 @@ class ProspectScopeResolver
 
         return ProspectScope::forCommercial($user);
     }
+
+    /**
+     * Scope "personnel" : prospects affectés à l'utilisateur courant lui-
+     * même, quel que soit son rôle. Sert au panier "Mes nouveaux
+     * prospects" — équivalent de la route /newprospectchef de l'ancien
+     * projet, qui ne montrait que les prospects qu'un chef d'équipe
+     * s'était attribués en propre (distinct du panier d'équipe non
+     * réparti, voir resolve()).
+     */
+    public function resolveOwn(): ProspectScope
+    {
+        /** @var User $user */
+        $user = $this->security->getUser();
+
+        return ProspectScope::forCommercial($user);
+    }
 }

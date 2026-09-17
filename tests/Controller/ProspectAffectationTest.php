@@ -30,6 +30,7 @@ class ProspectAffectationTest extends WebTestCase
         $user->setUsername('user-affectation-test');
         $user->setNom('Test');
         $user->setPrenom('User');
+        $user->setRoles(['ROLE_ADMIN']);
         $user->setPassword($container->get(UserPasswordHasherInterface::class)->hashPassword($user, 'password123'));
 
         $commercial = new User();
@@ -73,6 +74,7 @@ class ProspectAffectationTest extends WebTestCase
         $user->setUsername('user-desaffectation-test');
         $user->setNom('Test');
         $user->setPrenom('User');
+        $user->setRoles(['ROLE_ADMIN']);
         $user->setPassword($container->get(UserPasswordHasherInterface::class)->hashPassword($user, 'password123'));
 
         $team = (new Team())->setNom('Équipe Desaffectation Test');

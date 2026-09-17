@@ -22,7 +22,7 @@
                     </div>
                     <div class="hidden text-xs sm:block">
                         <p class="font-semibold text-foreground">{{ app.user.username }}</p>
-                        <p class="text-[10px] text-muted-foreground">{{ app.user.roles|join(', ') }}</p>
+                        <p class="text-[10px] text-muted-foreground">{{ app.user.fonction ?: '—' }}</p>
                     </div>
                 </div>
             {% endif %}

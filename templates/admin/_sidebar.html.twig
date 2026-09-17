@@ -1,15 +1,17 @@
 {% set menu_items = [
     { icon: 'dashboard', label: 'Tableau de bord', href: path('app_home'), route: 'app_home' },
-    { icon: 'tasks', label: 'Nouveaux prospects', href: path('app_traitement_nouveaux'), route: 'app_traitement_nouveaux', count: traitement_count('nouveaux') },
-    { icon: 'alert-circle', label: 'Non traités', href: path('app_traitement_non_traites'), route: 'app_traitement_non_traites', count: traitement_count('non_traites') },
-    { icon: 'calendar', label: 'Relances du jour', href: path('app_traitement_relances_du_jour'), route: 'app_traitement_relances_du_jour', count: traitement_count('relances_du_jour') },
-    { icon: 'trending-up', label: 'Relances à venir', href: path('app_traitement_relances_a_venir'), route: 'app_traitement_relances_a_venir', count: traitement_count('relances_a_venir') },
-    { icon: 'alert-circle', label: 'Relances non traitées', href: path('app_traitement_relances_non_traitees'), route: 'app_traitement_relances_non_traitees', count: traitement_count('relances_non_traitees') },
-    { icon: 'x-circle', label: 'Injoignables', href: path('app_traitement_injoignables'), route: 'app_traitement_injoignables', count: traitement_count('injoignables') },
+    { icon: 'tasks', label: 'Nouveaux prospects', href: path('app_traitement_nouveaux'), route: 'app_traitement_nouveaux', count: traitement_count('nouveaux'), permission: 'PERM_NOUVEAU_PROSPECT' },
+    { icon: 'tasks', label: 'Mes nouveaux prospects', href: path('app_traitement_mes_nouveaux'), route: 'app_traitement_mes_nouveaux', count: traitement_count('mes_nouveaux'), permission: 'PERM_MES_NOUVEAUX_PROSPECTS' },
+    { icon: 'alert-circle', label: 'Non traités', href: path('app_traitement_non_traites'), route: 'app_traitement_non_traites', count: traitement_count('non_traites'), permission: 'PERM_PROSPECTS_NON_TRAITES' },
+    { icon: 'calendar', label: 'Relances du jour', href: path('app_traitement_relances_du_jour'), route: 'app_traitement_relances_du_jour', count: traitement_count('relances_du_jour'), permission: 'PERM_RELANCES_DU_JOUR' },
+    { icon: 'trending-up', label: 'Relances à venir', href: path('app_traitement_relances_a_venir'), route: 'app_traitement_relances_a_venir', count: traitement_count('relances_a_venir'), permission: 'PERM_RELANCES_A_VENIR' },
+    { icon: 'alert-circle', label: 'Relances non traitées', href: path('app_traitement_relances_non_traitees'), route: 'app_traitement_relances_non_traitees', count: traitement_count('relances_non_traitees'), permission: 'PERM_RELANCES_NON_TRAITEES' },
+    { icon: 'x-circle', label: 'Injoignables', href: path('app_traitement_injoignables'), route: 'app_traitement_injoignables', count: traitement_count('injoignables'), permission: 'PERM_INJOIGNABLES' },
     { icon: 'team', label: 'Clients', href: path('app_client_index'), route: 'app_client_index' },
     { icon: 'receipt', label: 'Contrats', href: path('app_contrat_index'), route: 'app_contrat_index' },
-    { icon: 'truck', label: 'SAV', href: path('app_sav_index'), route: 'app_sav_index' },
+    { icon: 'truck', label: 'SAV', href: path('app_sav_index'), route: 'app_sav_index', permission: 'PERM_SAV_OUVERTS' },
 ] %}
+{% set menu_items = menu_items|filter(item => item.permission is not defined or is_granted(item.permission)) %}
 {% set general_items = [] %}
 {% if is_granted('ROLE_ADMIN') %}
     {% set general_items = general_items|merge([
@@ -26,7 +28,7 @@
     <div class="mb-6 flex items-center gap-2">
         <a href="{{ path('app_home') }}" class="flex items-center gap-2">
             <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-sm font-semibold text-primary-foreground">A</div>
-            <span class="text-lg font-semibold text-foreground">Aksam v3.0</span>
+            <span class="text-lg font-semibold text-foreground">Aksam v3.0.1</span>
         </a>
         <button type="button" class="ml-auto rounded-lg p-1.5 text-muted-foreground hover:bg-secondary lg:hidden" data-action="admin-sidebar#close">
             ✕
@@ -39,7 +41,7 @@
             <nav class="space-y-0.5">
                 {% for item in menu_items %}
                     <a href="{{ item.href }}"
-                       class="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium transition-all duration-300 {{ app.request.attributes.get('_route') == item.route ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20' : 'text-muted-foreground hover:translate-x-1 hover:bg-secondary hover:text-foreground' }}">
+                       class="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium transition-all duration-300 {{ app.request.attributes.get('_route') == item.route ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20' : 'text-foreground hover:translate-x-1 hover:bg-secondary hover:text-foreground' }}">
                         {{ include('admin/_icon.html.twig', { name: item.icon }) }}
                         <span class="flex-1">{{ item.label }}</span>
                         {% if item.count is defined and item.count > 0 %}

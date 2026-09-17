@@ -34,6 +34,24 @@ class UserType extends AbstractType
                 'label' => 'Prénom',
                 'constraints' => [new NotBlank(message: 'Le prénom est obligatoire.')],
             ])
+            ->add('fonction', ChoiceType::class, [
+                'label' => 'Fonction',
+                'choices' => [
+                    'Directeur' => 'Directeur',
+                    'Manager' => 'Manager',
+                    'Chef' => 'Chef',
+                    'Gestionnaire' => 'Gestionnaire',
+                    'Commercial' => 'Commercial',
+                    'Assistant' => 'Assistant',
+                    'Technicien' => 'Technicien',
+                    'Support' => 'Support',
+                    'Développeur' => 'Développeur',
+                    'Tech' => 'Tech',
+                    'Autre' => 'Autre',
+                ],
+                'placeholder' => '— Aucune —',
+                'required' => false,
+            ])
             ->add('plainPassword', PasswordType::class, [
                 'label' => $options['is_edit'] ? 'Nouveau mot de passe' : 'Mot de passe',
                 'required' => !$options['is_edit'],
@@ -47,6 +65,7 @@ class UserType extends AbstractType
                 'label' => 'Rôles',
                 'choices' => [
                     'Utilisateur' => 'ROLE_USER',
+                    "Chef d'équipe" => 'ROLE_CHEF_EQUIPE',
                     'Administrateur' => 'ROLE_ADMIN',
                 ],
                 'multiple' => true,

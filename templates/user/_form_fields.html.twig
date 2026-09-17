@@ -3,10 +3,11 @@
 <div class="space-y-4 md:space-y-5">
     <section class="rounded-2xl border border-border bg-card p-5 shadow-sm">
         <h2 class="mb-4 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Identité</h2>
-        <div class="grid grid-cols-1 gap-x-4 sm:grid-cols-3">
+        <div class="grid grid-cols-1 gap-x-4 sm:grid-cols-2 lg:grid-cols-4">
             {{ form_row(form.username) }}
             {{ form_row(form.nom) }}
             {{ form_row(form.prenom) }}
+            {{ form_row(form.fonction) }}
         </div>
     </section>
 

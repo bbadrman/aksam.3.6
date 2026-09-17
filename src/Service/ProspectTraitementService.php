@@ -51,11 +51,29 @@ class ProspectTraitementService
     }
 
     /**
+     * Panier "Nouveaux prospects" : prospects qui n'ont pas encore été
+     * attribués à un commercial précis, mais qui sont dans le scope de
+     * l'utilisateur courant (soit parce qu'il est chef d'équipe, soit
+     * parce qu'il est admin et que le scope est "tous les prospects").
      * @return array{items: Prospect[], total: int}
      */
     public function nouveaux(int $page = 1): array
     {
         return $this->prospectRepository->findNouveaux($this->resolveScope(), $page);
+    }
+
+    /**
+     * Panier "Mes nouveaux prospects" : prospects que l'utilisateur
+     * courant s'est attribués (ou qui lui ont été attribués directement),
+     * pas encore traités. Distinct de nouveaux(), qui pour un chef ne
+     * montre que les prospects de son équipe pas encore attribués à un
+     * commercial précis.
+     *
+     * @return array{items: Prospect[], total: int}
+     */
+    public function mesNouveaux(int $page = 1): array
+    {
+        return $this->prospectRepository->findNouveaux($this->scopeResolver->resolveOwn(), $page);
     }
 
     /**

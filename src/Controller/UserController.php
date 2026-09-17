@@ -66,6 +66,7 @@ class UserController extends AbstractController
         $dto->nom = $user->getNom();
         $dto->prenom = $user->getPrenom();
         $dto->actif = $user->isActif();
+        $dto->fonction = $user->getFonction();
         $dto->roles = $user->getRoles();
         foreach (Permission::cases() as $permission) {
             if ($user->hasPermission($permission)) {
@@ -90,5 +91,17 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/edit.html.twig', ['form' => $form, 'user' => $user]);
+    }
+
+    #[Route('/{id}/activer', name: 'activer', methods: ['POST'], requirements: ['id' => '\d+'])]
+    public function activer(User $user, Request $request): Response
+    {
+        if (!$this->isCsrfTokenValid('user_activer_'.$user->getId(), (string) $request->headers->get('X-CSRF-Token'))) {
+            throw $this->createAccessDeniedException('Jeton CSRF invalide.');
+        }
+
+        $this->userService->toggleActif($user);
+
+        return $this->json(['actif' => $user->isActif()]);
     }
 }

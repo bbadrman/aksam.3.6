@@ -18,17 +18,18 @@
 
     <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 md:mt-5">
         {% set stats = [
-            { title: 'Nouveaux prospects', value: nouveauxCount, href: path('app_traitement_nouveaux'), primary: true },
-            { title: 'Prospects non traités', value: nonTraitesCount, href: path('app_traitement_non_traites') },
-            { title: 'Relances du jour', value: relancesDuJourCount, href: path('app_traitement_relances_du_jour') },
-            { title: 'Relances à venir', value: relancesAVenirCount, href: path('app_traitement_relances_a_venir') },
-            { title: 'Injoignables', value: injoignablesCount, href: path('app_traitement_injoignables') },
-            { title: 'Relances non traitées', value: relancesNonTraiteesCount, href: path('app_traitement_relances_non_traitees'), amber: true },
-            { title: 'Recherche prospects', value: prospectsTotalCount, href: path('app_traitement_recherche') },
+            { title: 'Nouveaux prospects', value: nouveauxCount, href: path('app_traitement_nouveaux'), primary: true, permission: 'PERM_NOUVEAU_PROSPECT' },
+            { title: 'Prospects non traités', value: nonTraitesCount, href: path('app_traitement_non_traites'), permission: 'PERM_PROSPECTS_NON_TRAITES' },
+            { title: 'Relances du jour', value: relancesDuJourCount, href: path('app_traitement_relances_du_jour'), permission: 'PERM_RELANCES_DU_JOUR' },
+            { title: 'Relances à venir', value: relancesAVenirCount, href: path('app_traitement_relances_a_venir'), permission: 'PERM_RELANCES_A_VENIR' },
+            { title: 'Injoignables', value: injoignablesCount, href: path('app_traitement_injoignables'), permission: 'PERM_INJOIGNABLES' },
+            { title: 'Relances non traitées', value: relancesNonTraiteesCount, href: path('app_traitement_relances_non_traitees'), amber: true, permission: 'PERM_RELANCES_NON_TRAITEES' },
+            { title: 'Recherche prospects', value: prospectsTotalCount, href: path('app_traitement_recherche'), permission: 'PERM_RECHERCHE_PROSPECTS' },
             { title: 'Clients', value: clientsCount, href: path('app_client_index') },
             { title: 'Contrats', value: contratsCount, href: path('app_contrat_index') },
-            { title: 'SAV ouverts', value: savOuvertsCount, href: path('app_sav_index'), amber: true },
+            { title: 'SAV ouverts', value: savOuvertsCount, href: path('app_sav_index'), amber: true, permission: 'PERM_SAV_OUVERTS' },
         ] %}
+        {% set stats = stats|filter(stat => stat.permission is not defined or is_granted(stat.permission)) %}
         {% for stat in stats %}
             {% set isPrimary = stat.primary is defined and stat.primary %}
             {% set isAmber = stat.amber is defined and stat.amber %}

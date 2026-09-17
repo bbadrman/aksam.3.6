@@ -34,6 +34,7 @@ class TraitementCountsExtension extends AbstractExtension
         if (null === $this->counts) {
             $this->counts = $this->security->isGranted('ROLE_USER') ? [
                 'nouveaux' => $this->traitementService->nouveaux()['total'],
+                'mes_nouveaux' => $this->traitementService->mesNouveaux()['total'],
                 'non_traites' => $this->traitementService->nonTraites()['total'],
                 'relances_du_jour' => $this->traitementService->relancesDuJour()['total'],
                 'relances_a_venir' => $this->traitementService->relancesAVenir()['total'],

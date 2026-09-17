@@ -55,18 +55,32 @@ class ProspectRepository extends ServiceEntityRepository
     }
 
     /**
-     * Cycle "Nouveaux prospects" : jamais affectés à une équipe ni un
-     * commercial, jamais traités.
+     * Cycle "Nouveaux prospects" : jamais traités (`p.relance IS NULL`), et
+     * pas encore descendus à un commercial précis — pour l'admin, en plus
+     * jamais affectés à une équipe (`team`/`commercial` nuls, c'est lui qui
+     * distribue) ; pour un chef, affectés à son équipe (via applyScope())
+     * mais toujours "en vrac", sans commercial attitré. Dès qu'un
+     * commercial précis est affecté (que ce soit par l'admin ou par le
+     * chef qui se l'attribue), le prospect quitte ce panier. Le panier
+     * personnel "Mes nouveaux prospects" réutilise cette même méthode avec
+     * un ProspectScope::forCommercial() : aucune condition supplémentaire
+     * ne s'applique alors, applyScope() ayant déjà filtré sur le
+     * commercial courant.
      *
      * @return array{items: Prospect[], total: int}
      */
     public function findNouveaux(ProspectScope $scope, int $page = 1, int $limit = 10): array
     {
         $qb = $this->baseQueryBuilder($scope)
-            ->andWhere('p.team IS NULL')
-            ->andWhere('p.commercial IS NULL')
-            ->andWhere('p.relance IS NULL')
-            ->orderBy('p.createdAt', 'DESC');
+            ->andWhere('p.relance IS NULL');
+
+        if ($scope->unrestricted) {
+            $qb->andWhere('p.team IS NULL')->andWhere('p.commercial IS NULL');
+        } elseif ($scope->teamIds !== null) {
+            $qb->andWhere('p.commercial IS NULL');
+        }
+
+        $qb->orderBy('p.createdAt', 'DESC');
 
         return $this->paginate($qb, $page, $limit);
     }
@@ -161,6 +175,56 @@ class ProspectRepository extends ServiceEntityRepository
             ->orderBy('p.relanceAt', 'DESC');
 
         return $this->paginate($qb, $page, $limit);
+    }
+
+    /**
+     * Emails apparaissant plus d'une fois parmi la liste donnée (une seule
+     * requête groupée, peu importe le nombre de prospects affichés).
+     *
+     * @param string[] $emails
+     * @return string[]
+     */
+    public function findDuplicateEmails(array $emails): array
+    {
+        if ($emails === []) {
+            return [];
+        }
+
+        $rows = $this->createQueryBuilder('p')
+            ->select('p.email AS email')
+            ->where('p.email IN (:emails)')
+            ->setParameter('emails', $emails)
+            ->groupBy('p.email')
+            ->having('COUNT(p.id) > 1')
+            ->getQuery()
+            ->getResult();
+
+        return array_column($rows, 'email');
+    }
+
+    /**
+     * Numéros de téléphone (valeurs brutes telles que stockées en base)
+     * correspondant à l'une des variantes d'écriture données — le
+     * regroupement par forme normalisée est fait côté appelant, une
+     * requête ne sachant pas normaliser les numéros en SQL.
+     *
+     * @param string[] $phoneVariants
+     * @return string[]
+     */
+    public function findPhonesMatchingVariants(array $phoneVariants): array
+    {
+        if ($phoneVariants === []) {
+            return [];
+        }
+
+        $rows = $this->createQueryBuilder('p')
+            ->select('p.phone AS phone')
+            ->where('p.phone IN (:phones)')
+            ->setParameter('phones', $phoneVariants)
+            ->getQuery()
+            ->getResult();
+
+        return array_column($rows, 'phone');
     }
 
     private function excludeCloturesExpr(): string

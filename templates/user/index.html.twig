@@ -22,6 +22,7 @@
                 <tr class="border-b border-border text-xs uppercase tracking-wider text-muted-foreground">
                     <th class="px-4 py-3 font-medium">Nom</th>
                     <th class="px-4 py-3 font-medium">Identifiant</th>
+                    <th class="px-4 py-3 font-medium">Fonction</th>
                     <th class="px-4 py-3 font-medium">Rôles</th>
                     <th class="px-4 py-3 font-medium">Équipes</th>
                     <th class="px-4 py-3 font-medium">Statut</th>
@@ -33,15 +34,26 @@
                     <tr class="transition-colors hover:bg-secondary/50">
                         <td class="px-4 py-3 font-medium text-foreground">{{ user.prenom }} {{ user.nom }}</td>
                         <td class="px-4 py-3 text-muted-foreground">{{ user.username }}</td>
+                        <td class="px-4 py-3 text-muted-foreground">{{ user.fonction ?: '—' }}</td>
                         <td class="px-4 py-3 text-muted-foreground">{{ user.roles|join(', ') }}</td>
                         <td class="px-4 py-3 text-muted-foreground">
                             {{ user.teams|map(t => t.nom)|join(', ') ?: '—' }}
                         </td>
                         <td class="px-4 py-3">
-                            <span class="rounded-full px-2 py-0.5 text-xs font-semibold {{ user.actif ? 'bg-primary/10 text-primary' : 'bg-destructive/10 text-destructive' }}">
-                                {{ user.actif ? 'Actif' : 'Inactif' }}
-                            </span>
+                            <div class="flex items-center gap-2"
+                                 data-controller="user-actif"
+                                 data-user-actif-url-value="{{ path('app_user_activer', { id: user.id }) }}"
+                                 data-user-actif-token-value="{{ csrf_token('user_activer_' ~ user.id) }}">
+                                <label class="form-switch">
+                                    <input type="checkbox" {{ user.actif ? 'checked' : '' }} data-action="change->user-actif#toggle">
+                                    <span class="slider"></span>
+                                </label>
+                                <span class="text-xs font-medium {{ user.actif ? 'text-primary' : 'text-destructive' }}" data-user-actif-target="label">
+                                    {{ user.actif ? 'Actif' : 'Inactif' }}
+                                </span>
+                            </div>
                         </td>
+
                         <td class="px-4 py-3 text-right">
                             <a href="{{ path('app_user_edit', { id: user.id }) }}" class="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground">
                                 {{ include('admin/_icon.html.twig', { name: 'pencil', class: 'h-3.5 w-3.5' }) }}
@@ -50,7 +62,7 @@
                         </td>
                     </tr>
                 {% else %}
-                    <tr><td colspan="6" class="px-4 py-6 text-center text-muted-foreground">Aucun utilisateur.</td></tr>
+                    <tr><td colspan="7" class="px-4 py-6 text-center text-muted-foreground">Aucun utilisateur.</td></tr>
                 {% endfor %}
             </tbody>
         </table>

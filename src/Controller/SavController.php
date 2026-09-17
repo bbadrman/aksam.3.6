@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\ContratRepository;
 use App\Repository\SavRepository;
+use App\Security\Permission;
 use App\Security\SavVoter;
 use App\Service\SavService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,6 +21,7 @@ class SavController extends AbstractController
     {
     }
 
+    #[IsGranted(Permission::SAV_OUVERTS->value)]
     #[Route('', name: 'index', methods: ['GET'])]
     public function index(SavRepository $savRepository): Response
     {

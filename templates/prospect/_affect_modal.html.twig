@@ -5,7 +5,10 @@
     via prospect_affectation_controller.js + GET /traitement/api/equipes-commerciaux.
     Attend : prospect, teams, et optionnellement retour (nom de route de
     cycle vers laquelle revenir après soumission).
+    Réservé à l'admin et au chef d'équipe (voir
+    ProspectController::denyAccessUnlessGrantedAffectation()).
 #}
+{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_CHEF_EQUIPE') %}
 <div data-controller="modal" class="inline-flex">
     <button type="button" data-action="modal#open"
             class="inline-flex h-8 items-center gap-1.5 rounded-lg border border-border px-3 text-xs font-medium text-foreground hover:bg-secondary">
@@ -66,3 +69,4 @@
         </form>
     </dialog>
 </div>
+{% endif %}

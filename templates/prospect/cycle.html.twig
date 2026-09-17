@@ -37,8 +37,18 @@
                         <td class="px-4 py-3 font-medium text-foreground">
                             <a href="{{ path('app_traitement_show', {id: prospect.id}) }}" class="hover:text-primary hover:underline">{{ prospect.nom }} {{ prospect.prenom }}</a>
                         </td>
-                        <td class="px-4 py-3 text-muted-foreground">{{ prospect.phone }}</td>
-                        <td class="px-4 py-3 text-muted-foreground">{{ prospect.email }}</td>
+                        <td class="px-4 py-3 text-muted-foreground">
+                            {{ prospect.phone }}
+                            {% if prospect.phone and duplicates.phones[prospect.phone] is defined %}
+                                <span title="Numéro déjà présent sur un autre prospect" class="ml-1 inline-flex items-center rounded-full bg-amber-500/15 px-1.5 py-0.5 text-[10px] font-medium text-amber-600 dark:text-amber-400">doublon</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-4 py-3 text-muted-foreground">
+                            {{ prospect.email }}
+                            {% if prospect.email and duplicates.emails[prospect.email] is defined %}
+                                <span title="Email déjà présent sur un autre prospect" class="ml-1 inline-flex items-center rounded-full bg-amber-500/15 px-1.5 py-0.5 text-[10px] font-medium text-amber-600 dark:text-amber-400">doublon</span>
+                            {% endif %}
+                        </td>
                         <td class="px-4 py-3 text-muted-foreground">{{ prospect.product ? prospect.product.nom : '—' }}</td>
                         <td class="px-4 py-3 text-muted-foreground">{{ prospect.createdAt ? prospect.createdAt|date('d/m/Y H:i') : '—' }}</td>
                         <td class="px-4 py-3 text-muted-foreground">{{ prospect.team ? prospect.team.nom : '—' }}</td>

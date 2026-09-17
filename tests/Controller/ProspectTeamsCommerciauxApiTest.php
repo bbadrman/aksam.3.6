@@ -18,6 +18,27 @@ class ProspectTeamsCommerciauxApiTest extends WebTestCase
         $this->assertResponseRedirects('/login');
     }
 
+    public function testEndpointRequiresAdminOrChefRole(): void
+    {
+        $client = static::createClient();
+        $container = static::getContainer();
+        $em = $container->get(EntityManagerInterface::class);
+
+        $user = new User();
+        $user->setUsername('user-teams-api-forbidden-test');
+        $user->setNom('Test');
+        $user->setPrenom('User');
+        $user->setPassword($container->get(UserPasswordHasherInterface::class)->hashPassword($user, 'password123'));
+
+        $em->persist($user);
+        $em->flush();
+
+        $client->loginUser($user);
+        $client->request('GET', '/traitement/api/equipes-commerciaux');
+
+        $this->assertResponseStatusCodeSame(403);
+    }
+
     public function testEndpointReturnsTeamsWithOnlyActiveCommercials(): void
     {
         $client = static::createClient();
@@ -28,6 +49,7 @@ class ProspectTeamsCommerciauxApiTest extends WebTestCase
         $user->setUsername('user-teams-api-test');
         $user->setNom('Test');
         $user->setPrenom('User');
+        $user->setRoles(['ROLE_CHEF_EQUIPE']);
         $user->setPassword($container->get(UserPasswordHasherInterface::class)->hashPassword($user, 'password123'));
 
         $team = (new Team())->setNom('Équipe API Test');

@@ -35,12 +35,21 @@ class UserService
         return $user;
     }
 
+    public function toggleActif(User $user): User
+    {
+        $user->setActif(!$user->isActif());
+        $this->em->flush();
+
+        return $user;
+    }
+
     private function applyDto(User $user, UserFormDTO $dto): void
     {
         $user->setUsername($dto->username);
         $user->setNom($dto->nom);
         $user->setPrenom($dto->prenom);
         $user->setActif($dto->actif);
+        $user->setFonction($dto->fonction);
         $user->setRoles($dto->roles);
         $user->setPermissions($this->buildPermissionOverrides($dto->permissions));
 

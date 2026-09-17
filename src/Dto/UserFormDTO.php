@@ -18,6 +18,7 @@ class UserFormDTO
     public ?string $prenom = null;
     public bool $actif = true;
     public ?string $plainPassword = null;
+    public ?string $fonction = null;
 
     /** @var list<string> */
     public array $roles = [];
