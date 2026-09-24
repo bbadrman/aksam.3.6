@@ -18,6 +18,18 @@
                 <div class="flex justify-between"><dt class="text-muted-foreground">Équipe</dt><dd class="font-medium">{{ prospect.team ? prospect.team.nom : '—' }}</dd></div>
                 <div class="flex justify-between"><dt class="text-muted-foreground">Commercial</dt><dd class="font-medium">{{ prospect.commercial ? prospect.commercial.username : '—' }}</dd></div>
                 <div class="flex justify-between"><dt class="text-muted-foreground">Créé le</dt><dd class="font-medium">{{ prospect.createdAt|date('d/m/Y H:i') }}</dd></div>
+                <div class="flex justify-between"><dt class="text-muted-foreground">Date de naissance</dt><dd class="font-medium">{{ prospect.dateNaissance ? prospect.dateNaissance|date('d/m/Y') : '—' }}</dd></div>
+                <div class="flex justify-between"><dt class="text-muted-foreground">Ville</dt><dd class="font-medium">{{ prospect.ville ?? '—' }}</dd></div>
+                <div class="flex justify-between"><dt class="text-muted-foreground">Adresse</dt><dd class="font-medium">{{ prospect.adresse ?? '—' }}</dd></div>
+                <div class="flex justify-between"><dt class="text-muted-foreground">Code postal</dt><dd class="font-medium">{{ prospect.codePostal ?? '—' }}</dd></div>
+                <div class="flex justify-between"><dt class="text-muted-foreground">Source</dt><dd class="font-medium">{{ prospect.source ?? '—' }}</dd></div>
+                <div class="flex justify-between"><dt class="text-muted-foreground">Type de prospect</dt><dd class="font-medium">{{ prospect.typeProspect ?? '—' }}</dd></div>
+                <div class="flex justify-between"><dt class="text-muted-foreground">Raison sociale</dt><dd class="font-medium">{{ prospect.raisonSociale ?? '—' }}</dd></div>
+                <div class="flex justify-between"><dt class="text-muted-foreground">Activités</dt><dd class="font-medium">{{ prospect.activites ?? '—' }}</dd></div>
+                <div class="flex justify-between"><dt class="text-muted-foreground">URL</dt><dd class="font-medium">{{ prospect.url ?? '—' }}</dd></div>
+                <div class="flex justify-between"><dt class="text-muted-foreground">Dernier assureur</dt><dd class="font-medium">{{ prospect.lastAssure ?? '—' }}</dd></div>
+                <div class="flex justify-between"><dt class="text-muted-foreground">Motif de résiliation</dt><dd class="font-medium">{{ prospect.motifResil ?? '—' }}</dd></div>
+                <div class="flex justify-between"><dt class="text-muted-foreground">Motif saisi</dt><dd class="font-medium">{{ prospect.motifSaisi ?? '—' }}</dd></div>
             </dl>
         </div>
 

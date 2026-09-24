@@ -1,0 +1,150 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Distribution des prospects{% endblock %}
+
+{% block body %}
+    {% set actions %}
+        <a href="{{ path('app_distribution_limits') }}" class="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-sm font-medium text-primary-foreground transition-all hover:opacity-90">
+            {{ include('admin/_icon.html.twig', { name: 'settings', class: 'h-4 w-4' }) }}
+            Limites de distribution
+        </a>
+    {% endset %}
+
+    {{ include('admin/_header.html.twig', {
+        title: 'Distribution des prospects',
+        description: 'Suivi de la distribution automatique — répartition par produit, équipe et commercial.',
+        actions: actions
+    }) }}
+
+    {% set grand_total = 0 %}
+    {% set grand_converted = 0 %}
+    {% set grand_pending = 0 %}
+    {% for pid, prod in data %}
+        {% set grand_total = grand_total + prod.total %}
+        {% set grand_converted = grand_converted + prod.converted %}
+        {% set grand_pending = grand_pending + prod.pending %}
+    {% endfor %}
+
+    <form method="get" class="admin-plain-form mt-4 grid grid-cols-2 gap-3 rounded-2xl border border-border bg-card p-4 sm:grid-cols-3 md:mt-5 lg:grid-cols-7">
+        <div>
+            <label class="mb-1 block text-xs font-medium text-muted-foreground" for="product">Produit</label>
+            <select id="product" name="product" class="rounded-lg border border-border bg-background px-2.5 py-1.5 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+                <option value="">Tous les produits</option>
+                {% for product in products %}
+                    <option value="{{ product.id }}" {{ selectedProduct and selectedProduct.id == product.id ? 'selected' : '' }}>{{ product.nom }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label class="mb-1 block text-xs font-medium text-muted-foreground" for="from">Du</label>
+            <input type="date" id="from" name="from" value="{{ from }}" class="rounded-lg border border-border bg-background px-2.5 py-1.5 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+        </div>
+        <div>
+            <label class="mb-1 block text-xs font-medium text-muted-foreground" for="to">Au</label>
+            <input type="date" id="to" name="to" value="{{ to }}" class="rounded-lg border border-border bg-background px-2.5 py-1.5 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary">
+        </div>
+        <button type="submit" class="rounded-lg border border-border bg-secondary px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-secondary/70">Filtrer</button>
+        <a href="{{ path('app_distribution_dashboard') }}" class="flex h-10 items-center justify-center rounded-lg border border-border px-4 text-sm font-medium text-foreground transition-colors hover:bg-secondary hover:text-foreground">Réinitialiser</a>
+    </form>
+
+    <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3 md:mt-5">
+        <div class="rounded-2xl bg-primary p-4 text-primary-foreground shadow-lg">
+            <h3 class="text-xs font-medium opacity-90">Prospects affectés</h3>
+            <p class="mt-2 text-3xl font-bold">{{ grand_total }}</p>
+        </div>
+        <div class="rounded-2xl border border-border bg-card p-4 shadow-sm">
+            <h3 class="text-xs font-medium text-muted-foreground">Convertis</h3>
+            <p class="mt-2 text-3xl font-bold text-foreground">{{ grand_converted }}</p>
+            <p class="mt-1 text-xs text-muted-foreground">{{ grand_total > 0 ? (grand_converted / grand_total * 100)|round(1) : 0 }}% du total</p>
+        </div>
+        <div class="rounded-2xl border border-border bg-card p-4 shadow-sm">
+            <h3 class="text-xs font-medium text-muted-foreground">Sans commercial</h3>
+            <p class="mt-2 text-3xl font-bold {{ grand_pending > 0 ? 'text-amber-600' : 'text-foreground' }}">{{ grand_pending }}</p>
+        </div>
+    </div>
+
+    <div class="mt-4 rounded-2xl border border-border bg-card shadow-sm md:mt-5">
+        <div class="border-b border-border px-4 py-3">
+            <h2 class="text-sm font-semibold text-foreground">Classement des équipes</h2>
+        </div>
+        <div class="divide-y divide-border">
+            {% for tid, team in teamTotals %}
+                <details class="group">
+                    <summary class="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 transition-colors hover:bg-secondary/50">
+                        <div class="flex items-center gap-2">
+                            {{ include('admin/_icon.html.twig', { name: 'arrow-right', class: 'h-3.5 w-3.5 text-muted-foreground transition-transform group-open:rotate-90' }) }}
+                            <span class="font-medium text-foreground">{{ team.nom }}</span>
+                        </div>
+                        <div class="flex items-center gap-4 text-sm">
+                            <span class="text-muted-foreground">{{ team.active }} actifs</span>
+                            <span class="text-muted-foreground">{{ team.converted }} convertis</span>
+                            {% if team.pending > 0 %}
+                                <span class="text-amber-600">{{ team.pending }} sans commercial</span>
+                            {% endif %}
+                            <span class="rounded-full bg-primary/10 px-2.5 py-0.5 font-semibold text-primary">{{ team.total }}</span>
+                        </div>
+                    </summary>
+                    <div class="border-t border-border bg-secondary/30 px-4 py-3">
+                        <table class="w-full text-left text-sm">
+                            <thead>
+                                <tr class="text-xs uppercase tracking-wider text-muted-foreground">
+                                    <th class="py-1.5 font-medium">Commercial</th>
+                                    <th class="py-1.5 font-medium text-right">Actifs</th>
+                                    <th class="py-1.5 font-medium text-right">Convertis</th>
+                                    <th class="py-1.5 font-medium text-right">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-border/60">
+                                {% for uid, commercial in commercialsByTeam[tid] ?? [] %}
+                                    <tr>
+                                        <td class="py-1.5 text-foreground">{{ commercial.prenom }} {{ commercial.nom }} <span class="text-xs text-muted-foreground">({{ commercial.username }})</span></td>
+                                        <td class="py-1.5 text-right text-muted-foreground">{{ commercial.active }}</td>
+                                        <td class="py-1.5 text-right text-muted-foreground">{{ commercial.converted }}</td>
+                                        <td class="py-1.5 text-right font-medium text-foreground">{{ commercial.total }}</td>
+                                    </tr>
+                                {% else %}
+                                    <tr><td colspan="4" class="py-3 text-center text-muted-foreground">Aucun commercial affecté sur la période.</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </details>
+            {% else %}
+                <p class="px-4 py-6 text-center text-muted-foreground">Aucune distribution sur la période sélectionnée.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="mt-4 grid grid-cols-1 gap-3 md:mt-5 lg:grid-cols-2">
+        {% for pid, prod in data %}
+            <div class="rounded-2xl border border-border bg-card shadow-sm">
+                <div class="flex items-center justify-between border-b border-border px-4 py-3">
+                    <h2 class="text-sm font-semibold text-foreground">{{ prod.nom }}</h2>
+                    <span class="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">{{ prod.total }} prospects</span>
+                </div>
+                <table class="w-full text-left text-sm">
+                    <thead>
+                        <tr class="border-b border-border text-xs uppercase tracking-wider text-muted-foreground">
+                            <th class="px-4 py-2 font-medium">Équipe</th>
+                            <th class="px-4 py-2 font-medium text-right">Actifs</th>
+                            <th class="px-4 py-2 font-medium text-right">Convertis</th>
+                            <th class="px-4 py-2 font-medium text-right">Part</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-border">
+                        {% for tid, team in prod.teams %}
+                            <tr class="hover:bg-secondary/50">
+                                <td class="px-4 py-2 text-foreground">{{ team.nom }}</td>
+                                <td class="px-4 py-2 text-right text-muted-foreground">{{ team.active }}</td>
+                                <td class="px-4 py-2 text-right text-muted-foreground">{{ team.converted }}</td>
+                                <td class="px-4 py-2 text-right text-muted-foreground">{{ prod.total > 0 ? (team.total / prod.total * 100)|round(1) : 0 }}%</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-center text-muted-foreground lg:col-span-2">Aucune donnée pour cette période.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

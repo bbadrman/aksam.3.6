@@ -1,0 +1,232 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - complementary [ref=e3]:
+      - link "A Aksam v3.0.1" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e6]: A
+        - generic [ref=e7]: Aksam v3.0.1
+      - generic [ref=e8]:
+        - generic [ref=e9]:
+          - paragraph [ref=e10]: Menu
+          - navigation [ref=e11]:
+            - link "Tableau de bord" [ref=e12] [cursor=pointer]:
+              - /url: /
+              - img [ref=e13]
+              - generic [ref=e18]: Tableau de bord
+            - link "Nouveaux prospects 2" [ref=e19] [cursor=pointer]:
+              - /url: /traitement/nouveaux
+              - img [ref=e20]
+              - generic [ref=e23]: Nouveaux prospects
+              - generic [ref=e24]: "2"
+            - link "Non traités 5" [ref=e25] [cursor=pointer]:
+              - /url: /traitement/non-traites
+              - img [ref=e26]
+              - generic [ref=e29]: Non traités
+              - generic [ref=e30]: "5"
+            - link "Relances du jour" [ref=e31] [cursor=pointer]:
+              - /url: /traitement/relances-du-jour
+              - img [ref=e32]
+              - generic [ref=e35]: Relances du jour
+            - link "Relances à venir 2" [ref=e36] [cursor=pointer]:
+              - /url: /traitement/relances-a-venir
+              - img [ref=e37]
+              - generic [ref=e40]: Relances à venir
+              - generic [ref=e41]: "2"
+            - link "Relances non traitées 7" [ref=e42] [cursor=pointer]:
+              - /url: /traitement/relances-non-traitees
+              - img [ref=e43]
+              - generic [ref=e46]: Relances non traitées
+              - generic [ref=e47]: "7"
+            - link "Injoignables 1" [ref=e48] [cursor=pointer]:
+              - /url: /traitement/injoignables
+              - img [ref=e49]
+              - generic [ref=e52]: Injoignables
+              - generic [ref=e53]: "1"
+            - link "Clients" [ref=e54] [cursor=pointer]:
+              - /url: /clients
+              - img [ref=e55]
+              - generic [ref=e60]: Clients
+            - link "Contrats" [ref=e61] [cursor=pointer]:
+              - /url: /contrats
+              - img [ref=e62]
+              - generic [ref=e65]: Contrats
+            - link "SAV" [ref=e66] [cursor=pointer]:
+              - /url: /savs
+              - img [ref=e67]
+              - generic [ref=e72]: SAV
+        - generic [ref=e73]:
+          - paragraph [ref=e74]: Général
+          - navigation [ref=e75]:
+            - link "Utilisateurs" [ref=e76] [cursor=pointer]:
+              - /url: /utilisateurs
+              - img [ref=e77]
+              - generic [ref=e80]: Utilisateurs
+            - link "Équipes" [ref=e81] [cursor=pointer]:
+              - /url: /equipes
+              - img [ref=e82]
+              - generic [ref=e87]: Équipes
+            - link "Produits" [ref=e88] [cursor=pointer]:
+              - /url: /produits
+              - img [ref=e89]
+              - generic [ref=e92]: Produits
+            - link "Déconnexion" [ref=e93] [cursor=pointer]:
+              - /url: /logout
+              - img [ref=e94]
+              - generic [ref=e97]: Déconnexion
+    - main [ref=e98]:
+      - generic [ref=e99]:
+        - generic [ref=e100]:
+          - generic [ref=e102]:
+            - button "Basculer le mode sombre" [ref=e103]:
+              - img [ref=e105]
+            - generic [ref=e108]:
+              - generic [ref=e109]: AD
+              - generic [ref=e110]:
+                - paragraph [ref=e111]: admin
+                - paragraph [ref=e112]: —
+          - generic [ref=e113]:
+            - heading "Nouveau prospect" [level=1] [ref=e114]
+            - paragraph [ref=e115]: Créer un prospect manuellement
+        - generic [ref=e117]:
+          - heading "Identité" [level=2] [ref=e118]
+          - generic [ref=e119]:
+            - generic [ref=e120]: Nom
+            - textbox "Nom" [ref=e121]
+          - generic [ref=e122]:
+            - generic [ref=e123]: Prénom
+            - textbox "Prénom" [ref=e124]
+          - generic [ref=e125]:
+            - generic [ref=e126]: Téléphone
+            - textbox "Téléphone" [ref=e127]
+          - generic [ref=e128]:
+            - generic [ref=e129]: Email
+            - textbox "Email" [ref=e130]
+          - heading "Affectation" [level=2] [ref=e131]
+          - generic [ref=e132]:
+            - generic [ref=e133]: Produit
+            - combobox "Produit" [ref=e134]:
+              - option "Véhicule" [selected]
+              - option "Prévoyance"
+              - option "Construction"
+              - option "Multirisque"
+              - option "RC"
+          - generic [ref=e135]:
+            - generic [ref=e136]: Équipe
+            - combobox "Équipe" [ref=e137]:
+              - option [selected]
+              - option "Équipe Nord"
+              - option "Équipe Sud"
+          - generic [ref=e138]:
+            - generic [ref=e139]: Commercial
+            - combobox "Commercial" [ref=e140]:
+              - option [selected]
+              - option "admin"
+              - option "ahmed"
+              - option "dev"
+              - option "hasnae"
+              - option "morad"
+              - option "rojet"
+              - option "dina"
+          - heading "Qualification" [level=2] [ref=e141]
+          - generic [ref=e142]:
+            - generic [ref=e143]: Type de prospect
+            - combobox "Type de prospect" [ref=e144]:
+              - option "Sélectionner…" [selected]
+              - option "Particulier"
+              - option "Professionnel"
+          - generic [ref=e145]:
+            - generic [ref=e146]: Déjà assuré
+            - combobox "Déjà assuré" [ref=e147]:
+              - option "Sélectionner…" [selected]
+              - option "Oui"
+              - option "Non"
+          - generic [ref=e148]:
+            - generic [ref=e149]: Motif de résiliation
+            - combobox "Motif de résiliation" [ref=e150]:
+              - option "Sélectionner…" [selected]
+              - option "Aggravation de risque"
+              - option "Amiable"
+              - option "Échéance"
+              - option "Non-paiement"
+              - option "Sinistre"
+              - option "Suspension de permis"
+              - option "Fausse déclaration"
+          - generic [ref=e151]:
+            - generic [ref=e152]: Motif saisi
+            - combobox "Motif saisi" [ref=e153]:
+              - option "Sélectionner…" [selected]
+              - option "Parrainage"
+              - option "Appel Entrant"
+              - option "Avenant"
+              - option "Ancienne contrat"
+              - option "Propre site"
+              - option "Revendeur"
+              - option "Hors cible"
+              - option "Test"
+              - option "Ancienne fiche"
+          - button "Créer le prospect" [ref=e154]
+      - paragraph [ref=e156]: AksamCrm — v3.0.1
+  - region "Symfony Web Debug Toolbar" [ref=e157]:
+    - generic [ref=e160]:
+      - link "200 @ app_traitement_new" [ref=e162] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/ca9b23?panel=request
+        - generic [ref=e163]:
+          - generic [ref=e164]: "200"
+          - generic [ref=e165]: "@"
+          - generic [ref=e166]: app_traitement_new
+      - link "57 ms" [ref=e168] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/ca9b23?panel=time
+        - generic [ref=e169]:
+          - generic [ref=e170]: "57"
+          - generic [ref=e171]: ms
+      - link "8.0 MiB" [ref=e173] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/ca9b23?panel=time
+        - generic [ref=e174]:
+          - generic [ref=e175]: "8.0"
+          - generic [ref=e176]: MiB
+      - link "Cache 1" [ref=e178] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/ca9b23?panel=form
+        - generic [ref=e179]:
+          - img "Cache" [ref=e180]
+          - generic [ref=e186]: "1"
+      - link "Logger 3" [ref=e188] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/ca9b23?panel=logger
+        - generic [ref=e189]:
+          - img "Logger" [ref=e190]
+          - generic [ref=e194]: "3"
+      - link "Cache 34 in 0.33 ms" [ref=e196] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/ca9b23?panel=cache
+        - generic [ref=e197]:
+          - img "Cache" [ref=e198]
+          - generic [ref=e203]: "34"
+          - generic [ref=e204]: in 0.33 ms
+      - link "47" [ref=e206] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/ca9b23?panel=translation
+        - generic [ref=e207]:
+          - img [ref=e208]
+          - generic [ref=e213]: "47"
+      - link "Security admin" [ref=e215] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/ca9b23?panel=security
+        - generic [ref=e216]:
+          - img "Security" [ref=e217]
+          - generic [ref=e221]: admin
+      - link "Twig 36 ms" [ref=e223] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/ca9b23?panel=twig
+        - generic [ref=e224]:
+          - img "Twig" [ref=e225]
+          - generic [ref=e229]: "36"
+          - generic [ref=e230]: ms
+      - link "86 in 16.04 ms" [ref=e232] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/ca9b23?panel=db
+        - generic [ref=e233]:
+          - img [ref=e234]
+          - generic [ref=e239]: "86"
+          - generic [ref=e240]: in 16.04 ms
+      - link "Symfony v7.4.18" [ref=e242] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/ca9b23?panel=config
+        - generic [ref=e243]:
+          - img "Symfony" [ref=e245]
+          - generic [ref=e247]: v7.4.18
+      - button "Toggle Symfony Toolbar" [expanded] [ref=e248] [cursor=pointer]:
+        - generic "Close Toolbar" [ref=e249]:
+          - img [ref=e250]

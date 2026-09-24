@@ -32,7 +32,8 @@
 {%- endblock %}
 
 {% block form_row -%}
-    <div class="mb-4 last:mb-0">
+    {%- set row_attr = row_attr|merge({class: (row_attr.class|default('') ~ ' mb-4 last:mb-0')|trim}) -%}
+    <div{% with {attr: row_attr} %}{{ block('attributes') }}{% endwith %}>
         {{- form_label(form) -}}
         {{- form_widget(form) -}}
         {{- form_help(form) -}}

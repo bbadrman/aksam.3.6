@@ -1,0 +1,177 @@
+{#
+    Barre de filtres commune aux paniers de traitement et à la recherche
+    globale : recherche libre + intervalle de date de création +
+    produit/équipe/commercial/relance/source/activité/url, en grille pleine
+    largeur (un champ par cellule, libellé au-dessus, comme l'ancienne
+    version). Variables attendues : q, products, teams, commercials, motifs,
+    productId, teamId, commercialId, relance, source, activites, url,
+    createdFrom, createdTo.
+#}
+
+<form method="get" class="admin-plain-form mt-4 grid grid-cols-2 gap-3 rounded-2xl border border-border bg-card p-4 sm:grid-cols-3 md:mt-5 lg:grid-cols-7">
+    <div class="col-span-2 flex flex-col gap-1 sm:col-span-1">
+        <label class="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Recherche</label>
+        <input
+            type="text"
+            name="q"
+            value="{{ q }}"
+            placeholder="Nom, prénom, tél. ou email…"
+            class="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+        >
+    </div>
+
+    <div class="flex flex-col gap-1">
+        <label class="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Créé du</label>
+        <input
+            type="date"
+            name="createdFrom"
+            value="{{ createdFrom }}"
+            onchange="this.form.submit()"
+            class="h-10 w-full rounded-lg border border-border bg-background px-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+        >
+    </div>
+
+    <div class="flex flex-col gap-1">
+        <label class="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Créé au</label>
+        <input
+            type="date"
+            name="createdTo"
+            value="{{ createdTo }}"
+            onchange="this.form.submit()"
+            class="h-10 w-full rounded-lg border border-border bg-background px-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+        >
+    </div>
+
+    <div class="flex flex-col gap-1">
+        <label class="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Produit</label>
+        <select name="productId" onchange="this.form.submit()" class="h-10 w-full rounded-lg border border-border bg-background px-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
+            <option value="">Tous</option>
+            {% for product in products %}
+                <option value="{{ product.id }}" {{ productId == product.id ? 'selected' : '' }}>{{ product.nom }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="flex flex-col gap-1">
+        <label class="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Équipe</label>
+        <select name="teamId" onchange="this.form.submit()" class="h-10 w-full rounded-lg border border-border bg-background px-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
+            <option value="">Toutes</option>
+            {% for team in teams %}
+                <option value="{{ team.id }}" {{ teamId == team.id ? 'selected' : '' }}>{{ team.nom }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="flex flex-col gap-1">
+        <label class="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Commercial</label>
+        <select name="commercialId" onchange="this.form.submit()" class="h-10 w-full rounded-lg border border-border bg-background px-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
+            <option value="">Tous</option>
+            {% for commercial in commercials %}
+                <option value="{{ commercial.id }}" {{ commercialId == commercial.id ? 'selected' : '' }}>{{ commercial.username }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="flex flex-col gap-1">
+        <label class="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Relance</label>
+        <select name="relance" onchange="this.form.submit()" class="h-10 w-full rounded-lg border border-border bg-background px-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
+            <option value="">Toutes</option>
+            {% for motif in motifs %}
+                <option value="{{ motif.value }}" {{ relance == motif.value ? 'selected' : '' }}>{{ motif.label }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="flex flex-col gap-1">
+        <label class="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Source</label>
+        <select name="source" onchange="this.form.submit()" class="h-10 w-full rounded-lg border border-border bg-background px-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
+            <option value="">Toutes</option>
+            <option value="1" {{ source == '1' ? 'selected' : '' }}>Saisie manuelle</option>
+            <option value="2" {{ source == '2' ? 'selected' : '' }}>Revendeur</option>
+            <option value="3" {{ source == '3' ? 'selected' : '' }}>Propre site</option>
+        </select>
+    </div>
+
+    <div class="flex flex-col gap-1">
+        <label class="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Activité</label>
+        <select name="activites" onchange="this.form.submit()" class="h-10 w-full rounded-lg border border-border bg-background px-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
+            <option value="">Toutes</option>
+            <option value="1" {{ activites == '1' ? 'selected' : '' }}>TPM</option>
+            <option value="2" {{ activites == '2' ? 'selected' : '' }}>VTC</option>
+            <option value="3" {{ activites == '3' ? 'selected' : '' }}>Sociéte</option>
+            <option value="4" {{ activites == '4' ? 'selected' : '' }}>Décennale</option>
+            <option value="5" {{ activites == '5' ? 'selected' : '' }}>Dommage</option>
+            <option value="6" {{ activites == '6' ? 'selected' : '' }}>Marchandise</option>
+            <option value="7" {{ activites == '7' ? 'selected' : '' }}>Négociant</option>
+            <option value="8" {{ activites == '8' ? 'selected' : '' }}>Prof auto</option>
+            <option value="9" {{ activites == '9' ? 'selected' : '' }}>Ecole</option>
+            <option value="10" {{ activites == '10' ? 'selected' : '' }}>Garage</option>
+            <option value="11" {{ activites == '11' ? 'selected' : '' }}>Location-vehicule</option>
+            <option value="12" {{ activites == '12' ? 'selected' : '' }}>retraite</option>
+            <option value="13" {{ activites == '13' ? 'selected' : '' }}>Taxi</option>
+        </select>
+    </div>
+
+    <div class="flex flex-col gap-1">
+        <label class="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">URL</label>
+        <select name="url" onchange="this.form.submit()" class="h-10 w-full rounded-lg border border-border bg-background px-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50">
+            <option value="">Toutes</option>
+            <option value="1" {{ url == '1' ? 'selected' : '' }}>ADV</option>
+            <option value="2" {{ url == '2' ? 'selected' : '' }}>AGP</option>
+            <option value="3" {{ url == '3' ? 'selected' : '' }}>APT</option>
+            <option value="4" {{ url == '4' ? 'selected' : '' }}>APV</option>
+            <option value="5" {{ url == '5' ? 'selected' : '' }}>LDR</option>
+            <option value="6" {{ url == '6' ? 'selected' : '' }}>LGD</option>
+            <option value="29" {{ url == '29' ? 'selected' : '' }}>LGD/ADE</option>
+            <option value="30" {{ url == '30' ? 'selected' : '' }}>LGD/ADM</option>
+            <option value="31" {{ url == '31' ? 'selected' : '' }}>LGD/ADRRNP</option>
+            <option value="32" {{ url == '32' ? 'selected' : '' }}>LGD/PADAE</option>
+            <option value="33" {{ url == '33' ? 'selected' : '' }}>LGD/ADP</option>
+            <option value="46" {{ url == '46' ? 'selected' : '' }}>LGD/ADRDP</option>
+            <option value="7" {{ url == '7' ? 'selected' : '' }}>CEL</option>
+            <option value="8" {{ url == '8' ? 'selected' : '' }}>APC</option>
+            <option value="9" {{ url == '9' ? 'selected' : '' }}>AFE</option>
+            <option value="37" {{ url == '37' ? 'selected' : '' }}>AFE/FA</option>
+            <option value="38" {{ url == '38' ? 'selected' : '' }}>AFE/FC</option>
+            <option value="39" {{ url == '39' ? 'selected' : '' }}>AFE/FB</option>
+            <option value="40" {{ url == '40' ? 'selected' : '' }}>AFE/FM</option>
+            <option value="41" {{ url == '41' ? 'selected' : '' }}>AFE/AFEL</option>
+            <option value="42" {{ url == '42' ? 'selected' : '' }}>AFE/FTM</option>
+            <option value="10" {{ url == '10' ? 'selected' : '' }}>AVP</option>
+            <option value="22" {{ url == '22' ? 'selected' : '' }}>AVP/U</option>
+            <option value="23" {{ url == '23' ? 'selected' : '' }}>AVP/PL</option>
+            <option value="11" {{ url == '11' ? 'selected' : '' }}>LDT</option>
+            <option value="43" {{ url == '43' ? 'selected' : '' }}>LDT/ATM</option>
+            <option value="44" {{ url == '44' ? 'selected' : '' }}>LDT/ATM/AMT</option>
+            <option value="45" {{ url == '45' ? 'selected' : '' }}>LDT/AVTDM</option>
+            <option value="13" {{ url == '13' ? 'selected' : '' }}>AEC</option>
+            <option value="14" {{ url == '14' ? 'selected' : '' }}>APA</option>
+            <option value="15" {{ url == '15' ? 'selected' : '' }}>APA/AE</option>
+            <option value="16" {{ url == '16' ? 'selected' : '' }}>APA/NE</option>
+            <option value="17" {{ url == '17' ? 'selected' : '' }}>APA/GA</option>
+            <option value="18" {{ url == '18' ? 'selected' : '' }}>APA/LV</option>
+            <option value="19" {{ url == '19' ? 'selected' : '' }}>PS</option>
+            <option value="20" {{ url == '20' ? 'selected' : '' }}>AMS</option>
+            <option value="34" {{ url == '34' ? 'selected' : '' }}>AMS/SA</option>
+            <option value="35" {{ url == '35' ? 'selected' : '' }}>AMS/FO</option>
+            <option value="36" {{ url == '36' ? 'selected' : '' }}>AMS/IN</option>
+            <option value="21" {{ url == '21' ? 'selected' : '' }}>TMS</option>
+            <option value="24" {{ url == '24' ? 'selected' : '' }}>ATV</option>
+            <option value="25" {{ url == '25' ? 'selected' : '' }}>ATV/PL</option>
+            <option value="26" {{ url == '26' ? 'selected' : '' }}>ATV/M</option>
+            <option value="27" {{ url == '27' ? 'selected' : '' }}>ATV/U</option>
+            <option value="28" {{ url == '28' ? 'selected' : '' }}>DAO</option>
+        </select>
+    </div>
+
+    <div class="col-span-2 flex items-end gap-2 sm:col-span-3 lg:col-span-7 justify-end">
+        <button type="submit" class="flex h-10 items-center justify-center rounded-lg bg-primary px-5 text-sm font-medium text-primary-foreground transition-all duration-300 hover:scale-105 hover:bg-primary/90">
+            Rechercher
+        </button>
+        {% if productId or teamId or commercialId or relance or source or activites or url or createdFrom or createdTo or q %}
+            <a href="{{ path(app.request.attributes.get('_route')) }}" class="flex h-10 items-center justify-center rounded-lg border border-border px-4 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground">
+                Réinitialiser
+            </a>
+        {% endif %}
+    </div>
+</form>

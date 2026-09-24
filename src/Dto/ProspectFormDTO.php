@@ -23,6 +23,20 @@ class ProspectFormDTO
     public ?Team $team = null;
     public ?User $commercial = null;
 
+    public ?string $ville = null;
+    public ?string $adresse = null;
+    public ?string $codePostal = null;
+    public ?\DateTimeImmutable $dateNaissance = null;
+    public ?string $source = null;
+    public ?string $typeProspect = null;
+    public ?string $raisonSociale = null;
+    public ?string $activites = null;
+    public ?string $url = null;
+    public ?string $assurer = null;
+    public ?string $lastAssure = null;
+    public ?string $motifResil = null;
+    public ?string $motifSaisi = null;
+
     // Champs spécifiques véhicule — utilisés uniquement si product = véhicule.
     public ?string $immatriculation = null;
     public ?string $marque = null;

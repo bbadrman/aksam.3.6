@@ -55,11 +55,13 @@ class ProspectTraitementService
      * attribués à un commercial précis, mais qui sont dans le scope de
      * l'utilisateur courant (soit parce qu'il est chef d'équipe, soit
      * parce qu'il est admin et que le scope est "tous les prospects").
+     *
+     * @param array{productId?: int, teamId?: int, commercialId?: int, relance?: int, source?: string, activites?: string, url?: string, createdFrom?: \DateTimeImmutable, createdTo?: \DateTimeImmutable} $filters
      * @return array{items: Prospect[], total: int}
      */
-    public function nouveaux(int $page = 1): array
+    public function nouveaux(int $page = 1, ?string $q = null, array $filters = []): array
     {
-        return $this->prospectRepository->findNouveaux($this->resolveScope(), $page);
+        return $this->prospectRepository->findNouveaux($this->resolveScope(), $page, q: $q, filters: $filters);
     }
 
     /**
@@ -69,71 +71,78 @@ class ProspectTraitementService
      * montre que les prospects de son équipe pas encore attribués à un
      * commercial précis.
      *
+     * @param array{productId?: int, teamId?: int, commercialId?: int, relance?: int, source?: string, activites?: string, url?: string, createdFrom?: \DateTimeImmutable, createdTo?: \DateTimeImmutable} $filters
      * @return array{items: Prospect[], total: int}
      */
-    public function mesNouveaux(int $page = 1): array
+    public function mesNouveaux(int $page = 1, ?string $q = null, array $filters = []): array
     {
-        return $this->prospectRepository->findNouveaux($this->scopeResolver->resolveOwn(), $page);
+        return $this->prospectRepository->findNouveaux($this->scopeResolver->resolveOwn(), $page, q: $q, filters: $filters);
     }
 
     /**
+     * @param array{productId?: int, teamId?: int, commercialId?: int, relance?: int, source?: string, activites?: string, url?: string, createdFrom?: \DateTimeImmutable, createdTo?: \DateTimeImmutable} $filters
      * @return array{items: Prospect[], total: int}
      */
-    public function nonTraites(int $page = 1): array
+    public function nonTraites(int $page = 1, ?string $q = null, array $filters = []): array
     {
         $seuil = new \DateTimeImmutable('-24 hours');
 
-        return $this->prospectRepository->findNonTraites($this->resolveScope(), $seuil, $page);
+        return $this->prospectRepository->findNonTraites($this->resolveScope(), $seuil, $page, q: $q, filters: $filters);
     }
 
     /**
+     * @param array{productId?: int, teamId?: int, commercialId?: int, relance?: int, source?: string, activites?: string, url?: string, createdFrom?: \DateTimeImmutable, createdTo?: \DateTimeImmutable} $filters
      * @return array{items: Prospect[], total: int}
      */
-    public function relancesDuJour(int $page = 1): array
+    public function relancesDuJour(int $page = 1, ?string $q = null, array $filters = []): array
     {
         $debut = new \DateTimeImmutable('today');
         $fin = new \DateTimeImmutable('today 23:59:59');
 
-        return $this->prospectRepository->findRelancesDuJour($this->resolveScope(), $debut, $fin, $page);
+        return $this->prospectRepository->findRelancesDuJour($this->resolveScope(), $debut, $fin, $page, q: $q, filters: $filters);
     }
 
     /**
+     * @param array{productId?: int, teamId?: int, commercialId?: int, relance?: int, source?: string, activites?: string, url?: string, createdFrom?: \DateTimeImmutable, createdTo?: \DateTimeImmutable} $filters
      * @return array{items: Prospect[], total: int}
      */
-    public function relancesAVenir(int $page = 1): array
+    public function relancesAVenir(int $page = 1, ?string $q = null, array $filters = []): array
     {
         $finAujourdhui = new \DateTimeImmutable('today 23:59:59');
 
-        return $this->prospectRepository->findRelancesAVenir($this->resolveScope(), $finAujourdhui, $page);
+        return $this->prospectRepository->findRelancesAVenir($this->resolveScope(), $finAujourdhui, $page, q: $q, filters: $filters);
     }
 
     /**
+     * @param array{productId?: int, teamId?: int, commercialId?: int, relance?: int, source?: string, activites?: string, url?: string, createdFrom?: \DateTimeImmutable, createdTo?: \DateTimeImmutable} $filters
      * @return array{items: Prospect[], total: int}
      */
-    public function relancesNonTraitees(int $page = 1): array
+    public function relancesNonTraitees(int $page = 1, ?string $q = null, array $filters = []): array
     {
         $seuil = new \DateTimeImmutable('today');
 
-        return $this->prospectRepository->findRelancesNonTraitees($this->resolveScope(), $seuil, $page);
+        return $this->prospectRepository->findRelancesNonTraitees($this->resolveScope(), $seuil, $page, q: $q, filters: $filters);
     }
 
     /**
+     * @param array{productId?: int, teamId?: int, commercialId?: int, relance?: int, source?: string, activites?: string, url?: string, createdFrom?: \DateTimeImmutable, createdTo?: \DateTimeImmutable} $filters
      * @return array{items: Prospect[], total: int}
      */
-    public function injoignables(int $page = 1): array
+    public function injoignables(int $page = 1, ?string $q = null, array $filters = []): array
     {
-        return $this->prospectRepository->findInjoignables($this->resolveScope(), $page);
+        return $this->prospectRepository->findInjoignables($this->resolveScope(), $page, q: $q, filters: $filters);
     }
 
     /**
      * Recherche globale sur tous les prospects du scope courant, tous
      * cycles confondus.
      *
+     * @param array{productId?: int, teamId?: int, commercialId?: int, relance?: int, source?: string, activites?: string, url?: string, createdFrom?: \DateTimeImmutable, createdTo?: \DateTimeImmutable} $filters
      * @return array{items: Prospect[], total: int}
      */
-    public function search(?string $q, int $page = 1): array
+    public function search(?string $q, int $page = 1, array $filters = []): array
     {
-        return $this->prospectRepository->search($this->resolveScope(), $q, [], $page);
+        return $this->prospectRepository->search($this->resolveScope(), $q, $filters, $page);
     }
 
     public function totalCount(): int

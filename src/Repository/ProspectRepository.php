@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Product;
 use App\Entity\Prospect;
 use App\Entity\RelanceMotif;
+use App\Entity\Team;
 use App\Security\ProspectScope;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -25,23 +27,20 @@ class ProspectRepository extends ServiceEntityRepository
      * l'utilisateur courant. Filtre texte libre sur nom/prénom/téléphone/
      * email, combinable avec les filtres habituels.
      *
-     * @param array{statut?: string, productId?: int, teamId?: int, commercialId?: int} $filters
+     * @param array{productId?: int, teamId?: int, commercialId?: int, relance?: int, source?: string, activites?: string, url?: string, createdFrom?: \DateTimeImmutable, createdTo?: \DateTimeImmutable} $filters
      * @return array{items: Prospect[], total: int}
      */
     public function search(ProspectScope $scope, ?string $q, array $filters = [], int $page = 1, int $limit = 10): array
     {
-        $qb = $this->createSearchQueryBuilder($filters)
+        $qb = $this->createQueryBuilder('p')
             ->addSelect('team', 'commercial')
             ->leftJoin('p.team', 'team')
             ->leftJoin('p.commercial', 'commercial')
             ->orderBy('p.createdAt', 'DESC');
 
         $this->applyScope($qb, $scope);
-
-        if ($q !== null && $q !== '') {
-            $qb->andWhere('p.nom LIKE :q OR p.prenom LIKE :q OR p.phone LIKE :q OR p.email LIKE :q')
-                ->setParameter('q', '%' . $q . '%');
-        }
+        $this->applyQ($qb, $q);
+        $this->applyFilters($qb, $filters);
 
         return $this->paginate($qb, $page, $limit);
     }
@@ -52,6 +51,135 @@ class ProspectRepository extends ServiceEntityRepository
         $this->applyScope($qb, $scope);
 
         return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * Charge de travail actuelle d'une équipe sur un produit donné — sert de
+     * base à la distribution automatique round-robin des prospects entrants
+     * (App\Service\ProspectDistributionService). "Actif" = pas encore
+     * converti en client.
+     */
+    public function countActifsByTeamAndProduct(Team $team, Product $product): int
+    {
+        return (int) $this->createQueryBuilder('p')
+            ->select('COUNT(p.id)')
+            ->andWhere('p.team = :team')
+            ->andWhere('p.product = :product')
+            ->andWhere('p.statut != :converti')
+            ->setParameter('team', $team)
+            ->setParameter('product', $product)
+            ->setParameter('converti', Prospect::STATUT_CONVERTI)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * Répartition produit × équipe des prospects déjà affectés
+     * (`affectAt IS NOT NULL`), pour le dashboard de distribution.
+     * Chaque ligne : product_id, product_nom, team_id, team_nom, total,
+     * converted (statut converti), pending (sans commercial attitré).
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public function getDistributionStats(?Product $product = null, ?\DateTimeInterface $from = null, ?\DateTimeInterface $to = null): array
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->select(
+                'pr.id AS product_id',
+                'pr.nom AS product_nom',
+                't.id AS team_id',
+                't.nom AS team_nom',
+                'COUNT(p.id) AS total',
+                'SUM(CASE WHEN p.statut = :converti THEN 1 ELSE 0 END) AS converted',
+                'SUM(CASE WHEN p.commercial IS NULL THEN 1 ELSE 0 END) AS pending',
+            )
+            ->innerJoin('p.product', 'pr')
+            ->innerJoin('p.team', 't')
+            ->andWhere('p.affectAt IS NOT NULL')
+            ->setParameter('converti', Prospect::STATUT_CONVERTI)
+            ->groupBy('pr.id', 't.id')
+            ->orderBy('pr.nom', 'ASC')
+            ->addOrderBy('t.nom', 'ASC');
+
+        $this->applyDistributionFilters($qb, $product, $from, $to);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Répartition équipe × commercial des prospects affectés, pour le
+     * classement des commerciaux dans le dashboard de distribution.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public function getCommercialDistributionStats(?Product $product = null, ?\DateTimeInterface $from = null, ?\DateTimeInterface $to = null): array
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->select(
+                't.id AS team_id',
+                'u.id AS user_id',
+                'u.username AS user_username',
+                'u.nom AS user_nom',
+                'u.prenom AS user_prenom',
+                'COUNT(p.id) AS total',
+                'SUM(CASE WHEN p.statut = :converti THEN 1 ELSE 0 END) AS converted',
+            )
+            ->innerJoin('p.team', 't')
+            ->innerJoin('p.commercial', 'u')
+            ->andWhere('p.affectAt IS NOT NULL')
+            ->setParameter('converti', Prospect::STATUT_CONVERTI)
+            ->groupBy('t.id', 'u.id')
+            ->orderBy('t.nom', 'ASC')
+            ->addOrderBy('total', 'DESC');
+
+        $this->applyDistributionFilters($qb, $product, $from, $to);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * Répartition équipe × commercial × produit des prospects affectés,
+     * pour le détail par produit de chaque commercial.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public function getCommercialProductStats(?Product $product = null, ?\DateTimeInterface $from = null, ?\DateTimeInterface $to = null): array
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->select(
+                't.id AS team_id',
+                'u.id AS user_id',
+                'pr.id AS product_id',
+                'pr.nom AS product_nom',
+                'COUNT(p.id) AS total',
+                'SUM(CASE WHEN p.statut = :converti THEN 1 ELSE 0 END) AS converted',
+            )
+            ->innerJoin('p.team', 't')
+            ->innerJoin('p.commercial', 'u')
+            ->innerJoin('p.product', 'pr')
+            ->andWhere('p.affectAt IS NOT NULL')
+            ->setParameter('converti', Prospect::STATUT_CONVERTI)
+            ->groupBy('t.id', 'u.id', 'pr.id')
+            ->orderBy('t.nom', 'ASC')
+            ->addOrderBy('u.username', 'ASC')
+            ->addOrderBy('pr.nom', 'ASC');
+
+        $this->applyDistributionFilters($qb, $product, $from, $to);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    private function applyDistributionFilters(QueryBuilder $qb, ?Product $product, ?\DateTimeInterface $from, ?\DateTimeInterface $to): void
+    {
+        if ($product !== null) {
+            $qb->andWhere('p.product = :product')->setParameter('product', $product);
+        }
+        if ($from !== null) {
+            $qb->andWhere('p.affectAt >= :from')->setParameter('from', $from);
+        }
+        if ($to !== null) {
+            $qb->andWhere('p.affectAt <= :to')->setParameter('to', $to);
+        }
     }
 
     /**
@@ -69,7 +197,7 @@ class ProspectRepository extends ServiceEntityRepository
      *
      * @return array{items: Prospect[], total: int}
      */
-    public function findNouveaux(ProspectScope $scope, int $page = 1, int $limit = 10): array
+    public function findNouveaux(ProspectScope $scope, int $page = 1, int $limit = 10, ?string $q = null, array $filters = []): array
     {
         $qb = $this->baseQueryBuilder($scope)
             ->andWhere('p.relance IS NULL');
@@ -80,6 +208,8 @@ class ProspectRepository extends ServiceEntityRepository
             $qb->andWhere('p.commercial IS NULL');
         }
 
+        $this->applyQ($qb, $q);
+        $this->applyFilters($qb, $filters);
         $qb->orderBy('p.createdAt', 'DESC');
 
         return $this->paginate($qb, $page, $limit);
@@ -91,7 +221,7 @@ class ProspectRepository extends ServiceEntityRepository
      *
      * @return array{items: Prospect[], total: int}
      */
-    public function findNonTraites(ProspectScope $scope, \DateTimeImmutable $avant, int $page = 1, int $limit = 10): array
+    public function findNonTraites(ProspectScope $scope, \DateTimeImmutable $avant, int $page = 1, int $limit = 10, ?string $q = null, array $filters = []): array
     {
         $qb = $this->baseQueryBuilder($scope)
             ->andWhere('p.team IS NOT NULL')
@@ -100,6 +230,9 @@ class ProspectRepository extends ServiceEntityRepository
             ->andWhere('p.affectAt <= :avant')
             ->setParameter('avant', $avant)
             ->orderBy('p.affectAt', 'ASC');
+
+        $this->applyQ($qb, $q);
+        $this->applyFilters($qb, $filters);
 
         return $this->paginate($qb, $page, $limit);
     }
@@ -110,7 +243,7 @@ class ProspectRepository extends ServiceEntityRepository
      *
      * @return array{items: Prospect[], total: int}
      */
-    public function findRelancesDuJour(ProspectScope $scope, \DateTimeImmutable $debutJour, \DateTimeImmutable $finJour, int $page = 1, int $limit = 10): array
+    public function findRelancesDuJour(ProspectScope $scope, \DateTimeImmutable $debutJour, \DateTimeImmutable $finJour, int $page = 1, int $limit = 10, ?string $q = null, array $filters = []): array
     {
         $qb = $this->baseQueryBuilder($scope)
             ->andWhere('p.relanceAt BETWEEN :debut AND :fin')
@@ -119,6 +252,9 @@ class ProspectRepository extends ServiceEntityRepository
             ->setParameter('fin', $finJour)
             ->setParameter('clotures', RelanceMotif::valeursCloturees())
             ->orderBy('p.relanceAt', 'ASC');
+
+        $this->applyQ($qb, $q);
+        $this->applyFilters($qb, $filters);
 
         return $this->paginate($qb, $page, $limit);
     }
@@ -129,7 +265,7 @@ class ProspectRepository extends ServiceEntityRepository
      *
      * @return array{items: Prospect[], total: int}
      */
-    public function findRelancesAVenir(ProspectScope $scope, \DateTimeImmutable $apres, int $page = 1, int $limit = 10): array
+    public function findRelancesAVenir(ProspectScope $scope, \DateTimeImmutable $apres, int $page = 1, int $limit = 10, ?string $q = null, array $filters = []): array
     {
         $qb = $this->baseQueryBuilder($scope)
             ->andWhere('p.relanceAt > :apres')
@@ -137,6 +273,9 @@ class ProspectRepository extends ServiceEntityRepository
             ->setParameter('apres', $apres)
             ->setParameter('clotures', RelanceMotif::valeursCloturees())
             ->orderBy('p.relanceAt', 'ASC');
+
+        $this->applyQ($qb, $q);
+        $this->applyFilters($qb, $filters);
 
         return $this->paginate($qb, $page, $limit);
     }
@@ -148,7 +287,7 @@ class ProspectRepository extends ServiceEntityRepository
      *
      * @return array{items: Prospect[], total: int}
      */
-    public function findRelancesNonTraitees(ProspectScope $scope, \DateTimeImmutable $avant, int $page = 1, int $limit = 10): array
+    public function findRelancesNonTraitees(ProspectScope $scope, \DateTimeImmutable $avant, int $page = 1, int $limit = 10, ?string $q = null, array $filters = []): array
     {
         $qb = $this->baseQueryBuilder($scope)
             ->andWhere('p.relanceAt IS NOT NULL')
@@ -157,6 +296,9 @@ class ProspectRepository extends ServiceEntityRepository
             ->setParameter('avant', $avant)
             ->setParameter('clotures', RelanceMotif::valeursCloturees())
             ->orderBy('p.relanceAt', 'ASC');
+
+        $this->applyQ($qb, $q);
+        $this->applyFilters($qb, $filters);
 
         return $this->paginate($qb, $page, $limit);
     }
@@ -167,12 +309,15 @@ class ProspectRepository extends ServiceEntityRepository
      *
      * @return array{items: Prospect[], total: int}
      */
-    public function findInjoignables(ProspectScope $scope, int $page = 1, int $limit = 10): array
+    public function findInjoignables(ProspectScope $scope, int $page = 1, int $limit = 10, ?string $q = null, array $filters = []): array
     {
         $qb = $this->baseQueryBuilder($scope)
             ->andWhere('p.relance = :motif')
             ->setParameter('motif', RelanceMotif::TOUJOURS_INJOIGNABLE)
             ->orderBy('p.relanceAt', 'DESC');
+
+        $this->applyQ($qb, $q);
+        $this->applyFilters($qb, $filters);
 
         return $this->paginate($qb, $page, $limit);
     }
@@ -227,6 +372,58 @@ class ProspectRepository extends ServiceEntityRepository
         return array_column($rows, 'phone');
     }
 
+    private function applyQ(QueryBuilder $qb, ?string $q): void
+    {
+        if ($q === null || $q === '') {
+            return;
+        }
+
+        $qb->andWhere('p.nom LIKE :q OR p.prenom LIKE :q OR p.phone LIKE :q OR p.email LIKE :q OR p.raisonSociale LIKE :q')
+            ->setParameter('q', '%' . $q . '%');
+    }
+
+    /**
+     * @param array{productId?: int, teamId?: int, commercialId?: int, relance?: int, source?: string, activites?: string, url?: string, createdFrom?: \DateTimeImmutable, createdTo?: \DateTimeImmutable} $filters
+     */
+    private function applyFilters(QueryBuilder $qb, array $filters): void
+    {
+        if (!empty($filters['productId'])) {
+            $qb->andWhere('p.product = :productId')->setParameter('productId', $filters['productId']);
+        }
+
+        if (!empty($filters['source'])) {
+            $qb->andWhere('p.source = :source')->setParameter('source', $filters['source']);
+        }
+
+        if (!empty($filters['activites'])) {
+            $qb->andWhere('p.activites = :activites')->setParameter('activites', $filters['activites']);
+        }
+
+        if (!empty($filters['url'])) {
+            $qb->andWhere('p.url = :url')->setParameter('url', $filters['url']);
+        }
+
+        if (!empty($filters['teamId'])) {
+            $qb->andWhere('p.team = :teamId')->setParameter('teamId', $filters['teamId']);
+        }
+
+        if (!empty($filters['commercialId'])) {
+            $qb->andWhere('p.commercial = :commercialId')->setParameter('commercialId', $filters['commercialId']);
+        }
+
+        if (!empty($filters['relance'])) {
+            $qb->andWhere('p.relance = :relanceFiltre')->setParameter('relanceFiltre', $filters['relance']);
+        }
+
+        if (!empty($filters['createdFrom'])) {
+            $qb->andWhere('p.createdAt >= :createdFrom')->setParameter('createdFrom', $filters['createdFrom']);
+        }
+
+        if (!empty($filters['createdTo'])) {
+            $qb->andWhere('p.createdAt <= :createdTo')->setParameter('createdTo', $filters['createdTo']);
+        }
+    }
+
     private function excludeCloturesExpr(): string
     {
         return '(p.relance IS NULL OR p.relance NOT IN (:clotures))';
@@ -267,31 +464,5 @@ class ProspectRepository extends ServiceEntityRepository
             'items' => iterator_to_array($paginator->getIterator()),
             'total' => count($paginator),
         ];
-    }
-
-    /**
-     * @param array{statut?: string, productId?: int, teamId?: int, commercialId?: int} $filters
-     */
-    private function createSearchQueryBuilder(array $filters): QueryBuilder
-    {
-        $qb = $this->createQueryBuilder('p');
-
-        if (!empty($filters['statut'])) {
-            $qb->andWhere('p.statut = :statut')->setParameter('statut', $filters['statut']);
-        }
-
-        if (!empty($filters['productId'])) {
-            $qb->andWhere('p.product = :productId')->setParameter('productId', $filters['productId']);
-        }
-
-        if (!empty($filters['teamId'])) {
-            $qb->andWhere('p.team = :teamId')->setParameter('teamId', $filters['teamId']);
-        }
-
-        if (!empty($filters['commercialId'])) {
-            $qb->andWhere('p.commercial = :commercialId')->setParameter('commercialId', $filters['commercialId']);
-        }
-
-        return $qb;
     }
 }

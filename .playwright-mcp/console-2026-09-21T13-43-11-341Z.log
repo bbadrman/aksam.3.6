@@ -1,0 +1,80 @@
+[     125ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[     125ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[     125ms] [LOG] details: {application: Le, identifier: admin-sidebar, controller: s, element: body.admin-scope.bg-background.text-foreground} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[     126ms] [LOG] details: {application: Le, identifier: admin-sidebar, controller: s, element: body.admin-scope.bg-background.text-foreground} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[     126ms] [LOG] details: {application: Le, identifier: admin-theme, controller: s, element: button.flex.h-8.w-8.items-center.justify-center.rounded-lg.text-foreground.transition-all.duration-…} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[     126ms] [LOG] details: {application: Le, identifier: admin-theme, controller: s, element: button.flex.h-8.w-8.items-center.justify-center.rounded-lg.text-foreground.transition-all.duration-…} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[     126ms] [LOG] details: {application: Le, identifier: prospect-type, controller: s, element: form} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[     127ms] [LOG] details: {application: Le, identifier: prospect-type, controller: s, element: form} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[     127ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[     132ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[    6078ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[    6078ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[    6079ms] [LOG] details: {application: Le, identifier: admin-sidebar, controller: s, element: body.admin-scope.bg-background.text-foreground} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[    6079ms] [LOG] details: {application: Le, identifier: admin-sidebar, controller: s, element: body.admin-scope.bg-background.text-foreground} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[    6079ms] [LOG] details: {application: Le, identifier: admin-theme, controller: s, element: button.flex.h-8.w-8.items-center.justify-center.rounded-lg.text-foreground.transition-all.duration-…} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[    6080ms] [LOG] details: {application: Le, identifier: admin-theme, controller: s, element: button.flex.h-8.w-8.items-center.justify-center.rounded-lg.text-foreground.transition-all.duration-…} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[    6080ms] [LOG] details: {application: Le, identifier: prospect-type, controller: s, element: form} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[    6080ms] [LOG] details: {application: Le, identifier: prospect-type, controller: s, element: form} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[    6080ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[    6085ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   13812ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   13813ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   13813ms] [LOG] details: {application: Le, identifier: admin-sidebar, controller: s, element: body.admin-scope.bg-background.text-foreground} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   13814ms] [LOG] details: {application: Le, identifier: admin-sidebar, controller: s, element: body.admin-scope.bg-background.text-foreground} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   13814ms] [LOG] details: {application: Le, identifier: admin-theme, controller: s, element: button.flex.h-8.w-8.items-center.justify-center.rounded-lg.text-foreground.transition-all.duration-…} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   13814ms] [LOG] details: {application: Le, identifier: admin-theme, controller: s, element: button.flex.h-8.w-8.items-center.justify-center.rounded-lg.text-foreground.transition-all.duration-…} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   13815ms] [LOG] details: {application: Le, identifier: prospect-type, controller: s, element: form} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   13815ms] [LOG] details: {application: Le, identifier: prospect-type, controller: s, element: form} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   13815ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   13817ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   29879ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   29879ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   29880ms] [LOG] details: {application: Le, identifier: admin-sidebar, controller: s, element: body.admin-scope.bg-background.text-foreground} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   29881ms] [LOG] details: {application: Le, identifier: admin-sidebar, controller: s, element: body.admin-scope.bg-background.text-foreground} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   29881ms] [LOG] details: {application: Le, identifier: admin-theme, controller: s, element: button.flex.h-8.w-8.items-center.justify-center.rounded-lg.text-foreground.transition-all.duration-…} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   29881ms] [LOG] details: {application: Le, identifier: admin-theme, controller: s, element: button.flex.h-8.w-8.items-center.justify-center.rounded-lg.text-foreground.transition-all.duration-…} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   29882ms] [LOG] details: {application: Le, identifier: prospect-type, controller: s, element: form} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   29882ms] [LOG] details: {application: Le, identifier: prospect-type, controller: s, element: form} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   29882ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   29889ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   35623ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   35624ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   35624ms] [LOG] details: {application: Le, identifier: admin-sidebar, controller: s, element: body.admin-scope.bg-background.text-foreground} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   35625ms] [LOG] details: {application: Le, identifier: admin-sidebar, controller: s, element: body.admin-scope.bg-background.text-foreground} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   35625ms] [LOG] details: {application: Le, identifier: admin-theme, controller: s, element: button.flex.h-8.w-8.items-center.justify-center.rounded-lg.text-foreground.transition-all.duration-…} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   35627ms] [LOG] details: {application: Le, identifier: admin-theme, controller: s, element: button.flex.h-8.w-8.items-center.justify-center.rounded-lg.text-foreground.transition-all.duration-…} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   35627ms] [LOG] details: {application: Le, identifier: prospect-type, controller: s, element: form} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   35628ms] [LOG] details: {application: Le, identifier: prospect-type, controller: s, element: form} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   35628ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   35635ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   35662ms] [LOG] details: {application: Le, identifier: prospect-type, controller: s, element: form, event: Event} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   35672ms] [LOG] details: {application: Le, identifier: prospect-type, controller: s, element: form, event: Event} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   91059ms] [LOG] details: {application: Le, identifier: prospect-type, controller: s, element: form, event: Event} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   93108ms] [LOG] details: {application: Le, identifier: prospect-type, controller: s, element: form, event: Event} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   94684ms] [LOG] details: {application: Le, identifier: prospect-type, controller: s, element: form, event: Event} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   95846ms] [LOG] details: {application: Le, identifier: prospect-type, controller: s, element: form, event: Event} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   97212ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   97213ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   97213ms] [LOG] details: {application: Le, identifier: admin-sidebar, controller: s, element: body.admin-scope.bg-background.text-foreground} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   97214ms] [LOG] details: {application: Le, identifier: admin-sidebar, controller: s, element: body.admin-scope.bg-background.text-foreground} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   97214ms] [LOG] details: {application: Le, identifier: admin-theme, controller: s, element: button.flex.h-8.w-8.items-center.justify-center.rounded-lg.text-foreground.transition-all.duration-…} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   97214ms] [LOG] details: {application: Le, identifier: admin-theme, controller: s, element: button.flex.h-8.w-8.items-center.justify-center.rounded-lg.text-foreground.transition-all.duration-…} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   97214ms] [LOG] details: {application: Le, identifier: prospect-type, controller: s, element: form} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   97215ms] [LOG] details: {application: Le, identifier: prospect-type, controller: s, element: form} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   97215ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   97217ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   98343ms] [LOG] details: {application: Le, identifier: prospect-type, controller: s, element: form, event: Event} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   99379ms] [LOG] details: {application: Le, identifier: prospect-type, controller: s, element: form, event: Event} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[  101200ms] [LOG] details: {application: Le, identifier: prospect-type, controller: s, element: form, event: Event} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[  102521ms] [LOG] details: {application: Le, identifier: prospect-type, controller: s, element: form, event: Event} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[  106386ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[  106386ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[  106386ms] [LOG] details: {application: Le, identifier: admin-sidebar, controller: s, element: body.admin-scope.bg-background.text-foreground} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[  106387ms] [LOG] details: {application: Le, identifier: admin-sidebar, controller: s, element: body.admin-scope.bg-background.text-foreground} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[  106388ms] [LOG] details: {application: Le, identifier: admin-theme, controller: s, element: button.flex.h-8.w-8.items-center.justify-center.rounded-lg.text-foreground.transition-all.duration-…} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[  106388ms] [LOG] details: {application: Le, identifier: admin-theme, controller: s, element: button.flex.h-8.w-8.items-center.justify-center.rounded-lg.text-foreground.transition-all.duration-…} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[  106388ms] [LOG] details: {application: Le, identifier: prospect-type, controller: s, element: form} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[  106389ms] [LOG] details: {application: Le, identifier: prospect-type, controller: s, element: form} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[  106389ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[  106393ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10

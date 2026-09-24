@@ -16,6 +16,8 @@
         actions: actions
     }) }}
 
+    {{ include('prospect/_filters.html.twig') }}
+
     <div class="mt-4 overflow-x-auto rounded-2xl border border-border bg-card shadow-sm md:mt-5">
         <table class="w-full text-left text-sm">
             <thead>
@@ -28,6 +30,7 @@
                     <th class="px-4 py-3 font-medium">Équipe</th>
                     <th class="px-4 py-3 font-medium">Commercial</th>
                     <th class="px-4 py-3 font-medium">Relance</th>
+                    <th class="px-4 py-3 font-medium">Date Relance</th>
                     <th class="px-4 py-3 font-medium">Action</th>
                 </tr>
             </thead>
@@ -58,6 +61,7 @@
                                 {{ prospect.relance ? prospect.relance.label : 'Jamais traité' }}
                             </span>
                         </td>
+                        <td class="px-4 py-3 text-muted-foreground">{{ prospect.relanceAt ? prospect.relanceAt|date('d/m/Y H:i') : '—' }}</td>
                         <td class="px-4 py-3">
                             <div class="flex flex-wrap items-center gap-1.5">
 

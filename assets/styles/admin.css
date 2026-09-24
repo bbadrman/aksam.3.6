@@ -243,6 +243,53 @@ html.dark {
   opacity: 0.9;
 }
 
+/*
+ * Variante pour les formulaires longs (beaucoup de champs, ex: création
+ * manuelle de prospect) — passe la grille de mise en page Symfony en quatre
+ * colonnes pleine largeur au lieu d'empiler tous les champs sur une seule
+ * colonne étroite (max-w-32rem), qui laissait la moitié de la page vide.
+ */
+.admin-scope form.admin-form-wide {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem 1.5rem;
+  max-width: none;
+  align-items: start;
+}
+
+.admin-scope form.admin-form-wide .admin-form-section-title {
+  grid-column: 1 / -1;
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-muted-foreground);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0.5rem;
+}
+
+.admin-scope form.admin-form-wide .admin-form-section-title:first-child {
+  margin-top: 0;
+}
+
+.admin-scope form.admin-form-wide .admin-form-submit {
+  grid-column: 1 / -1;
+  justify-self: start;
+}
+
+@media (max-width: 64rem) {
+  .admin-scope form.admin-form-wide {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 40rem) {
+  .admin-scope form.admin-form-wide {
+    grid-template-columns: 1fr;
+  }
+}
+
 .form-switch {
   position: relative;
   display: inline-flex;

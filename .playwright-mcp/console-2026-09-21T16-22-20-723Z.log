@@ -1,0 +1,7 @@
+[     185ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[     186ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[     195ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://aksamcrm.ddev.site/favicon.ico:0
+[   14031ms] [LOG] details: {application: Le, identifier: admin-sidebar, controller: s, element: body.admin-scope.bg-background.text-foreground} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   14033ms] [LOG] details: {application: Le, identifier: admin-sidebar, controller: s, element: body.admin-scope.bg-background.text-foreground} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   14033ms] [LOG] details: {application: Le, identifier: admin-theme, controller: s, element: button.flex.h-8.w-8.items-center.justify-center.rounded-lg.text-foreground.transition-all.duration-…} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   14034ms] [LOG] details: {application: Le, identifier: admin-theme, controller: s, element: button.flex.h-8.w-8.items-center.justify-center.rounded-lg.text-foreground.transition-all.duration-…} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10

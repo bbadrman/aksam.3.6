@@ -1,0 +1,261 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - complementary [ref=e3]:
+      - link "A Aksam v3.0.1" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e6]: A
+        - generic [ref=e7]: Aksam v3.0.1
+      - generic [ref=e8]:
+        - generic [ref=e9]:
+          - paragraph [ref=e10]: Menu
+          - navigation [ref=e11]:
+            - link "Tableau de bord" [ref=e12] [cursor=pointer]:
+              - /url: /
+              - img [ref=e13]
+              - generic [ref=e18]: Tableau de bord
+            - link "Nouveaux prospects 2" [ref=e19] [cursor=pointer]:
+              - /url: /traitement/nouveaux
+              - img [ref=e20]
+              - generic [ref=e23]: Nouveaux prospects
+              - generic [ref=e24]: "2"
+            - link "Non traités 6" [ref=e25] [cursor=pointer]:
+              - /url: /traitement/non-traites
+              - img [ref=e26]
+              - generic [ref=e29]: Non traités
+              - generic [ref=e30]: "6"
+            - link "Relances du jour" [ref=e31] [cursor=pointer]:
+              - /url: /traitement/relances-du-jour
+              - img [ref=e32]
+              - generic [ref=e35]: Relances du jour
+            - link "Relances à venir 1" [ref=e36] [cursor=pointer]:
+              - /url: /traitement/relances-a-venir
+              - img [ref=e37]
+              - generic [ref=e40]: Relances à venir
+              - generic [ref=e41]: "1"
+            - link "Relances non traitées 7" [ref=e42] [cursor=pointer]:
+              - /url: /traitement/relances-non-traitees
+              - img [ref=e43]
+              - generic [ref=e46]: Relances non traitées
+              - generic [ref=e47]: "7"
+            - link "Injoignables 1" [ref=e48] [cursor=pointer]:
+              - /url: /traitement/injoignables
+              - img [ref=e49]
+              - generic [ref=e52]: Injoignables
+              - generic [ref=e53]: "1"
+            - link "Clients" [ref=e54] [cursor=pointer]:
+              - /url: /clients
+              - img [ref=e55]
+              - generic [ref=e60]: Clients
+            - link "Contrats" [ref=e61] [cursor=pointer]:
+              - /url: /contrats
+              - img [ref=e62]
+              - generic [ref=e65]: Contrats
+            - link "SAV" [ref=e66] [cursor=pointer]:
+              - /url: /savs
+              - img [ref=e67]
+              - generic [ref=e72]: SAV
+        - generic [ref=e73]:
+          - paragraph [ref=e74]: Général
+          - navigation [ref=e75]:
+            - link "Utilisateurs" [ref=e76] [cursor=pointer]:
+              - /url: /utilisateurs
+              - img [ref=e77]
+              - generic [ref=e80]: Utilisateurs
+            - link "Équipes" [ref=e81] [cursor=pointer]:
+              - /url: /equipes
+              - img [ref=e82]
+              - generic [ref=e87]: Équipes
+            - link "Produits" [ref=e88] [cursor=pointer]:
+              - /url: /produits
+              - img [ref=e89]
+              - generic [ref=e92]: Produits
+            - link "Déconnexion" [ref=e93] [cursor=pointer]:
+              - /url: /logout
+              - img [ref=e94]
+              - generic [ref=e97]: Déconnexion
+    - main [ref=e98]:
+      - generic [ref=e99]:
+        - generic [ref=e100]:
+          - generic [ref=e102]:
+            - button "Basculer le mode sombre" [ref=e103]:
+              - img [ref=e105]
+            - generic [ref=e108]:
+              - generic [ref=e109]: AD
+              - generic [ref=e110]:
+                - paragraph [ref=e111]: admin
+                - paragraph [ref=e112]: —
+          - generic [ref=e113]:
+            - heading "Nouveaux prospects" [level=1] [ref=e114]
+            - paragraph [ref=e115]: 2 prospect(s) dans ce cycle
+          - link "Nouveau prospect" [ref=e117] [cursor=pointer]:
+            - /url: /traitement/nouveau
+        - generic [ref=e118]:
+          - generic [ref=e119]:
+            - generic [ref=e120]: Recherche
+            - textbox "Nom, prénom, tél. ou email…" [ref=e121]
+          - generic [ref=e122]:
+            - generic [ref=e123]: Créé du
+            - textbox [ref=e124]
+          - generic [ref=e125]:
+            - generic [ref=e126]: Créé au
+            - textbox [ref=e127]
+          - generic [ref=e128]:
+            - generic [ref=e129]: Produit
+            - combobox [ref=e130]:
+              - option "Tous" [selected]
+              - option "Véhicule"
+              - option "Prévoyance"
+              - option "Construction"
+          - generic [ref=e131]:
+            - generic [ref=e132]: Équipe
+            - combobox [ref=e133]:
+              - option "Toutes" [selected]
+              - option "Équipe Nord"
+              - option "Équipe Sud"
+          - generic [ref=e134]:
+            - generic [ref=e135]: Commercial
+            - combobox [ref=e136]:
+              - option "Tous" [selected]
+              - option "admin"
+              - option "ahmed"
+              - option "dev"
+              - option "hasnae"
+              - option "morad"
+              - option "rojet"
+              - option "dina"
+          - generic [ref=e137]:
+            - generic [ref=e138]: Relance
+            - combobox [ref=e139]:
+              - option "Toutes" [selected]
+              - option "Rendez-vous"
+              - option "Injoignable"
+              - option "Attente DOC"
+              - option "Tarification"
+              - option "Prise de décision"
+              - option "Faux fiche"
+              - option "Doublon"
+              - option "Passage concurrent"
+              - option "Passage client"
+              - option "Déjà souscrit"
+              - option "Toujours injoignable"
+              - option "Test"
+              - option "Doublon payé"
+          - button "Rechercher" [ref=e141]
+        - table [ref=e143]:
+          - rowgroup [ref=e144]:
+            - row "Nom Téléphone Email Produit Créé le Équipe Commercial Relance Action" [ref=e145]:
+              - columnheader "Nom" [ref=e146]
+              - columnheader "Téléphone" [ref=e147]
+              - columnheader "Email" [ref=e148]
+              - columnheader "Produit" [ref=e149]
+              - columnheader "Créé le" [ref=e150]
+              - columnheader "Équipe" [ref=e151]
+              - columnheader "Commercial" [ref=e152]
+              - columnheader "Relance" [ref=e153]
+              - columnheader "Action" [ref=e154]
+          - rowgroup [ref=e155]:
+            - row "bechtioui badr 0611112224 doublon badr.bechtioui@gmail.com doublon Véhicule 17/09/2026 14:27 — — Jamais traité Affecter Traiter" [ref=e156]:
+              - cell "bechtioui badr" [ref=e157]:
+                - link "bechtioui badr" [ref=e158] [cursor=pointer]:
+                  - /url: /traitement/24
+              - cell "0611112224 doublon" [ref=e159]:
+                - text: "0611112224"
+                - generic "Numéro déjà présent sur un autre prospect" [ref=e160]: doublon
+              - cell "badr.bechtioui@gmail.com doublon" [ref=e161]:
+                - text: badr.bechtioui@gmail.com
+                - generic "Email déjà présent sur un autre prospect" [ref=e162]: doublon
+              - cell "Véhicule" [ref=e163]
+              - cell "17/09/2026 14:27" [ref=e164]
+              - cell "—" [ref=e165]
+              - cell "—" [ref=e166]
+              - cell "Jamais traité" [ref=e167]:
+                - generic [ref=e168]: Jamais traité
+              - cell "Affecter Traiter" [ref=e169]:
+                - generic [ref=e170]:
+                  - button "Affecter" [ref=e172]:
+                    - img [ref=e173]
+                    - text: Affecter
+                  - button "Traiter" [ref=e179]:
+                    - img [ref=e180]
+                    - text: Traiter
+                  - link "Voir" [ref=e183] [cursor=pointer]:
+                    - /url: /traitement/24
+                    - img [ref=e184]
+            - row "Natus At ipsum +1 (652) 673-2313 watiny@mailinator.com Véhicule 16/09/2026 14:04 — — Jamais traité Affecter Traiter" [ref=e187]:
+              - cell "Natus At ipsum" [ref=e188]:
+                - link "Natus At ipsum" [ref=e189] [cursor=pointer]:
+                  - /url: /traitement/23
+              - cell "+1 (652) 673-2313" [ref=e190]
+              - cell "watiny@mailinator.com" [ref=e191]
+              - cell "Véhicule" [ref=e192]
+              - cell "16/09/2026 14:04" [ref=e193]
+              - cell "—" [ref=e194]
+              - cell "—" [ref=e195]
+              - cell "Jamais traité" [ref=e196]:
+                - generic [ref=e197]: Jamais traité
+              - cell "Affecter Traiter" [ref=e198]:
+                - generic [ref=e199]:
+                  - button "Affecter" [ref=e201]:
+                    - img [ref=e202]
+                    - text: Affecter
+                  - button "Traiter" [ref=e208]:
+                    - img [ref=e209]
+                    - text: Traiter
+                  - link "Voir" [ref=e212] [cursor=pointer]:
+                    - /url: /traitement/23
+                    - img [ref=e213]
+      - paragraph [ref=e217]: AksamCrm — v3.0.1
+  - region "Symfony Web Debug Toolbar" [ref=e218]:
+    - generic [ref=e221]:
+      - link "200 @ app_traitement_nouveaux" [ref=e223] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/dd3502?panel=request
+        - generic [ref=e224]:
+          - generic [ref=e225]: "200"
+          - generic [ref=e226]: "@"
+          - generic [ref=e227]: app_traitement_nouveaux
+      - link "52 ms" [ref=e229] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/dd3502?panel=time
+        - generic [ref=e230]:
+          - generic [ref=e231]: "52"
+          - generic [ref=e232]: ms
+      - link "6.0 MiB" [ref=e234] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/dd3502?panel=time
+        - generic [ref=e235]:
+          - generic [ref=e236]: "6.0"
+          - generic [ref=e237]: MiB
+      - link "Logger 2" [ref=e239] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/dd3502?panel=logger
+        - generic [ref=e240]:
+          - img "Logger" [ref=e241]
+          - generic [ref=e245]: "2"
+      - link "Cache 34 in 0.26 ms" [ref=e247] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/dd3502?panel=cache
+        - generic [ref=e248]:
+          - img "Cache" [ref=e249]
+          - generic [ref=e254]: "34"
+          - generic [ref=e255]: in 0.26 ms
+      - link "Security admin" [ref=e257] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/dd3502?panel=security
+        - generic [ref=e258]:
+          - img "Security" [ref=e259]
+          - generic [ref=e263]: admin
+      - link "Twig 26 ms" [ref=e265] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/dd3502?panel=twig
+        - generic [ref=e266]:
+          - img "Twig" [ref=e267]
+          - generic [ref=e271]: "26"
+          - generic [ref=e272]: ms
+      - link "90 in 14.98 ms" [ref=e274] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/dd3502?panel=db
+        - generic [ref=e275]:
+          - img [ref=e276]
+          - generic [ref=e281]: "90"
+          - generic [ref=e282]: in 14.98 ms
+      - link "Symfony v7.4.18" [ref=e284] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/dd3502?panel=config
+        - generic [ref=e285]:
+          - img "Symfony" [ref=e287]
+          - generic [ref=e289]: v7.4.18
+      - button "Toggle Symfony Toolbar" [expanded] [ref=e290] [cursor=pointer]:
+        - generic "Close Toolbar" [ref=e291]:
+          - img [ref=e292]

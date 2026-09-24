@@ -1,0 +1,11 @@
+[     206ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[     206ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[     212ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://aksamcrm.ddev.site/favicon.ico:0
+[   11117ms] [LOG] details: {application: Le, identifier: admin-sidebar, controller: s, element: body.admin-scope.bg-background.text-foreground} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   11118ms] [LOG] details: {application: Le, identifier: admin-sidebar, controller: s, element: body.admin-scope.bg-background.text-foreground} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   11118ms] [LOG] details: {application: Le, identifier: admin-theme, controller: s, element: button.flex.h-8.w-8.items-center.justify-center.rounded-lg.text-foreground.transition-all.duration-…} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   11119ms] [LOG] details: {application: Le, identifier: admin-theme, controller: s, element: button.flex.h-8.w-8.items-center.justify-center.rounded-lg.text-foreground.transition-all.duration-…} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   11119ms] [LOG] details: {application: Le, identifier: prospect-type, controller: s, element: form.admin-form-wide} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   11119ms] [LOG] details: {application: Le, identifier: prospect-type, controller: s, element: form.admin-form-wide} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   11120ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[   11151ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10

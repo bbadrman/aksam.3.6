@@ -1,0 +1,195 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - complementary [ref=e3]:
+      - link "A Aksam v3.0.1" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e6]: A
+        - generic [ref=e7]: Aksam v3.0.1
+      - generic [ref=e8]:
+        - generic [ref=e9]:
+          - paragraph [ref=e10]: Menu
+          - navigation [ref=e11]:
+            - link "Tableau de bord" [ref=e12] [cursor=pointer]:
+              - /url: /
+              - img [ref=e13]
+              - generic [ref=e18]: Tableau de bord
+            - link "Nouveaux prospects 1" [ref=e19] [cursor=pointer]:
+              - /url: /traitement/nouveaux
+              - img [ref=e20]
+              - generic [ref=e23]: Nouveaux prospects
+              - generic [ref=e24]: "1"
+            - link "Non traités 5" [ref=e25] [cursor=pointer]:
+              - /url: /traitement/non-traites
+              - img [ref=e26]
+              - generic [ref=e29]: Non traités
+              - generic [ref=e30]: "5"
+            - link "Relances du jour" [ref=e31] [cursor=pointer]:
+              - /url: /traitement/relances-du-jour
+              - img [ref=e32]
+              - generic [ref=e35]: Relances du jour
+            - link "Relances à venir 4" [ref=e36] [cursor=pointer]:
+              - /url: /traitement/relances-a-venir
+              - img [ref=e37]
+              - generic [ref=e40]: Relances à venir
+              - generic [ref=e41]: "4"
+            - link "Relances non traitées 7" [ref=e42] [cursor=pointer]:
+              - /url: /traitement/relances-non-traitees
+              - img [ref=e43]
+              - generic [ref=e46]: Relances non traitées
+              - generic [ref=e47]: "7"
+            - link "Injoignables 1" [ref=e48] [cursor=pointer]:
+              - /url: /traitement/injoignables
+              - img [ref=e49]
+              - generic [ref=e52]: Injoignables
+              - generic [ref=e53]: "1"
+            - link "Clients" [ref=e54] [cursor=pointer]:
+              - /url: /clients
+              - img [ref=e55]
+              - generic [ref=e60]: Clients
+            - link "Contrats" [ref=e61] [cursor=pointer]:
+              - /url: /contrats
+              - img [ref=e62]
+              - generic [ref=e65]: Contrats
+            - link "SAV" [ref=e66] [cursor=pointer]:
+              - /url: /savs
+              - img [ref=e67]
+              - generic [ref=e72]: SAV
+        - generic [ref=e73]:
+          - paragraph [ref=e74]: Général
+          - navigation [ref=e75]:
+            - link "Utilisateurs" [ref=e76] [cursor=pointer]:
+              - /url: /utilisateurs
+              - img [ref=e77]
+              - generic [ref=e80]: Utilisateurs
+            - link "Équipes" [ref=e81] [cursor=pointer]:
+              - /url: /equipes
+              - img [ref=e82]
+              - generic [ref=e87]: Équipes
+            - link "Produits" [ref=e88] [cursor=pointer]:
+              - /url: /produits
+              - img [ref=e89]
+              - generic [ref=e92]: Produits
+            - link "Distribution" [ref=e93] [cursor=pointer]:
+              - /url: /distribution
+              - img [ref=e94]
+              - generic [ref=e97]: Distribution
+            - link "Déconnexion" [ref=e98] [cursor=pointer]:
+              - /url: /logout
+              - img [ref=e99]
+              - generic [ref=e102]: Déconnexion
+    - main [ref=e103]:
+      - generic [ref=e104]:
+        - generic [ref=e105]:
+          - generic [ref=e107]:
+            - button "Basculer le mode sombre" [ref=e108]:
+              - img [ref=e110]
+            - generic [ref=e113]:
+              - generic [ref=e114]: AD
+              - generic [ref=e115]:
+                - paragraph [ref=e116]: admin
+                - paragraph [ref=e117]: —
+          - generic [ref=e118]:
+            - heading "Limites de distribution" [level=1] [ref=e119]
+            - paragraph [ref=e120]: Quota de prospects actifs par équipe et par produit — appliqué par la distribution automatique.
+          - link "Dashboard" [ref=e122] [cursor=pointer]:
+            - /url: /distribution
+            - img [ref=e123]
+            - text: Dashboard
+        - paragraph [ref=e127]:
+          - strong [ref=e128]: Case vide
+          - text: = illimité.
+          - strong [ref=e129]: "0"
+          - text: = équipe exclue de la distribution pour ce produit.
+          - strong [ref=e130]: "N"
+          - text: = préférence de charge max ; si toutes les équipes éligibles ont atteint leur quota, la distribution affecte quand même à la moins chargée d'entre elles plutôt que de laisser le prospect sans équipe.
+        - generic [ref=e131]:
+          - table [ref=e133]:
+            - rowgroup [ref=e134]:
+              - row "Équipe Construction Multirisque Prévoyance RC Véhicule" [ref=e135]:
+                - columnheader "Équipe" [ref=e136]
+                - columnheader "Construction" [ref=e137]
+                - columnheader "Multirisque" [ref=e138]
+                - columnheader "Prévoyance" [ref=e139]
+                - columnheader "RC" [ref=e140]
+                - columnheader "Véhicule" [ref=e141]
+            - rowgroup [ref=e142]:
+              - row "Équipe Nord" [ref=e143]:
+                - cell "Équipe Nord" [ref=e144]
+                - cell [ref=e145]:
+                  - spinbutton [ref=e146]
+                - cell [ref=e147]:
+                  - spinbutton [ref=e148]
+                - cell [ref=e149]:
+                  - spinbutton [ref=e150]
+                - cell [ref=e151]:
+                  - spinbutton [ref=e152]
+                - cell [ref=e153]:
+                  - spinbutton [ref=e154]
+              - row "Équipe Sud" [ref=e155]:
+                - cell "Équipe Sud" [ref=e156]
+                - cell [ref=e157]:
+                  - spinbutton [ref=e158]
+                - cell [ref=e159]:
+                  - spinbutton [ref=e160]
+                - cell [ref=e161]:
+                  - spinbutton [ref=e162]
+                - cell [ref=e163]:
+                  - spinbutton [ref=e164]
+                - cell [ref=e165]:
+                  - spinbutton [ref=e166]
+          - button "Enregistrer les limites" [ref=e168]
+      - paragraph [ref=e170]: AksamCrm — v3.0.1
+  - region "Symfony Web Debug Toolbar" [ref=e171]:
+    - generic [ref=e174]:
+      - link "200 @ app_distribution_limits" [ref=e176] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/87e3c6?panel=request
+        - generic [ref=e177]:
+          - generic [ref=e178]: "200"
+          - generic [ref=e179]: "@"
+          - generic [ref=e180]: app_distribution_limits
+      - link "45 ms" [ref=e182] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/87e3c6?panel=time
+        - generic [ref=e183]:
+          - generic [ref=e184]: "45"
+          - generic [ref=e185]: ms
+      - link "6.0 MiB" [ref=e187] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/87e3c6?panel=time
+        - generic [ref=e188]:
+          - generic [ref=e189]: "6.0"
+          - generic [ref=e190]: MiB
+      - link "Logger 2" [ref=e192] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/87e3c6?panel=logger
+        - generic [ref=e193]:
+          - img "Logger" [ref=e194]
+          - generic [ref=e198]: "2"
+      - link "Cache 28 in 0.19 ms" [ref=e200] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/87e3c6?panel=cache
+        - generic [ref=e201]:
+          - img "Cache" [ref=e202]
+          - generic [ref=e207]: "28"
+          - generic [ref=e208]: in 0.19 ms
+      - link "Security admin" [ref=e210] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/87e3c6?panel=security
+        - generic [ref=e211]:
+          - img "Security" [ref=e212]
+          - generic [ref=e216]: admin
+      - link "Twig 27 ms" [ref=e218] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/87e3c6?panel=twig
+        - generic [ref=e219]:
+          - img "Twig" [ref=e220]
+          - generic [ref=e224]: "27"
+          - generic [ref=e225]: ms
+      - link "90 in 11.85 ms" [ref=e227] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/87e3c6?panel=db
+        - generic [ref=e228]:
+          - img [ref=e229]
+          - generic [ref=e234]: "90"
+          - generic [ref=e235]: in 11.85 ms
+      - link "Symfony v7.4.18" [ref=e237] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/87e3c6?panel=config
+        - generic [ref=e238]:
+          - img "Symfony" [ref=e240]
+          - generic [ref=e242]: v7.4.18
+      - button "Toggle Symfony Toolbar" [expanded] [ref=e243] [cursor=pointer]:
+        - generic "Close Toolbar" [ref=e244]:
+          - img [ref=e245]

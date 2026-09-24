@@ -1,0 +1,211 @@
+- generic [active] [ref=e77]:
+  - generic [ref=e78]:
+    - complementary [ref=e79]:
+      - link "A Aksam v3.0.1" [ref=e81] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e82]: A
+        - generic [ref=e83]: Aksam v3.0.1
+      - generic [ref=e84]:
+        - generic [ref=e85]:
+          - paragraph [ref=e86]: Menu
+          - navigation [ref=e87]:
+            - link "Tableau de bord" [ref=e88] [cursor=pointer]:
+              - /url: /
+              - img [ref=e89]
+              - generic [ref=e94]: Tableau de bord
+            - link "Nouveaux prospects 2" [ref=e95] [cursor=pointer]:
+              - /url: /traitement/nouveaux
+              - img [ref=e96]
+              - generic [ref=e99]: Nouveaux prospects
+              - generic [ref=e100]: "2"
+            - link "Non traités 6" [ref=e101] [cursor=pointer]:
+              - /url: /traitement/non-traites
+              - img [ref=e102]
+              - generic [ref=e105]: Non traités
+              - generic [ref=e106]: "6"
+            - link "Relances du jour" [ref=e107] [cursor=pointer]:
+              - /url: /traitement/relances-du-jour
+              - img [ref=e108]
+              - generic [ref=e111]: Relances du jour
+            - link "Relances à venir 1" [ref=e112] [cursor=pointer]:
+              - /url: /traitement/relances-a-venir
+              - img [ref=e113]
+              - generic [ref=e116]: Relances à venir
+              - generic [ref=e117]: "1"
+            - link "Relances non traitées 7" [ref=e118] [cursor=pointer]:
+              - /url: /traitement/relances-non-traitees
+              - img [ref=e119]
+              - generic [ref=e122]: Relances non traitées
+              - generic [ref=e123]: "7"
+            - link "Injoignables 1" [ref=e124] [cursor=pointer]:
+              - /url: /traitement/injoignables
+              - img [ref=e125]
+              - generic [ref=e128]: Injoignables
+              - generic [ref=e129]: "1"
+            - link "Clients" [ref=e130] [cursor=pointer]:
+              - /url: /clients
+              - img [ref=e131]
+              - generic [ref=e136]: Clients
+            - link "Contrats" [ref=e137] [cursor=pointer]:
+              - /url: /contrats
+              - img [ref=e138]
+              - generic [ref=e141]: Contrats
+            - link "SAV" [ref=e142] [cursor=pointer]:
+              - /url: /savs
+              - img [ref=e143]
+              - generic [ref=e148]: SAV
+        - generic [ref=e149]:
+          - paragraph [ref=e150]: Général
+          - navigation [ref=e151]:
+            - link "Utilisateurs" [ref=e152] [cursor=pointer]:
+              - /url: /utilisateurs
+              - img [ref=e153]
+              - generic [ref=e156]: Utilisateurs
+            - link "Équipes" [ref=e157] [cursor=pointer]:
+              - /url: /equipes
+              - img [ref=e158]
+              - generic [ref=e163]: Équipes
+            - link "Produits" [ref=e164] [cursor=pointer]:
+              - /url: /produits
+              - img [ref=e165]
+              - generic [ref=e168]: Produits
+            - link "Déconnexion" [ref=e169] [cursor=pointer]:
+              - /url: /logout
+              - img [ref=e170]
+              - generic [ref=e173]: Déconnexion
+    - main [ref=e174]:
+      - generic [ref=e175]:
+        - generic [ref=e176]:
+          - generic [ref=e178]:
+            - button "Basculer le mode sombre" [ref=e179]:
+              - img [ref=e181]
+            - generic [ref=e184]:
+              - generic [ref=e185]: AD
+              - generic [ref=e186]:
+                - paragraph [ref=e187]: admin
+                - paragraph [ref=e188]: —
+          - generic [ref=e189]:
+            - heading "Tableau de bord" [level=1] [ref=e190]
+            - paragraph [ref=e191]: Vue d'ensemble de l'activité AksamCrm
+          - link "Nouveau prospect" [ref=e193] [cursor=pointer]:
+            - /url: /traitement/nouveau
+        - generic [ref=e194]:
+          - link "Nouveaux prospects 2" [ref=e195] [cursor=pointer]:
+            - /url: /traitement/nouveaux
+            - generic [ref=e196]:
+              - heading "Nouveaux prospects" [level=3] [ref=e197]
+              - img [ref=e199]
+            - paragraph [ref=e201]: "2"
+          - link "Prospects non traités 6" [ref=e202] [cursor=pointer]:
+            - /url: /traitement/non-traites
+            - generic [ref=e203]:
+              - heading "Prospects non traités" [level=3] [ref=e204]
+              - img [ref=e206]
+            - paragraph [ref=e208]: "6"
+          - link "Relances du jour 0" [ref=e209] [cursor=pointer]:
+            - /url: /traitement/relances-du-jour
+            - generic [ref=e210]:
+              - heading "Relances du jour" [level=3] [ref=e211]
+              - img [ref=e213]
+            - paragraph [ref=e215]: "0"
+          - link "Relances à venir 1" [ref=e216] [cursor=pointer]:
+            - /url: /traitement/relances-a-venir
+            - generic [ref=e217]:
+              - heading "Relances à venir" [level=3] [ref=e218]
+              - img [ref=e220]
+            - paragraph [ref=e222]: "1"
+          - link "Injoignables 1" [ref=e223] [cursor=pointer]:
+            - /url: /traitement/injoignables
+            - generic [ref=e224]:
+              - heading "Injoignables" [level=3] [ref=e225]
+              - img [ref=e227]
+            - paragraph [ref=e229]: "1"
+          - link "Relances non traitées 7" [ref=e230] [cursor=pointer]:
+            - /url: /traitement/relances-non-traitees
+            - generic [ref=e231]:
+              - heading "Relances non traitées" [level=3] [ref=e232]
+              - img [ref=e234]
+            - paragraph [ref=e236]: "7"
+          - link "Recherche prospects 24" [ref=e237] [cursor=pointer]:
+            - /url: /traitement/recherche
+            - generic [ref=e238]:
+              - heading "Recherche prospects" [level=3] [ref=e239]
+              - img [ref=e241]
+            - paragraph [ref=e243]: "24"
+          - link "Clients 1" [ref=e244] [cursor=pointer]:
+            - /url: /clients
+            - generic [ref=e245]:
+              - heading "Clients" [level=3] [ref=e246]
+              - img [ref=e248]
+            - paragraph [ref=e250]: "1"
+          - link "Contrats 2" [ref=e251] [cursor=pointer]:
+            - /url: /contrats
+            - generic [ref=e252]:
+              - heading "Contrats" [level=3] [ref=e253]
+              - img [ref=e255]
+            - paragraph [ref=e257]: "2"
+          - link "SAV ouverts 0" [ref=e258] [cursor=pointer]:
+            - /url: /savs
+            - generic [ref=e259]:
+              - heading "SAV ouverts" [level=3] [ref=e260]
+              - img [ref=e262]
+            - paragraph [ref=e264]: "0"
+      - paragraph [ref=e266]: AksamCrm — v3.0.1
+  - region "Symfony Web Debug Toolbar" [ref=e267]:
+    - generic [ref=e270]:
+      - link "200 Redirect @ app_home" [ref=e272] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/77b57c?panel=request
+        - generic [ref=e273]:
+          - generic [ref=e274]: "200"
+          - img "Redirect" [ref=e276]
+          - generic [ref=e279]: "@"
+          - generic [ref=e280]: app_home
+      - link "55 ms" [ref=e282] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/77b57c?panel=time
+        - generic [ref=e283]:
+          - generic [ref=e284]: "55"
+          - generic [ref=e285]: ms
+      - link "6.0 MiB" [ref=e287] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/77b57c?panel=time
+        - generic [ref=e288]:
+          - generic [ref=e289]: "6.0"
+          - generic [ref=e290]: MiB
+      - generic [ref=e292] [cursor=pointer]:
+        - img [ref=e293]
+        - generic [ref=e297]: "2"
+      - link "Logger 2" [ref=e299] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/77b57c?panel=logger
+        - generic [ref=e300]:
+          - img "Logger" [ref=e301]
+          - generic [ref=e305]: "2"
+      - link "Cache 42 in 0.44 ms" [ref=e307] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/77b57c?panel=cache
+        - generic [ref=e308]:
+          - img "Cache" [ref=e309]
+          - generic [ref=e314]: "42"
+          - generic [ref=e315]: in 0.44 ms
+      - link "Security admin" [ref=e317] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/77b57c?panel=security
+        - generic [ref=e318]:
+          - img "Security" [ref=e319]
+          - generic [ref=e323]: admin
+      - link "Twig 12 ms" [ref=e325] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/77b57c?panel=twig
+        - generic [ref=e326]:
+          - img "Twig" [ref=e327]
+          - generic [ref=e331]: "12"
+          - generic [ref=e332]: ms
+      - link "99 in 13.53 ms" [ref=e334] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/77b57c?panel=db
+        - generic [ref=e335]:
+          - img [ref=e336]
+          - generic [ref=e341]: "99"
+          - generic [ref=e342]: in 13.53 ms
+      - link "Symfony v7.4.18" [ref=e344] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/77b57c?panel=config
+        - generic [ref=e345]:
+          - img "Symfony" [ref=e347]
+          - generic [ref=e349]: v7.4.18
+      - button "Toggle Symfony Toolbar" [expanded] [ref=e350] [cursor=pointer]:
+        - generic "Close Toolbar" [ref=e351]:
+          - img [ref=e352]

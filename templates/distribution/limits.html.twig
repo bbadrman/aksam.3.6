@@ -1,0 +1,66 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Limites de distribution{% endblock %}
+
+{% block body %}
+    {% set actions %}
+        <a href="{{ path('app_distribution_dashboard') }}" class="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-2 text-sm font-medium text-foreground transition-all hover:bg-secondary">
+            {{ include('admin/_icon.html.twig', { name: 'analytics', class: 'h-4 w-4' }) }}
+            Dashboard
+        </a>
+    {% endset %}
+
+    {{ include('admin/_header.html.twig', {
+        title: 'Limites de distribution',
+        description: 'Quota de prospects actifs par équipe et par produit — appliqué par la distribution automatique.',
+        actions: actions
+    }) }}
+
+    <div class="mt-4 rounded-2xl border border-border bg-secondary/50 p-4 text-sm text-muted-foreground md:mt-5">
+        <p><strong class="text-foreground">Case vide</strong> = illimité. <strong class="text-foreground">0</strong> = équipe exclue de la distribution pour ce produit. <strong class="text-foreground">N</strong> = préférence de charge max ; si toutes les équipes éligibles ont atteint leur quota, la distribution affecte quand même à la moins chargée d'entre elles plutôt que de laisser le prospect sans équipe.</p>
+    </div>
+
+    <form method="post" class="mt-4 md:mt-5">
+        <div class="overflow-x-auto rounded-2xl border border-border bg-card shadow-sm">
+            <table class="w-full text-left text-sm">
+                <thead>
+                    <tr class="border-b border-border text-xs uppercase tracking-wider text-muted-foreground">
+                        <th class="px-4 py-3 font-medium">Équipe</th>
+                        {% for product in products %}
+                            <th class="px-4 py-3 font-medium">{{ product.nom }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-border">
+                    {% for team in teams %}
+                        <tr class="transition-colors hover:bg-secondary/50">
+                            <td class="px-4 py-3 font-medium text-foreground">{{ team.nom }}</td>
+                            {% for product in products %}
+                                {% set current = grid[team.id][product.id] ?? null %}
+                                <td class="px-4 py-3">
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        step="1"
+                                        name="limits[{{ team.id }}][{{ product.id }}]"
+                                        value="{{ current ? current.maxProspects : '' }}"
+                                        placeholder="illimité"
+                                        class="w-24 rounded-lg border border-border bg-background px-2.5 py-1.5 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                                    >
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% else %}
+                        <tr><td colspan="{{ products|length + 1 }}" class="px-4 py-6 text-center text-muted-foreground">Aucune équipe.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-4 flex justify-end">
+            <button type="submit" class="inline-flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-all hover:opacity-90">
+                Enregistrer les limites
+            </button>
+        </div>
+    </form>
+{% endblock %}

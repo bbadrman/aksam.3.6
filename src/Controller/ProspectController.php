@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Dto\ProspectFormDTO;
 use App\Entity\RelanceMotif;
 use App\Form\ProspectType;
+use App\Repository\ProductRepository;
 use App\Repository\ProspectRepository;
 use App\Repository\TeamRepository;
 use App\Repository\UserRepository;
@@ -39,6 +40,7 @@ class ProspectController extends AbstractController
         private readonly ProspectDuplicateService $duplicateService,
         private readonly TeamRepository $teamRepository,
         private readonly UserRepository $userRepository,
+        private readonly ProductRepository $productRepository,
     ) {
     }
 
@@ -64,67 +66,89 @@ class ProspectController extends AbstractController
     #[Route('/nouveaux', name: 'nouveaux', methods: ['GET'])]
     public function nouveaux(Request $request): Response
     {
-        return $this->renderCycle('Nouveaux prospects', $this->traitementService->nouveaux($this->page($request)), $request);
+        $q = $this->q($request);
+        $filters = $this->filters($request);
+
+        return $this->renderCycle('Nouveaux prospects', $this->traitementService->nouveaux($this->page($request), $q, $filters), $request, $q, $filters);
     }
 
     #[IsGranted(Permission::MES_NOUVEAUX_PROSPECTS->value)]
     #[Route('/mes-nouveaux', name: 'mes_nouveaux', methods: ['GET'])]
     public function mesNouveaux(Request $request): Response
     {
-        return $this->renderCycle('Mes nouveaux prospects', $this->traitementService->mesNouveaux($this->page($request)), $request);
+        $q = $this->q($request);
+        $filters = $this->filters($request);
+
+        return $this->renderCycle('Mes nouveaux prospects', $this->traitementService->mesNouveaux($this->page($request), $q, $filters), $request, $q, $filters);
     }
 
     #[IsGranted(Permission::PROSPECTS_NON_TRAITES->value)]
     #[Route('/non-traites', name: 'non_traites', methods: ['GET'])]
     public function nonTraites(Request $request): Response
     {
-        return $this->renderCycle('Prospects non traités', $this->traitementService->nonTraites($this->page($request)), $request);
+        $q = $this->q($request);
+        $filters = $this->filters($request);
+
+        return $this->renderCycle('Prospects non traités', $this->traitementService->nonTraites($this->page($request), $q, $filters), $request, $q, $filters);
     }
 
     #[IsGranted(Permission::RELANCES_DU_JOUR->value)]
     #[Route('/relances-du-jour', name: 'relances_du_jour', methods: ['GET'])]
     public function relancesDuJour(Request $request): Response
     {
-        return $this->renderCycle('Relances du jour', $this->traitementService->relancesDuJour($this->page($request)), $request);
+        $q = $this->q($request);
+        $filters = $this->filters($request);
+
+        return $this->renderCycle('Relances du jour', $this->traitementService->relancesDuJour($this->page($request), $q, $filters), $request, $q, $filters);
     }
 
     #[IsGranted(Permission::RELANCES_A_VENIR->value)]
     #[Route('/relances-a-venir', name: 'relances_a_venir', methods: ['GET'])]
     public function relancesAVenir(Request $request): Response
     {
-        return $this->renderCycle('Relances à venir', $this->traitementService->relancesAVenir($this->page($request)), $request);
+        $q = $this->q($request);
+        $filters = $this->filters($request);
+
+        return $this->renderCycle('Relances à venir', $this->traitementService->relancesAVenir($this->page($request), $q, $filters), $request, $q, $filters);
     }
 
     #[IsGranted(Permission::RELANCES_NON_TRAITEES->value)]
     #[Route('/relances-non-traitees', name: 'relances_non_traitees', methods: ['GET'])]
     public function relancesNonTraitees(Request $request): Response
     {
-        return $this->renderCycle('Relances non traitées', $this->traitementService->relancesNonTraitees($this->page($request)), $request);
+        $q = $this->q($request);
+        $filters = $this->filters($request);
+
+        return $this->renderCycle('Relances non traitées', $this->traitementService->relancesNonTraitees($this->page($request), $q, $filters), $request, $q, $filters);
     }
 
     #[IsGranted(Permission::INJOIGNABLES->value)]
     #[Route('/injoignables', name: 'injoignables', methods: ['GET'])]
     public function injoignables(Request $request): Response
     {
-        return $this->renderCycle('Injoignables', $this->traitementService->injoignables($this->page($request)), $request);
+        $q = $this->q($request);
+        $filters = $this->filters($request);
+
+        return $this->renderCycle('Injoignables', $this->traitementService->injoignables($this->page($request), $q, $filters), $request, $q, $filters);
     }
 
     #[IsGranted(Permission::RECHERCHE_PROSPECTS->value)]
     #[Route('/recherche', name: 'recherche', methods: ['GET'])]
     public function recherche(Request $request): Response
     {
-        $q = trim((string) $request->query->get('q', ''));
-        $resultats = $this->traitementService->search($q !== '' ? $q : null, $this->page($request));
+        $q = $this->q($request);
+        $filters = $this->filters($request);
+        $resultats = $this->traitementService->search($q, $this->page($request), $filters);
 
-        return $this->render('prospect/search.html.twig', [
-            'q' => $q,
+        return $this->render('prospect/search.html.twig', array_merge([
+            'q' => $q ?? '',
             'prospects' => $resultats['items'],
             'total' => $resultats['total'],
             'page' => $this->page($request),
             'motifs' => RelanceMotif::cases(),
             'teams' => $this->teamRepository->findAll(),
             'duplicates' => $this->duplicateService->detect($resultats['items']),
-        ]);
+        ], $this->filterViewData($request)));
     }
 
     #[Route('/{id}', name: 'show', methods: ['GET'], requirements: ['id' => '\d+'])]
@@ -236,23 +260,104 @@ class ProspectController extends AbstractController
 
     /**
      * @param array{items: \App\Entity\Prospect[], total: int} $resultats
+     * @param array{productId?: int, teamId?: int, commercialId?: int, relance?: int, source?: string, activites?: string, url?: string, createdFrom?: \DateTimeImmutable, createdTo?: \DateTimeImmutable} $filters
      */
-    private function renderCycle(string $titre, array $resultats, Request $request): Response
+    private function renderCycle(string $titre, array $resultats, Request $request, ?string $q = null, array $filters = []): Response
     {
-        return $this->render('prospect/cycle.html.twig', [
+        return $this->render('prospect/cycle.html.twig', array_merge([
             'titre' => $titre,
             'prospects' => $resultats['items'],
             'total' => $resultats['total'],
             'page' => $this->page($request),
+            'q' => $q ?? '',
             'motifs' => RelanceMotif::cases(),
             'teams' => $this->teamRepository->findAll(),
             'duplicates' => $this->duplicateService->detect($resultats['items']),
-        ]);
+        ], $this->filterViewData($request)));
     }
 
     private function page(Request $request): int
     {
         return max(1, (int) $request->query->get('page', 1));
+    }
+
+    private function q(Request $request): ?string
+    {
+        $q = trim((string) $request->query->get('q', ''));
+
+        return $q !== '' ? $q : null;
+    }
+
+    /**
+     * Filtres bruts (produit/équipe/commercial/relance/intervalle de
+     * création) lus depuis la query string, prêts à être passés aux
+     * finders du repository — communs à tous les paniers de traitement
+     * et à la recherche globale.
+     *
+     * @return array{productId?: int, teamId?: int, commercialId?: int, relance?: int, source?: string, activites?: string, url?: string, createdFrom?: \DateTimeImmutable, createdTo?: \DateTimeImmutable}
+     */
+    private function filters(Request $request): array
+    {
+        $filters = [];
+
+        if ($productId = $request->query->get('productId')) {
+            $filters['productId'] = (int) $productId;
+        }
+
+        if ($teamId = $request->query->get('teamId')) {
+            $filters['teamId'] = (int) $teamId;
+        }
+
+        if ($commercialId = $request->query->get('commercialId')) {
+            $filters['commercialId'] = (int) $commercialId;
+        }
+
+        if ($relance = $request->query->get('relance')) {
+            $filters['relance'] = (int) $relance;
+        }
+
+        if ($source = $request->query->get('source')) {
+            $filters['source'] = $source;
+        }
+
+        if ($activites = $request->query->get('activites')) {
+            $filters['activites'] = $activites;
+        }
+
+        if ($url = $request->query->get('url')) {
+            $filters['url'] = $url;
+        }
+
+        if ($createdFrom = $request->query->get('createdFrom')) {
+            $filters['createdFrom'] = new \DateTimeImmutable($createdFrom . ' 00:00:00');
+        }
+
+        if ($createdTo = $request->query->get('createdTo')) {
+            $filters['createdTo'] = new \DateTimeImmutable($createdTo . ' 23:59:59');
+        }
+
+        return $filters;
+    }
+
+    /**
+     * Valeurs sélectionnées + listes de référence pour le formulaire de
+     * filtres, à fusionner dans le contexte de rendu de chaque écran.
+     */
+    private function filterViewData(Request $request): array
+    {
+        return [
+            'products' => $this->productRepository->findAll(),
+            'commercials' => $this->userRepository->findAll(),
+            'productId' => $request->query->get('productId', ''),
+            'teamId' => $request->query->get('teamId', ''),
+            'commercialId' => $request->query->get('commercialId', ''),
+            'relance' => $request->query->get('relance', ''),
+            'source' => $request->query->get('source', ''),
+            'activites' => $request->query->get('activites', ''),
+            'url' => $request->query->get('url', ''),
+            'createdFrom' => $request->query->get('createdFrom', ''),
+            'createdTo' => $request->query->get('createdTo', ''),
+        ];
     }
 
     /**

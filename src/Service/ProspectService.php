@@ -15,8 +15,10 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ProspectService
 {
-    public function __construct(private readonly EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+        private readonly ProspectDistributionService $distributionService,
+    ) {
     }
 
     /**
@@ -40,6 +42,19 @@ class ProspectService
         $prospect->setPhone((string) ($data['phone'] ?? ''));
         $prospect->setEmail($data['email'] ?? null);
         $prospect->setProduct($product);
+        $prospect->setVille($data['ville'] ?? null);
+        $prospect->setAdresse($data['adresse'] ?? null);
+        $prospect->setCodePostal($data['codePostal'] ?? null);
+        $prospect->setDateNaissance($this->parseDate($data['dateNaissance'] ?? null));
+        $prospect->setSource($data['source'] ?? null);
+        $prospect->setTypeProspect($data['typeProspect'] ?? null);
+        $prospect->setRaisonSociale($data['raisonSociale'] ?? null);
+        $prospect->setActivites($data['activites'] ?? null);
+        $prospect->setUrl($data['url'] ?? null);
+        $prospect->setAssurer($data['assurer'] ?? null);
+        $prospect->setLastAssure($data['lastAssure'] ?? null);
+        $prospect->setMotifResil($data['motifResil'] ?? null);
+        $prospect->setMotifSaisi($data['motifSaisi'] ?? null);
 
         match ($product->getCode()) {
             Product::CODE_VEHICULE => $prospect->setVehiculeDetails($this->buildVehiculeDetails($data)),
@@ -47,6 +62,8 @@ class ProspectService
             Product::CODE_CONSTRUCTION => $prospect->setConstructionDetails($this->buildConstructionDetails($data)),
             default => null,
         };
+
+        $this->distributionService->distribute($prospect);
 
         $this->entityManager->persist($prospect);
         $this->entityManager->flush();
@@ -69,6 +86,19 @@ class ProspectService
         $prospect->setProduct($dto->product);
         $prospect->setTeam($dto->team);
         $prospect->setCommercial($dto->commercial);
+        $prospect->setVille($dto->ville);
+        $prospect->setAdresse($dto->adresse);
+        $prospect->setCodePostal($dto->codePostal);
+        $prospect->setDateNaissance($dto->dateNaissance);
+        $prospect->setSource($dto->source);
+        $prospect->setTypeProspect($dto->typeProspect);
+        $prospect->setRaisonSociale($dto->raisonSociale);
+        $prospect->setActivites($dto->activites);
+        $prospect->setUrl($dto->url);
+        $prospect->setAssurer($dto->assurer);
+        $prospect->setLastAssure($dto->lastAssure);
+        $prospect->setMotifResil($dto->motifResil);
+        $prospect->setMotifSaisi($dto->motifSaisi);
 
         if ($dto->team !== null || $dto->commercial !== null) {
             $prospect->setAffectAt(new \DateTimeImmutable());
@@ -112,6 +142,19 @@ class ProspectService
         $prospect->setAffectAt($team !== null || $commercial !== null ? new \DateTimeImmutable() : null);
 
         $this->entityManager->flush();
+    }
+
+    private function parseDate(mixed $value): ?\DateTimeImmutable
+    {
+        if (!\is_string($value) || trim($value) === '') {
+            return null;
+        }
+
+        try {
+            return new \DateTimeImmutable($value);
+        } catch (\Exception) {
+            return null;
+        }
     }
 
     /**

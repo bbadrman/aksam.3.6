@@ -9,9 +9,48 @@
     }) }}
 
     <div class="mt-4 rounded-2xl border border-border bg-card p-5 shadow-sm md:mt-5">
-        {{ form_start(form) }}
-            {{ form_widget(form) }}
-            <button type="submit">Créer le prospect</button>
-        {{ form_end(form) }}
+        {{ form_start(form, {attr: {'data-controller': 'prospect-type', class: 'admin-form-wide'}}) }}
+
+            <h2 class="admin-form-section-title">Identité</h2>
+            {{ form_row(form.nom) }}
+            {{ form_row(form.prenom) }}
+            {{ form_row(form.phone) }}
+            {{ form_row(form.email) }}
+
+            <h2 class="admin-form-section-title">Qualification</h2>
+            {{ form_row(form.motifSaisi) }}
+            {{ form_row(form.typeProspect, {attr: {
+                'data-prospect-type-target': 'typeProspect',
+                'data-action': 'change->prospect-type#refresh',
+            }}) }}
+            {{ form_row(form.raisonSociale, {row_attr: {'data-prospect-type-target': 'professionnelField'}}) }}
+            {{ form_row(form.activites, {row_attr: {'data-prospect-type-target': 'professionnelField'}}) }}
+            {{ form_row(form.assurer) }}
+            {{ form_row(form.lastAssure, {attr: {
+                'data-prospect-type-target': 'lastAssure',
+                'data-action': 'change->prospect-type#refreshMotifResil',
+            }}) }}
+            {{ form_row(form.motifResil, {row_attr: {'data-prospect-type-target': 'motifResilField'}}) }}
+
+            <h2 class="admin-form-section-title">Affectation</h2>
+            {{ form_row(form.product) }}
+            {{ form_row(form.team) }}
+            {{ form_row(form.commercial) }}
+
+            <button type="submit" class="admin-form-submit">Créer le prospect</button>
+
+            {#
+                Champs masqués côté écran (ville, date de naissance, adresse,
+                code postal, source, url, immatriculation, marque, modèle,
+                situation familiale, profession, type de bien, adresse du
+                bien) : conservés dans ProspectType/DTO (non requis) mais non
+                affichés, pour alléger le formulaire de saisie manuelle. Le
+                token CSRF est rendu explicitement car render_rest: false
+                l'exclurait aussi.
+            #}
+            {% if form._token is defined %}
+                {{ form_widget(form._token) }}
+            {% endif %}
+        {{ form_end(form, {render_rest: false}) }}
     </div>
 {% endblock %}

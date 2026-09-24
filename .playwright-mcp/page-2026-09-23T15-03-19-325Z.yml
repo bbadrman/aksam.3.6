@@ -1,0 +1,284 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - complementary [ref=e3]:
+      - link "A Aksam v3.0.1" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e6]: A
+        - generic [ref=e7]: Aksam v3.0.1
+      - generic [ref=e8]:
+        - generic [ref=e9]:
+          - paragraph [ref=e10]: Menu
+          - navigation [ref=e11]:
+            - link "Tableau de bord" [ref=e12] [cursor=pointer]:
+              - /url: /
+              - img [ref=e13]
+              - generic [ref=e18]: Tableau de bord
+            - link "Nouveaux prospects 1" [ref=e19] [cursor=pointer]:
+              - /url: /traitement/nouveaux
+              - img [ref=e20]
+              - generic [ref=e23]: Nouveaux prospects
+              - generic [ref=e24]: "1"
+            - link "Non traités 5" [ref=e25] [cursor=pointer]:
+              - /url: /traitement/non-traites
+              - img [ref=e26]
+              - generic [ref=e29]: Non traités
+              - generic [ref=e30]: "5"
+            - link "Relances du jour" [ref=e31] [cursor=pointer]:
+              - /url: /traitement/relances-du-jour
+              - img [ref=e32]
+              - generic [ref=e35]: Relances du jour
+            - link "Relances à venir 4" [ref=e36] [cursor=pointer]:
+              - /url: /traitement/relances-a-venir
+              - img [ref=e37]
+              - generic [ref=e40]: Relances à venir
+              - generic [ref=e41]: "4"
+            - link "Relances non traitées 7" [ref=e42] [cursor=pointer]:
+              - /url: /traitement/relances-non-traitees
+              - img [ref=e43]
+              - generic [ref=e46]: Relances non traitées
+              - generic [ref=e47]: "7"
+            - link "Injoignables 1" [ref=e48] [cursor=pointer]:
+              - /url: /traitement/injoignables
+              - img [ref=e49]
+              - generic [ref=e52]: Injoignables
+              - generic [ref=e53]: "1"
+            - link "Clients" [ref=e54] [cursor=pointer]:
+              - /url: /clients
+              - img [ref=e55]
+              - generic [ref=e60]: Clients
+            - link "Contrats" [ref=e61] [cursor=pointer]:
+              - /url: /contrats
+              - img [ref=e62]
+              - generic [ref=e65]: Contrats
+            - link "SAV" [ref=e66] [cursor=pointer]:
+              - /url: /savs
+              - img [ref=e67]
+              - generic [ref=e72]: SAV
+        - generic [ref=e73]:
+          - paragraph [ref=e74]: Général
+          - navigation [ref=e75]:
+            - link "Utilisateurs" [ref=e76] [cursor=pointer]:
+              - /url: /utilisateurs
+              - img [ref=e77]
+              - generic [ref=e80]: Utilisateurs
+            - link "Équipes" [ref=e81] [cursor=pointer]:
+              - /url: /equipes
+              - img [ref=e82]
+              - generic [ref=e87]: Équipes
+            - link "Produits" [ref=e88] [cursor=pointer]:
+              - /url: /produits
+              - img [ref=e89]
+              - generic [ref=e92]: Produits
+            - link "Distribution" [ref=e93] [cursor=pointer]:
+              - /url: /distribution
+              - img [ref=e94]
+              - generic [ref=e97]: Distribution
+            - link "Déconnexion" [ref=e98] [cursor=pointer]:
+              - /url: /logout
+              - img [ref=e99]
+              - generic [ref=e102]: Déconnexion
+    - main [ref=e103]:
+      - generic [ref=e104]:
+        - generic [ref=e105]:
+          - generic [ref=e107]:
+            - button "Basculer le mode sombre" [ref=e108]:
+              - img [ref=e110]
+            - generic [ref=e113]:
+              - generic [ref=e114]: AD
+              - generic [ref=e115]:
+                - paragraph [ref=e116]: admin
+                - paragraph [ref=e117]: —
+          - generic [ref=e118]:
+            - heading "Distribution des prospects" [level=1] [ref=e119]
+            - paragraph [ref=e120]: Suivi de la distribution automatique — répartition par produit, équipe et commercial.
+          - link "Limites de distribution" [ref=e122] [cursor=pointer]:
+            - /url: /distribution/limits
+            - img [ref=e123]
+            - text: Limites de distribution
+        - generic [ref=e126]:
+          - generic [ref=e127]:
+            - generic [ref=e128]: Produit
+            - combobox "Produit" [ref=e129]:
+              - option "Tous les produits" [selected]
+              - option "Construction"
+              - option "Multirisque"
+              - option "Prévoyance"
+              - option "RC"
+              - option "Véhicule"
+          - generic [ref=e130]:
+            - generic [ref=e131]: Du
+            - textbox "Du" [ref=e132]: 2026-09-01
+          - generic [ref=e133]:
+            - generic [ref=e134]: Au
+            - textbox "Au" [ref=e135]: 2026-09-30
+          - button "Filtrer" [ref=e136]
+          - link "Réinitialiser" [ref=e137] [cursor=pointer]:
+            - /url: /distribution
+        - generic [ref=e138]:
+          - generic [ref=e139]:
+            - heading "Prospects affectés" [level=3] [ref=e140]
+            - paragraph [ref=e141]: "25"
+          - generic [ref=e142]:
+            - heading "Convertis" [level=3] [ref=e143]
+            - paragraph [ref=e144]: "0"
+            - paragraph [ref=e145]: 0% du total
+          - generic [ref=e146]:
+            - heading "Sans commercial" [level=3] [ref=e147]
+            - paragraph [ref=e148]: "3"
+        - generic [ref=e149]:
+          - heading "Classement des équipes" [level=2] [ref=e151]
+          - generic [ref=e152]:
+            - group [ref=e153]:
+              - generic "Équipe Sud 17 actifs 0 convertis 1 sans commercial 17" [ref=e154] [cursor=pointer]:
+                - generic [ref=e155]:
+                  - img [ref=e156]
+                  - generic [ref=e158]: Équipe Sud
+                - generic [ref=e159]:
+                  - generic [ref=e160]: 17 actifs
+                  - generic [ref=e161]: 0 convertis
+                  - generic [ref=e162]: 1 sans commercial
+                  - generic [ref=e163]: "17"
+            - group [ref=e164]:
+              - generic "Équipe Nord 8 actifs 0 convertis 2 sans commercial 8" [ref=e165] [cursor=pointer]:
+                - generic [ref=e166]:
+                  - img [ref=e167]
+                  - generic [ref=e169]: Équipe Nord
+                - generic [ref=e170]:
+                  - generic [ref=e171]: 8 actifs
+                  - generic [ref=e172]: 0 convertis
+                  - generic [ref=e173]: 2 sans commercial
+                  - generic [ref=e174]: "8"
+        - generic [ref=e175]:
+          - generic [ref=e176]:
+            - generic [ref=e177]:
+              - heading "Construction" [level=2] [ref=e178]
+              - generic [ref=e179]: 1 prospects
+            - table [ref=e180]:
+              - rowgroup [ref=e181]:
+                - row "Équipe Actifs Convertis Part" [ref=e182]:
+                  - columnheader "Équipe" [ref=e183]
+                  - columnheader "Actifs" [ref=e184]
+                  - columnheader "Convertis" [ref=e185]
+                  - columnheader "Part" [ref=e186]
+              - rowgroup [ref=e187]:
+                - row "Équipe Sud 1 0 100%" [ref=e188]:
+                  - cell "Équipe Sud" [ref=e189]
+                  - cell "1" [ref=e190]
+                  - cell "0" [ref=e191]
+                  - cell "100%" [ref=e192]
+          - generic [ref=e193]:
+            - generic [ref=e194]:
+              - heading "Prévoyance" [level=2] [ref=e195]
+              - generic [ref=e196]: 9 prospects
+            - table [ref=e197]:
+              - rowgroup [ref=e198]:
+                - row "Équipe Actifs Convertis Part" [ref=e199]:
+                  - columnheader "Équipe" [ref=e200]
+                  - columnheader "Actifs" [ref=e201]
+                  - columnheader "Convertis" [ref=e202]
+                  - columnheader "Part" [ref=e203]
+              - rowgroup [ref=e204]:
+                - row "Équipe Sud 9 0 100%" [ref=e205]:
+                  - cell "Équipe Sud" [ref=e206]
+                  - cell "9" [ref=e207]
+                  - cell "0" [ref=e208]
+                  - cell "100%" [ref=e209]
+          - generic [ref=e210]:
+            - generic [ref=e211]:
+              - heading "RC" [level=2] [ref=e212]
+              - generic [ref=e213]: 4 prospects
+            - table [ref=e214]:
+              - rowgroup [ref=e215]:
+                - row "Équipe Actifs Convertis Part" [ref=e216]:
+                  - columnheader "Équipe" [ref=e217]
+                  - columnheader "Actifs" [ref=e218]
+                  - columnheader "Convertis" [ref=e219]
+                  - columnheader "Part" [ref=e220]
+              - rowgroup [ref=e221]:
+                - row "Équipe Nord 2 0 50%" [ref=e222]:
+                  - cell "Équipe Nord" [ref=e223]
+                  - cell "2" [ref=e224]
+                  - cell "0" [ref=e225]
+                  - cell "50%" [ref=e226]
+                - row "Équipe Sud 2 0 50%" [ref=e227]:
+                  - cell "Équipe Sud" [ref=e228]
+                  - cell "2" [ref=e229]
+                  - cell "0" [ref=e230]
+                  - cell "50%" [ref=e231]
+          - generic [ref=e232]:
+            - generic [ref=e233]:
+              - heading "Véhicule" [level=2] [ref=e234]
+              - generic [ref=e235]: 11 prospects
+            - table [ref=e236]:
+              - rowgroup [ref=e237]:
+                - row "Équipe Actifs Convertis Part" [ref=e238]:
+                  - columnheader "Équipe" [ref=e239]
+                  - columnheader "Actifs" [ref=e240]
+                  - columnheader "Convertis" [ref=e241]
+                  - columnheader "Part" [ref=e242]
+              - rowgroup [ref=e243]:
+                - row "Équipe Nord 6 0 54.5%" [ref=e244]:
+                  - cell "Équipe Nord" [ref=e245]
+                  - cell "6" [ref=e246]
+                  - cell "0" [ref=e247]
+                  - cell "54.5%" [ref=e248]
+                - row "Équipe Sud 5 0 45.5%" [ref=e249]:
+                  - cell "Équipe Sud" [ref=e250]
+                  - cell "5" [ref=e251]
+                  - cell "0" [ref=e252]
+                  - cell "45.5%" [ref=e253]
+      - paragraph [ref=e255]: AksamCrm — v3.0.1
+  - region "Symfony Web Debug Toolbar" [ref=e256]:
+    - generic [ref=e259]:
+      - link "200 @ app_distribution_dashboard" [ref=e261] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/473d82?panel=request
+        - generic [ref=e262]:
+          - generic [ref=e263]: "200"
+          - generic [ref=e264]: "@"
+          - generic [ref=e265]: app_distribution_dashboard
+      - link "64 ms" [ref=e267] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/473d82?panel=time
+        - generic [ref=e268]:
+          - generic [ref=e269]: "64"
+          - generic [ref=e270]: ms
+      - link "6.0 MiB" [ref=e272] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/473d82?panel=time
+        - generic [ref=e273]:
+          - generic [ref=e274]: "6.0"
+          - generic [ref=e275]: MiB
+      - link "Logger 2" [ref=e277] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/473d82?panel=logger
+        - generic [ref=e278]:
+          - img "Logger" [ref=e279]
+          - generic [ref=e283]: "2"
+      - link "Cache 34 in 0.33 ms" [ref=e285] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/473d82?panel=cache
+        - generic [ref=e286]:
+          - img "Cache" [ref=e287]
+          - generic [ref=e292]: "34"
+          - generic [ref=e293]: in 0.33 ms
+      - link "Security admin" [ref=e295] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/473d82?panel=security
+        - generic [ref=e296]:
+          - img "Security" [ref=e297]
+          - generic [ref=e301]: admin
+      - link "Twig 33 ms" [ref=e303] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/473d82?panel=twig
+        - generic [ref=e304]:
+          - img "Twig" [ref=e305]
+          - generic [ref=e309]: "33"
+          - generic [ref=e310]: ms
+      - link "91 in 16.50 ms" [ref=e312] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/473d82?panel=db
+        - generic [ref=e313]:
+          - img [ref=e314]
+          - generic [ref=e319]: "91"
+          - generic [ref=e320]: in 16.50 ms
+      - link "Symfony v7.4.18" [ref=e322] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/473d82?panel=config
+        - generic [ref=e323]:
+          - img "Symfony" [ref=e325]
+          - generic [ref=e327]: v7.4.18
+      - button "Toggle Symfony Toolbar" [expanded] [ref=e328] [cursor=pointer]:
+        - generic "Close Toolbar" [ref=e329]:
+          - img [ref=e330]

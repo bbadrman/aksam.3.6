@@ -36,6 +36,45 @@ class Prospect
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $email = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $ville = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $adresse = null;
+
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $codePostal = null;
+
+    #[ORM\Column(type: 'date_immutable', nullable: true)]
+    private ?\DateTimeImmutable $dateNaissance = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $source = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $typeProspect = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $raisonSociale = null;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $activites = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $url = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $assurer = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $lastAssure = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $motifResil = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $motifSaisi = null;
+
     #[ORM\Column(length: 30)]
     private string $statut = self::STATUT_NOUVEAU;
 
@@ -139,6 +178,162 @@ class Prospect
     public function setEmail(?string $email): static
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getVille(): ?string
+    {
+        return $this->ville;
+    }
+
+    public function setVille(?string $ville): static
+    {
+        $this->ville = $ville;
+
+        return $this;
+    }
+
+    public function getAdresse(): ?string
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(?string $adresse): static
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    public function getCodePostal(): ?string
+    {
+        return $this->codePostal;
+    }
+
+    public function setCodePostal(?string $codePostal): static
+    {
+        $this->codePostal = $codePostal;
+
+        return $this;
+    }
+
+    public function getDateNaissance(): ?\DateTimeImmutable
+    {
+        return $this->dateNaissance;
+    }
+
+    public function setDateNaissance(?\DateTimeImmutable $dateNaissance): static
+    {
+        $this->dateNaissance = $dateNaissance;
+
+        return $this;
+    }
+
+    public function getSource(): ?string
+    {
+        return $this->source;
+    }
+
+    public function setSource(?string $source): static
+    {
+        $this->source = $source;
+
+        return $this;
+    }
+
+    public function getTypeProspect(): ?string
+    {
+        return $this->typeProspect;
+    }
+
+    public function setTypeProspect(?string $typeProspect): static
+    {
+        $this->typeProspect = $typeProspect;
+
+        return $this;
+    }
+
+    public function getRaisonSociale(): ?string
+    {
+        return $this->raisonSociale;
+    }
+
+    public function setRaisonSociale(?string $raisonSociale): static
+    {
+        $this->raisonSociale = $raisonSociale;
+
+        return $this;
+    }
+
+    public function getActivites(): ?string
+    {
+        return $this->activites;
+    }
+
+    public function setActivites(?string $activites): static
+    {
+        $this->activites = $activites;
+
+        return $this;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(?string $url): static
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    public function getAssurer(): ?string
+    {
+        return $this->assurer;
+    }
+
+    public function setAssurer(?string $assurer): static
+    {
+        $this->assurer = $assurer;
+
+        return $this;
+    }
+
+    public function getLastAssure(): ?string
+    {
+        return $this->lastAssure;
+    }
+
+    public function setLastAssure(?string $lastAssure): static
+    {
+        $this->lastAssure = $lastAssure;
+
+        return $this;
+    }
+
+    public function getMotifResil(): ?string
+    {
+        return $this->motifResil;
+    }
+
+    public function setMotifResil(?string $motifResil): static
+    {
+        $this->motifResil = $motifResil;
+
+        return $this;
+    }
+
+    public function getMotifSaisi(): ?string
+    {
+        return $this->motifSaisi;
+    }
+
+    public function setMotifSaisi(?string $motifSaisi): static
+    {
+        $this->motifSaisi = $motifSaisi;
 
         return $this;
     }
