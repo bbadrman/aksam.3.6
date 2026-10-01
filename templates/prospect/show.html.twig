@@ -99,6 +99,7 @@
                 <tr class="border-b border-border text-xs uppercase tracking-wider text-muted-foreground">
                     <th class="px-5 py-3 font-medium">Date</th>
                     <th class="px-5 py-3 font-medium">Motif</th>
+                    <th class="px-5 py-3 font-medium">Prochaine relance</th>
                     <th class="px-5 py-3 font-medium">Commentaire</th>
                     <th class="px-5 py-3 font-medium">Auteur</th>
                 </tr>
@@ -108,11 +109,12 @@
                     <tr>
                         <td class="px-5 py-3 text-muted-foreground">{{ entry.relancedAt|date('d/m/Y H:i') }}</td>
                         <td class="px-5 py-3 font-medium">{{ entry.motif.label }}</td>
+                        <td class="px-5 py-3 text-muted-foreground">{{ entry.prochaineRelance ? entry.prochaineRelance|date('d/m/Y H:i') : '—' }}</td>
                         <td class="px-5 py-3 text-muted-foreground">{{ entry.comment ?? '—' }}</td>
                         <td class="px-5 py-3 text-muted-foreground">{{ entry.auteur ? entry.auteur.username : '—' }}</td>
                     </tr>
                 {% else %}
-                    <tr><td colspan="4" class="px-5 py-6 text-center text-muted-foreground">Aucune relance enregistrée.</td></tr>
+                    <tr><td colspan="5" class="px-5 py-6 text-center text-muted-foreground">Aucune relance enregistrée.</td></tr>
                 {% endfor %}
             </tbody>
         </table>

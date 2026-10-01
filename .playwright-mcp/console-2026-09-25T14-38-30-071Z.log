@@ -1,0 +1,8 @@
+[      56ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[      56ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[    4255ms] [ERROR] TypeError: Failed to fetch
+    at window.fetch (https://aksamcrm.ddev.site/login:102:19977)
+    at Se (https://aksamcrm.ddev.site/assets/vendor/@hotwired/turbo/turbo.index-J4AkTcK.js:9:4732)
+    at j.perform (https://aksamcrm.ddev.site/assets/vendor/@hotwired/turbo/turbo.index-J4AkTcK.js:9:6516) @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/turbo/turbo.index-J4AkTcK.js:22
+[    4275ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[    4275ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10

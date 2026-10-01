@@ -5,15 +5,6 @@
 
 http:
   routers:
-    AksamCrm-phpmyadmin-80-http:
-      entrypoints:
-        - http-8036
-      rule: HostRegexp(`^aksamcrm\.ddev\.site$`)
-      
-      service: "AksamCrm-phpmyadmin-80"
-      tls: false
-      # middlewares:
-      #   - "AksamCrm-redirectHttps"
     AksamCrm-web-80-http:
       entrypoints:
         - http-80
@@ -41,17 +32,16 @@ http:
       tls: false
       # middlewares:
       #   - "AksamCrm-redirectHttps"
-    
-    
-    AksamCrm-phpmyadmin-80-https:
+    AksamCrm-phpmyadmin-80-http:
       entrypoints:
-        - http-8037
+        - http-8036
       rule: HostRegexp(`^aksamcrm\.ddev\.site$`)
       
       service: "AksamCrm-phpmyadmin-80"
-      
-      tls: true
-      
+      tls: false
+      # middlewares:
+      #   - "AksamCrm-redirectHttps"
+    
     
     
     AksamCrm-web-80-https:
@@ -83,6 +73,16 @@ http:
       tls: true
       
     
+    AksamCrm-phpmyadmin-80-https:
+      entrypoints:
+        - http-8037
+      rule: HostRegexp(`^aksamcrm\.ddev\.site$`)
+      
+      service: "AksamCrm-phpmyadmin-80"
+      
+      tls: true
+      
+    
 
   middlewares:
     AksamCrm-redirectHttps:
@@ -91,12 +91,6 @@ http:
         permanent: true
 
   services:
-    AksamCrm-phpmyadmin-80:
-      loadbalancer:
-        servers:
-          - url: http://ddev-AksamCrm-phpmyadmin:80
-        
-    
     AksamCrm-web-80:
       loadbalancer:
         servers:
@@ -113,6 +107,12 @@ http:
       loadbalancer:
         servers:
           - url: http://ddev-AksamCrm-xhgui:80
+        
+    
+    AksamCrm-phpmyadmin-80:
+      loadbalancer:
+        servers:
+          - url: http://ddev-AksamCrm-phpmyadmin:80
         
     
     

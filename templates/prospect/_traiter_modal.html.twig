@@ -11,7 +11,10 @@
     </button>
 
     <dialog data-modal-target="dialog" data-action="click->modal#closeOnBackdrop" class="admin-modal w-full max-w-sm">
-        <form method="post" action="{{ path('app_traitement_traiter', {id: prospect.id}) }}" class="admin-plain-form">
+        <form method="post" action="{{ path('app_traitement_traiter', {id: prospect.id}) }}" class="admin-plain-form"
+              data-controller="prospect-traitement"
+              data-prospect-traitement-motifs-sans-relance-value="{{ ['6', '7', '9', '10', '11', '13', '14']|json_encode }}"
+              data-prospect-traitement-motif-client-value="9">
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
             {% if retour is defined and retour %}
                 <input type="hidden" name="retour" value="{{ retour }}">
@@ -30,22 +33,46 @@
             <div class="space-y-3 p-4">
                 <div>
                     <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Motif</label>
-                    <select name="motif" required
+                    <select name="motif" required data-prospect-traitement-target="motif" data-action="change->prospect-traitement#refresh"
                             class="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
                         {% for motif in motifs %}
                             <option value="{{ motif.value }}">{{ motif.label }}</option>
                         {% endfor %}
                     </select>
                 </div>
-                <div>
+                <div data-prospect-traitement-target="relanceField">
                     <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Prochaine relance</label>
-                    <input type="datetime-local" name="prochaineRelance"
+                    <input type="datetime-local" name="prochaineRelance" data-prospect-traitement-target="relance"
                            class="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
                 </div>
                 <div>
                     <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Commentaire</label>
                     <input type="text" name="comment" placeholder="Commentaire"
                            class="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                </div>
+
+                <div hidden data-prospect-traitement-target="clientFields" class="space-y-3 rounded-lg border border-dashed border-border p-3">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-primary">Conversion en client</p>
+                    <div>
+                        <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Téléphone</label>
+                        <input type="text" name="clientPhone" value="{{ prospect.phone }}"
+                               class="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                    </div>
+                    <div>
+                        <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Email</label>
+                        <input type="email" name="clientEmail" value="{{ prospect.email }}"
+                               class="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                    </div>
+                    <div>
+                        <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Raison sociale</label>
+                        <input type="text" name="clientRaisonSociale"
+                               class="h-10 w-full rounded-lg border border-border bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
+                    </div>
+                    <div>
+                        <label class="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-muted-foreground">Adresse</label>
+                        <textarea name="clientAdresse" rows="2"
+                                  class="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"></textarea>
+                    </div>
                 </div>
             </div>
 

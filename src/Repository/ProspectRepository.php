@@ -33,9 +33,10 @@ class ProspectRepository extends ServiceEntityRepository
     public function search(ProspectScope $scope, ?string $q, array $filters = [], int $page = 1, int $limit = 10): array
     {
         $qb = $this->createQueryBuilder('p')
-            ->addSelect('team', 'commercial')
+            ->addSelect('team', 'commercial', 'autor')
             ->leftJoin('p.team', 'team')
             ->leftJoin('p.commercial', 'commercial')
+            ->leftJoin('p.autor', 'autor')
             ->orderBy('p.createdAt', 'DESC');
 
         $this->applyScope($qb, $scope);
@@ -432,9 +433,10 @@ class ProspectRepository extends ServiceEntityRepository
     private function baseQueryBuilder(ProspectScope $scope): QueryBuilder
     {
         $qb = $this->createQueryBuilder('p')
-            ->addSelect('team', 'commercial')
+            ->addSelect('team', 'commercial', 'autor')
             ->leftJoin('p.team', 'team')
-            ->leftJoin('p.commercial', 'commercial');
+            ->leftJoin('p.commercial', 'commercial')
+            ->leftJoin('p.autor', 'autor');
 
         return $this->applyScope($qb, $scope);
     }

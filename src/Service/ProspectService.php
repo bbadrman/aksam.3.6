@@ -76,7 +76,7 @@ class ProspectService
      * /prospect/new) — équipe/commercial peuvent être choisis directement
      * ici, sans passer par le flux d'ingestion API.
      */
-    public function createManually(ProspectFormDTO $dto): Prospect
+    public function createManually(ProspectFormDTO $dto, ?User $autor = null): Prospect
     {
         $prospect = new Prospect();
         $prospect->setNom((string) $dto->nom);
@@ -99,6 +99,7 @@ class ProspectService
         $prospect->setLastAssure($dto->lastAssure);
         $prospect->setMotifResil($dto->motifResil);
         $prospect->setMotifSaisi($dto->motifSaisi);
+        $prospect->setAutor($autor);
 
         if ($dto->team !== null || $dto->commercial !== null) {
             $prospect->setAffectAt(new \DateTimeImmutable());

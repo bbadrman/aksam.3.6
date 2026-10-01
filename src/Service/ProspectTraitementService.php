@@ -40,7 +40,8 @@ class ProspectTraitementService
         $entry = (new ProspectRelanceHistory())
             ->setMotif($motif)
             ->setComment($comment)
-            ->setAuteur($auteur);
+            ->setAuteur($auteur)
+            ->setProchaineRelance($prochaineRelance);
 
         $prospect->addRelanceHistory($entry);
         $prospect->setRelance($motif);

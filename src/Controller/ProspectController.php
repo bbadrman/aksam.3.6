@@ -10,6 +10,7 @@ use App\Repository\ProspectRepository;
 use App\Repository\TeamRepository;
 use App\Repository\UserRepository;
 use App\Security\Permission;
+use App\Service\ClientService;
 use App\Service\ProspectDuplicateService;
 use App\Service\ProspectService;
 use App\Service\ProspectTraitementService;
@@ -38,6 +39,7 @@ class ProspectController extends AbstractController
         private readonly ProspectTraitementService $traitementService,
         private readonly ProspectService $prospectService,
         private readonly ProspectDuplicateService $duplicateService,
+        private readonly ClientService $clientService,
         private readonly TeamRepository $teamRepository,
         private readonly UserRepository $userRepository,
         private readonly ProductRepository $productRepository,
@@ -53,7 +55,7 @@ class ProspectController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $prospect = $this->prospectService->createManually($dto);
+            $prospect = $this->prospectService->createManually($dto, $this->getUser());
             $this->addFlash('info', sprintf('Prospect "%s" créé.', $prospect->getNom()));
 
             return $this->redirectToRoute('app_traitement_show', ['id' => $prospect->getId()]);
@@ -237,8 +239,7 @@ class ProspectController extends AbstractController
             return $this->redirectToRoute('app_traitement_nouveaux');
         }
 
-        $prochaineRelanceStr = $request->request->get('prochaineRelance');
-        $prochaineRelance = $prochaineRelanceStr ? new \DateTimeImmutable($prochaineRelanceStr) : null;
+        $prochaineRelance = $this->parseProchaineRelance($request->request->get('prochaineRelance'));
 
         $this->traitementService->enregistrerRelance(
             $prospect,
@@ -247,6 +248,21 @@ class ProspectController extends AbstractController
             $prochaineRelance,
             $this->getUser(),
         );
+
+        if ($motif === RelanceMotif::PASSAGE_CLIENT) {
+            try {
+                $client = $this->clientService->convertFromProspect(
+                    $prospect,
+                    phone: $request->request->get('clientPhone') ?: null,
+                    email: $request->request->get('clientEmail') ?: null,
+                    raisonSociale: $request->request->get('clientRaisonSociale') ?: null,
+                    adresse: $request->request->get('clientAdresse') ?: null,
+                );
+                $this->addFlash('info', sprintf('Client "%s" créé à partir du prospect.', $client->getDisplayName()));
+            } catch (\RuntimeException $e) {
+                $this->addFlash('error', $e->getMessage());
+            }
+        }
 
         $this->addFlash('info', sprintf('Prospect "%s" traité : %s.', $prospect->getNom(), $motif->label()));
 
@@ -276,6 +292,29 @@ class ProspectController extends AbstractController
         ], $this->filterViewData($request)));
     }
 
+    /**
+     * Parse strictement la valeur d'un champ <input type="datetime-local">
+     * ("Y-m-d\TH:i"). Le constructeur lenient de DateTimeImmutable accepte
+     * des chaînes partielles (ex: "15:45" sans date) en complétant les
+     * champs manquants avec la date/heure courante — d'où le bug observé
+     * où une relance programmée se retrouvait persistée à la date du jour.
+     */
+    private function parseProchaineRelance(?string $value): ?\DateTimeImmutable
+    {
+        if (!$value) {
+            return null;
+        }
+
+        $date = \DateTimeImmutable::createFromFormat('!Y-m-d\TH:i', $value);
+        if ($date === false) {
+            $this->addFlash('error', 'Date de relance invalide, ignorée.');
+
+            return null;
+        }
+
+        return $date;
+    }
+
     private function page(Request $request): int
     {
         return max(1, (int) $request->query->get('page', 1));
@@ -300,16 +339,28 @@ class ProspectController extends AbstractController
     {
         $filters = [];
 
-        if ($productId = $request->query->get('productId')) {
-            $filters['productId'] = (int) $productId;
+        if ($this->isGranted('ROLE_ADMIN')) {
+            if ($productId = $request->query->get('productId')) {
+                $filters['productId'] = (int) $productId;
+            }
+
+            if ($teamId = $request->query->get('teamId')) {
+                $filters['teamId'] = (int) $teamId;
+            }
+
+            if ($activites = $request->query->get('activites')) {
+                $filters['activites'] = $activites;
+            }
+
+            if ($url = $request->query->get('url')) {
+                $filters['url'] = $url;
+            }
         }
 
-        if ($teamId = $request->query->get('teamId')) {
-            $filters['teamId'] = (int) $teamId;
-        }
-
-        if ($commercialId = $request->query->get('commercialId')) {
-            $filters['commercialId'] = (int) $commercialId;
+        if ($this->isGranted('ROLE_ADMIN') || $this->isGranted('ROLE_CHEF_EQUIPE')) {
+            if ($commercialId = $request->query->get('commercialId')) {
+                $filters['commercialId'] = (int) $commercialId;
+            }
         }
 
         if ($relance = $request->query->get('relance')) {
@@ -318,14 +369,6 @@ class ProspectController extends AbstractController
 
         if ($source = $request->query->get('source')) {
             $filters['source'] = $source;
-        }
-
-        if ($activites = $request->query->get('activites')) {
-            $filters['activites'] = $activites;
-        }
-
-        if ($url = $request->query->get('url')) {
-            $filters['url'] = $url;
         }
 
         if ($createdFrom = $request->query->get('createdFrom')) {
@@ -347,7 +390,7 @@ class ProspectController extends AbstractController
     {
         return [
             'products' => $this->productRepository->findAll(),
-            'commercials' => $this->userRepository->findAll(),
+            'commercials' => $this->commercialsForFilter($request),
             'productId' => $request->query->get('productId', ''),
             'teamId' => $request->query->get('teamId', ''),
             'commercialId' => $request->query->get('commercialId', ''),
@@ -358,6 +401,45 @@ class ProspectController extends AbstractController
             'createdFrom' => $request->query->get('createdFrom', ''),
             'createdTo' => $request->query->get('createdTo', ''),
         ];
+    }
+
+    /**
+     * Commerciaux proposés dans le filtre "Commercial" : pour l'admin,
+     * filtrés par l'équipe sélectionnée dans le filtre "Équipe" (tous si
+     * aucune équipe choisie) ; pour le chef d'équipe, uniquement les
+     * commerciaux de ses propres équipes (pas de sélecteur "Équipe" pour
+     * lui) ; vide pour un simple ROLE_USER (champ masqué côté template).
+     *
+     * @return \App\Entity\User[]
+     */
+    private function commercialsForFilter(Request $request): array
+    {
+        if ($this->isGranted('ROLE_ADMIN')) {
+            if ($teamId = $request->query->get('teamId')) {
+                $team = $this->teamRepository->find($teamId);
+
+                return $team
+                    ? array_values(array_filter($team->getUsers()->toArray(), fn ($user) => $user->isActif()))
+                    : [];
+            }
+
+            return $this->userRepository->findAll();
+        }
+
+        if ($this->isGranted('ROLE_CHEF_EQUIPE')) {
+            $commercials = [];
+            foreach ($this->getUser()->getTeams() as $team) {
+                foreach ($team->getUsers() as $user) {
+                    if ($user->isActif()) {
+                        $commercials[$user->getId()] = $user;
+                    }
+                }
+            }
+
+            return array_values($commercials);
+        }
+
+        return [];
     }
 
     /**

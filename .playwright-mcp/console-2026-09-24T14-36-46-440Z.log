@@ -1,0 +1,3 @@
+[     187ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[     187ms] [LOG] details: {application: Le} @ https://aksamcrm.ddev.site/assets/vendor/@hotwired/stimulus/stimulus.index-ryewcoo.js:10
+[     194ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://aksamcrm.ddev.site/favicon.ico:0

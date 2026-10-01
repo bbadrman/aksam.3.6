@@ -1,0 +1,85 @@
+{#
+    Badge « Source » d'un prospect — codes repris de l'ancien projet :
+    source 1 = saisie manuelle (détaillée par motifSaisi), 2 = revendeur,
+    3 = site (détaillé par url), 4 = ADKOMO.
+#}
+{% set sites = {
+    1:  ['ADV', 'https://www.assurance-des-vtc.fr'],
+    2:  ['AGP', 'https://www.assurance-garage-pro.fr'],
+    3:  ['APT', 'https://www.assurance-pour-taxi.fr'],
+    4:  ['APV', 'https://assurance-pour-vtc.fr/'],
+    5:  ['LDR', 'https://lassurance-des-resilies.fr'],
+    6:  ['LGD', 'https://lassurance-garantie-decennale.fr'],
+    7:  ['CEL', 'https://comparez-en-ligne.fr'],
+    8:  ['APC', 'https://assurance-pour-camion.fr'],
+    9:  ['AFE', 'https://assurance-flotte-entreprise.fr'],
+    10: ['AVP', 'https://assurance-vehicule-pro.fr'],
+    11: ['LDT', 'https://lassurance-des-transporteurs.fr'],
+    12: ['vehicules-prof', 'https://assurance-vehicules-professionnels.fr'],
+    13: ['AEC', 'https://assurance-engins-chantier.fr'],
+    14: ['APA', 'https://assurance-professionnels-auto.fr'],
+    15: ['APA/AE', 'https://assurance-professionnels-auto.fr/auto-ecole'],
+    16: ['APA/NE', 'https://assurance-professionnels-auto.fr/negociants-auto'],
+    17: ['APA/GA', 'https://assurance-professionnels-auto.fr/garage-automobile'],
+    18: ['APA/LV', 'https://assurance-professionnels-auto.fr/loueur-voiture'],
+    19: ['PS', 'https://peri-simulation.fr/'],
+    20: ['AMS', 'https://assurance-maintien-salaire.fr/'],
+    21: ['TMS', 'https://tarif-mutuelle-senior.fr/'],
+    22: ['AVP/utilitaire', 'https://assurance-vehicule-pro.fr/utilitaire'],
+    23: ['AVP/poids-lourd', 'https://assurance-vehicule-pro.fr/poids-lourd'],
+    24: ['ATV', 'https://assurance-temporaire-vehicule.fr'],
+    25: ['ATV/camion', 'https://assurance-temporaire-vehicule.fr/camion'],
+    26: ['ATV/moto', 'https://assurance-temporaire-vehicule.fr/moto'],
+    27: ['ATV/utilitaire', 'https://assurance-temporaire-vehicule.fr/utilitaire'],
+    28: ['DAO', 'https://devis-assurance-obseques.fr'],
+    29: ['LGD/padae', 'https://lassurance-garantie-decennale.fr/prix-assurance-decennale-auto-entrepreneur'],
+    30: ['LGD/MG', 'https://lassurance-garantie-decennale.fr/maçon-grosœuvres'],
+    31: ['LGD/ADE', 'https://lassurance-garantie-decennale.fr/assurance-decennale-electricien'],
+    32: ['LGD/RN', 'https://lassurance-garantie-decennale.fr/resilie-nonpaiement'],
+    33: ['LGD/RDPAD', 'https://lassurance-garantie-decennale.fr/reprise-du-passe-assurance-decennale'],
+    34: ['AMS/MRPF', 'https://assurance-maintien-salaire.fr/maintien-revenu-pour-fonctionnaire'],
+    35: ['AMS/RTI', 'https://assurance-maintien-salaire.fr/revenu-travailleur-independant'],
+    36: ['AMS/MRS', 'https://assurance-maintien-salaire.fr/assurance-maintien-revenu-salarie'],
+    37: ['AFE/FA', 'https://www.assurance-flotte-entreprise.fr/flotte-automobile'],
+    38: ['AFE/FC', 'https://www.assurance-flotte-entreprise.fr/flotte-camion'],
+    39: ['AFE/FB', 'https://www.assurance-flotte-entreprise.fr/flotte-btp'],
+    40: ['AFE/FM', 'https://www.assurance-flotte-entreprise.fr/flotte-moto'],
+    41: ['AFE/AFEL', 'https://www.assurance-flotte-entreprise.fr/assurance-flotte-en-ligne'],
+    42: ['AFE/FTM', 'https://www.assurance-flotte-entreprise.fr/flotte-transport-marchandise'],
+    43: ['LDT/ATM', 'https://lassurance-des-transporteurs.fr/assurance-transport-marchandise'],
+    44: ['LDT/ATM/AMT', 'https://lassurance-des-transporteurs.fr/assurance-transport-marchandise/assurance-marchandise-transportee'],
+    45: ['LDT/AVTDM', 'https://lassurance-des-transporteurs.fr/assurance-vehicule-transport-de-marchandises'],
+} %}
+{% set motifs = {
+    1: 'Parrainage',
+    2: 'Appel Entrant',
+    3: 'Avenant',
+    4: 'Ancienne Contrat',
+    5: 'Propre site',
+    6: 'Revendeur',
+    7: 'Hors cible',
+    8: 'Test',
+    9: 'Ancienne fiche',
+} %}
+{% set badge = 'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium' %}
+
+{% if prospect.source == 3 %}
+    {% if prospect.url is null %}
+        <span class="{{ badge }} bg-secondary text-muted-foreground">Autre Site</span>
+    {% elseif sites[prospect.url] is defined %}
+        {% set site = sites[prospect.url] %}
+        <a href="{{ site[1] }}" target="_blank" rel="noopener" title="{{ site[1] }}" class="font-medium text-primary hover:underline">{{ site[0] }}</a>
+    {% endif %}
+{% elseif prospect.source == 2 %}
+    <span class="{{ badge }} bg-sky-500/15 text-sky-600 dark:text-sky-400">Revendeur</span>
+{% elseif prospect.source == 4 %}
+    <span class="{{ badge }} bg-orange-500/15 text-orange-600 dark:text-orange-400">ADKOMO</span>
+{% elseif prospect.source == 1 %}
+    {% if prospect.motifSaisi is null %}
+        <span class="{{ badge }} bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">LEADS</span>
+    {% elseif motifs[prospect.motifSaisi] is defined %}
+        <span class="{{ badge }} bg-secondary text-muted-foreground">{{ motifs[prospect.motifSaisi] }}</span>
+    {% endif %}
+{% else %}
+    —
+{% endif %}

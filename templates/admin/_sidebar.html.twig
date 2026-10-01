@@ -26,12 +26,12 @@
 ]) %}
 
 <aside id="admin-sidebar" class="fixed top-0 left-0 z-50 w-64 h-screen -translate-x-full overflow-y-auto border-r border-border bg-card p-4 transition-transform duration-300 lg:translate-x-0" data-admin-sidebar-target="panel">
-    <div class="mb-6 flex items-center gap-2">
-        <a href="{{ path('app_home') }}" class="flex items-center gap-2">
-            <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-sm font-semibold text-primary-foreground">A</div>
-            <span class="text-lg font-semibold text-foreground">Aksam v3.0.1</span>
+    <div class="mb-6 flex items-start gap-2">
+        <a href="{{ path('app_home') }}" class="flex flex-1 flex-col items-center gap-1">
+            <img src="{{ asset('images/logo.png') }}" alt="Aksam" class="h-16 w-auto object-contain">
+            <span class="text-sm font-semibold text-foreground">Aksam v3.0.1</span>
         </a>
-        <button type="button" class="ml-auto rounded-lg p-1.5 text-muted-foreground hover:bg-secondary lg:hidden" data-action="admin-sidebar#close">
+        <button type="button" class="rounded-lg p-1.5 text-muted-foreground hover:bg-secondary lg:hidden" data-action="admin-sidebar#close">
             ✕
         </button>
     </div>

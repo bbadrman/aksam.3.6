@@ -9,12 +9,32 @@
     ProspectController::denyAccessUnlessGrantedAffectation()).
 #}
 {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_CHEF_EQUIPE') %}
+{#
+    Le bouton reflète l'état d'affectation du prospect :
+    - équipe + commercial déjà affectés  -> "Réaffecter" (ambre, icône repeat)
+    - équipe affectée, pas de commercial -> "Assigner un commercial" (primaire, icône send)
+    - rien d'affecté                     -> "Affecter" (neutre, icône send)
+#}
 <div data-controller="modal" class="inline-flex">
-    <button type="button" data-action="modal#open"
-            class="inline-flex h-8 items-center gap-1.5 rounded-lg border border-border px-3 text-xs font-medium text-foreground hover:bg-secondary">
-        {{ include('admin/_icon.html.twig', { name: 'team', class: 'h-3.5 w-3.5' }) }}
-        Affecter
-    </button>
+    {% if prospect.commercial and prospect.team %}
+        <button type="button" data-action="modal#open" title="Réaffecter"
+                class="inline-flex h-8 items-center gap-1.5 rounded-lg border border-amber-500/40 bg-amber-500/10 px-3 text-xs font-medium text-amber-600 hover:bg-amber-500/20 dark:text-amber-400">
+            {{ include('admin/_icon.html.twig', { name: 'repeat', class: 'h-3.5 w-3.5' }) }}
+            Réaffecter
+        </button>
+    {% elseif prospect.team %}
+        <button type="button" data-action="modal#open" title="Assigner un commercial"
+                class="inline-flex h-8 items-center gap-1.5 rounded-lg border border-primary/40 bg-primary/10 px-3 text-xs font-medium text-primary hover:bg-primary/20">
+            {{ include('admin/_icon.html.twig', { name: 'send', class: 'h-3.5 w-3.5' }) }}
+            Assigner
+        </button>
+    {% else %}
+        <button type="button" data-action="modal#open" title="Affecter"
+                class="inline-flex h-8 items-center gap-1.5 rounded-lg border border-border px-3 text-xs font-medium text-foreground hover:bg-secondary">
+            {{ include('admin/_icon.html.twig', { name: 'send', class: 'h-3.5 w-3.5' }) }}
+            Affecter
+        </button>
+    {% endif %}
 
     <dialog data-modal-target="dialog" data-action="click->modal#closeOnBackdrop" class="admin-modal w-full max-w-sm">
         <form method="post" action="{{ path('app_traitement_affecter', {id: prospect.id}) }}" class="admin-plain-form"

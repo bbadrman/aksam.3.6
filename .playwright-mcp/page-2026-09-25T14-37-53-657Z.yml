@@ -1,0 +1,64 @@
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: A
+      - heading "AksamCrm" [level=1] [ref=e6]
+      - paragraph [ref=e7]: Connectez-vous à votre espace
+    - generic [ref=e8]:
+      - generic [ref=e9]:
+        - generic [ref=e10]: Nom d'utilisateur
+        - textbox "Nom d'utilisateur" [active] [ref=e11]:
+          - /placeholder: votre identifiant
+          - text: admin
+      - generic [ref=e12]:
+        - generic [ref=e13]: Mot de passe
+        - textbox "Mot de passe" [ref=e14]:
+          - /placeholder: ••••••••
+          - text: TestPass123!
+      - button "Se connecter" [ref=e15]:
+        - text: Se connecter
+        - img [ref=e16]
+    - paragraph [ref=e18]: AksamCrm — gestion assurance
+  - region "Symfony Web Debug Toolbar" [ref=e19]:
+    - generic [ref=e22]:
+      - link "200 Redirect @ app_login" [ref=e24] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/808fc3?panel=request
+        - generic [ref=e25]:
+          - generic [ref=e26]: "200"
+          - img "Redirect" [ref=e28]
+          - generic [ref=e31]: "@"
+          - generic [ref=e32]: app_login
+      - link "39 ms" [ref=e34] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/808fc3?panel=time
+        - generic [ref=e35]:
+          - generic [ref=e36]: "39"
+          - generic [ref=e37]: ms
+      - link "4.0 MiB" [ref=e39] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/808fc3?panel=time
+        - generic [ref=e40]:
+          - generic [ref=e41]: "4.0"
+          - generic [ref=e42]: MiB
+      - link "Logger 2" [ref=e44] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/808fc3?panel=logger
+        - generic [ref=e45]:
+          - img "Logger" [ref=e46]
+          - generic [ref=e50]: "2"
+      - link "Security n/a" [ref=e52] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/808fc3?panel=security
+        - generic [ref=e53]:
+          - img "Security" [ref=e54]
+          - generic [ref=e58]: n/a
+      - link "Twig 29 ms" [ref=e60] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/808fc3?panel=twig
+        - generic [ref=e61]:
+          - img "Twig" [ref=e62]
+          - generic [ref=e66]: "29"
+          - generic [ref=e67]: ms
+      - link "Symfony v7.4.18" [ref=e69] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/808fc3?panel=config
+        - generic [ref=e70]:
+          - img "Symfony" [ref=e72]
+          - generic [ref=e74]: v7.4.18
+      - button "Toggle Symfony Toolbar" [expanded] [ref=e75] [cursor=pointer]:
+        - generic "Close Toolbar" [ref=e76]:
+          - img [ref=e77]

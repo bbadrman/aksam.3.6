@@ -33,6 +33,14 @@ class ProspectRelanceHistory
     #[ORM\Column]
     private \DateTimeImmutable $relancedAt;
 
+    /**
+     * Date de relance programmée saisie au moment de cet appel (distincte
+     * de `relancedAt`, qui est la date de l'appel lui-même) — null si
+     * aucune prochaine relance n'a été fixée à cette étape.
+     */
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $prochaineRelance = null;
+
     public function __construct()
     {
         $this->relancedAt = new \DateTimeImmutable();
@@ -94,5 +102,17 @@ class ProspectRelanceHistory
     public function getRelancedAt(): \DateTimeImmutable
     {
         return $this->relancedAt;
+    }
+
+    public function getProchaineRelance(): ?\DateTimeImmutable
+    {
+        return $this->prochaineRelance;
+    }
+
+    public function setProchaineRelance(?\DateTimeImmutable $prochaineRelance): static
+    {
+        $this->prochaineRelance = $prochaineRelance;
+
+        return $this;
     }
 }

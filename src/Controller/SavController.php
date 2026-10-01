@@ -74,8 +74,7 @@ class SavController extends AbstractController
             throw $this->createNotFoundException('SAV introuvable.');
         }
 
-        $prochaineRelanceStr = $request->request->get('prochaineRelance');
-        $prochaineRelance = $prochaineRelanceStr ? new \DateTimeImmutable($prochaineRelanceStr) : null;
+        $prochaineRelance = $this->parseProchaineRelance($request->request->get('prochaineRelance'));
 
         try {
             $this->savService->ajouterRelance($sav, $request->request->get('comment'), $prochaineRelance, $this->getUser());
@@ -105,5 +104,28 @@ class SavController extends AbstractController
         }
 
         return $this->redirectToRoute('app_sav_show', ['id' => $sav->getId()]);
+    }
+
+    /**
+     * Parse strictement la valeur d'un champ <input type="datetime-local">
+     * ("Y-m-d\TH:i"). Le constructeur lenient de DateTimeImmutable accepte
+     * des chaînes partielles (ex: "15:45" sans date) en complétant les
+     * champs manquants avec la date/heure courante — d'où le bug où une
+     * relance programmée se retrouvait persistée à la date du jour.
+     */
+    private function parseProchaineRelance(?string $value): ?\DateTimeImmutable
+    {
+        if (!$value) {
+            return null;
+        }
+
+        $date = \DateTimeImmutable::createFromFormat('!Y-m-d\TH:i', $value);
+        if ($date === false) {
+            $this->addFlash('error', 'Date de relance invalide, ignorée.');
+
+            return null;
+        }
+
+        return $date;
     }
 }

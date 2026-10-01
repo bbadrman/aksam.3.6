@@ -1,0 +1,295 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - complementary [ref=e3]:
+      - link "A Aksam v3.0.1" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e6]: A
+        - generic [ref=e7]: Aksam v3.0.1
+      - generic [ref=e8]:
+        - generic [ref=e9]:
+          - paragraph [ref=e10]: Menu
+          - navigation [ref=e11]:
+            - link "Tableau de bord" [ref=e12] [cursor=pointer]:
+              - /url: /
+              - img [ref=e13]
+              - generic [ref=e18]: Tableau de bord
+            - link "Nouveaux prospects 1" [ref=e19] [cursor=pointer]:
+              - /url: /traitement/nouveaux
+              - img [ref=e20]
+              - generic [ref=e23]: Nouveaux prospects
+              - generic [ref=e24]: "1"
+            - link "Non traités 9" [ref=e25] [cursor=pointer]:
+              - /url: /traitement/non-traites
+              - img [ref=e26]
+              - generic [ref=e29]: Non traités
+              - generic [ref=e30]: "9"
+            - link "Relances du jour 2" [ref=e31] [cursor=pointer]:
+              - /url: /traitement/relances-du-jour
+              - img [ref=e32]
+              - generic [ref=e35]: Relances du jour
+              - generic [ref=e36]: "2"
+            - link "Relances à venir 3" [ref=e37] [cursor=pointer]:
+              - /url: /traitement/relances-a-venir
+              - img [ref=e38]
+              - generic [ref=e41]: Relances à venir
+              - generic [ref=e42]: "3"
+            - link "Relances non traitées 7" [ref=e43] [cursor=pointer]:
+              - /url: /traitement/relances-non-traitees
+              - img [ref=e44]
+              - generic [ref=e47]: Relances non traitées
+              - generic [ref=e48]: "7"
+            - link "Injoignables 1" [ref=e49] [cursor=pointer]:
+              - /url: /traitement/injoignables
+              - img [ref=e50]
+              - generic [ref=e53]: Injoignables
+              - generic [ref=e54]: "1"
+            - link "Clients" [ref=e55] [cursor=pointer]:
+              - /url: /clients
+              - img [ref=e56]
+              - generic [ref=e61]: Clients
+            - link "Contrats" [ref=e62] [cursor=pointer]:
+              - /url: /contrats
+              - img [ref=e63]
+              - generic [ref=e66]: Contrats
+            - link "SAV" [ref=e67] [cursor=pointer]:
+              - /url: /savs
+              - img [ref=e68]
+              - generic [ref=e73]: SAV
+        - generic [ref=e74]:
+          - paragraph [ref=e75]: Général
+          - navigation [ref=e76]:
+            - link "Utilisateurs" [ref=e77] [cursor=pointer]:
+              - /url: /utilisateurs
+              - img [ref=e78]
+              - generic [ref=e81]: Utilisateurs
+            - link "Équipes" [ref=e82] [cursor=pointer]:
+              - /url: /equipes
+              - img [ref=e83]
+              - generic [ref=e88]: Équipes
+            - link "Produits" [ref=e89] [cursor=pointer]:
+              - /url: /produits
+              - img [ref=e90]
+              - generic [ref=e93]: Produits
+            - link "Distribution" [ref=e94] [cursor=pointer]:
+              - /url: /distribution
+              - img [ref=e95]
+              - generic [ref=e98]: Distribution
+            - link "Déconnexion" [ref=e99] [cursor=pointer]:
+              - /url: /logout
+              - img [ref=e100]
+              - generic [ref=e103]: Déconnexion
+    - main [ref=e104]:
+      - generic [ref=e105]:
+        - generic [ref=e106]:
+          - generic [ref=e108]:
+            - button "Basculer le mode sombre" [ref=e109]:
+              - img [ref=e111]
+            - generic [ref=e114]:
+              - generic [ref=e115]: AD
+              - generic [ref=e116]:
+                - paragraph [ref=e117]: admin
+                - paragraph [ref=e118]: —
+          - generic [ref=e119]:
+            - heading "affectprev Autoprev" [level=1] [ref=e120]
+            - paragraph [ref=e121]: Prévoyance
+        - generic [ref=e122]:
+          - generic [ref=e123]:
+            - heading "Identité" [level=2] [ref=e124]
+            - generic [ref=e125]:
+              - generic [ref=e126]:
+                - term [ref=e127]: Téléphone
+                - definition [ref=e128]: "065445214"
+              - generic [ref=e129]:
+                - term [ref=e130]: Email
+                - definition [ref=e131]: affeprev.lefevre@example.com
+              - generic [ref=e132]:
+                - term [ref=e133]: Statut
+                - definition [ref=e134]: converti
+              - generic [ref=e135]:
+                - term [ref=e136]: Équipe
+                - definition [ref=e137]: —
+              - generic [ref=e138]:
+                - term [ref=e139]: Commercial
+                - definition [ref=e140]: —
+              - generic [ref=e141]:
+                - term [ref=e142]: Créé le
+                - definition [ref=e143]: 23/09/2026 16:11
+              - generic [ref=e144]:
+                - term [ref=e145]: Date de naissance
+                - definition [ref=e146]: —
+              - generic [ref=e147]:
+                - term [ref=e148]: Ville
+                - definition [ref=e149]: —
+              - generic [ref=e150]:
+                - term [ref=e151]: Adresse
+                - definition [ref=e152]: —
+              - generic [ref=e153]:
+                - term [ref=e154]: Code postal
+                - definition [ref=e155]: —
+              - generic [ref=e156]:
+                - term [ref=e157]: Source
+                - definition [ref=e158]: —
+              - generic [ref=e159]:
+                - term [ref=e160]: Type de prospect
+                - definition [ref=e161]: —
+              - generic [ref=e162]:
+                - term [ref=e163]: Raison sociale
+                - definition [ref=e164]: —
+              - generic [ref=e165]:
+                - term [ref=e166]: Activités
+                - definition [ref=e167]: —
+              - generic [ref=e168]:
+                - term [ref=e169]: URL
+                - definition [ref=e170]: —
+              - generic [ref=e171]:
+                - term [ref=e172]: Dernier assureur
+                - definition [ref=e173]: —
+              - generic [ref=e174]:
+                - term [ref=e175]: Motif de résiliation
+                - definition [ref=e176]: —
+              - generic [ref=e177]:
+                - term [ref=e178]: Motif saisi
+                - definition [ref=e179]: —
+          - generic [ref=e180]:
+            - heading "Détails produit" [level=2] [ref=e181]
+            - generic [ref=e182]:
+              - generic [ref=e183]:
+                - term [ref=e184]: Capital souhaité
+                - definition [ref=e185]: "7600.00"
+              - generic [ref=e186]:
+                - term [ref=e187]: Situation familiale
+                - definition [ref=e188]: Marie
+              - generic [ref=e189]:
+                - term [ref=e190]: Enfants
+                - definition [ref=e191]: —
+              - generic [ref=e192]:
+                - term [ref=e193]: Profession
+                - definition [ref=e194]: —
+        - generic [ref=e195]:
+          - generic [ref=e196]:
+            - heading "Affectation" [level=2] [ref=e197]
+            - button "Affecter" [ref=e199]:
+              - img [ref=e200]
+              - text: Affecter
+          - generic [ref=e205]:
+            - generic [ref=e206]:
+              - term [ref=e207]: Équipe
+              - definition [ref=e208]: —
+            - generic [ref=e209]:
+              - term [ref=e210]: Commercial
+              - definition [ref=e211]: —
+            - generic [ref=e212]:
+              - term [ref=e213]: Affecté le
+              - definition [ref=e214]: —
+        - generic [ref=e215]:
+          - heading "Relance" [level=2] [ref=e216]
+          - paragraph [ref=e217]: "Motif actuel : Rendez-vous"
+          - paragraph [ref=e218]: "Prochaine relance : 25/12/2026 15:45"
+          - generic [ref=e219]:
+            - combobox [ref=e220]:
+              - option "Rendez-vous" [selected]
+              - option "Injoignable"
+              - option "Attente DOC"
+              - option "Tarification"
+              - option "Prise de décision"
+              - option "Faux fiche"
+              - option "Doublon"
+              - option "Passage concurrent"
+              - option "Passage client"
+              - option "Déjà souscrit"
+              - option "Toujours injoignable"
+              - option "Test"
+              - option "Doublon payé"
+            - textbox [ref=e221]
+            - textbox "Commentaire" [ref=e222]
+            - button "Traiter" [ref=e223]
+        - generic [ref=e224]:
+          - heading "Historique des relances" [level=2] [ref=e225]
+          - table [ref=e226]:
+            - rowgroup [ref=e227]:
+              - row "Date Motif Commentaire Auteur" [ref=e228]:
+                - columnheader "Date" [ref=e229]
+                - columnheader "Motif" [ref=e230]
+                - columnheader "Commentaire" [ref=e231]
+                - columnheader "Auteur" [ref=e232]
+            - rowgroup [ref=e233]:
+              - row "24/09/2026 15:23 Passage client client en teste dev" [ref=e234]:
+                - cell "24/09/2026 15:23" [ref=e235]
+                - cell "Passage client" [ref=e236]
+                - cell "client en teste" [ref=e237]
+                - cell "dev" [ref=e238]
+              - row "24/09/2026 15:32 Attente DOC en attend dev" [ref=e239]:
+                - cell "24/09/2026 15:32" [ref=e240]
+                - cell "Attente DOC" [ref=e241]
+                - cell "en attend" [ref=e242]
+                - cell "dev" [ref=e243]
+              - row "24/09/2026 15:35 Déjà souscrit relance dev" [ref=e244]:
+                - cell "24/09/2026 15:35" [ref=e245]
+                - cell "Déjà souscrit" [ref=e246]
+                - cell "relance" [ref=e247]
+                - cell "dev" [ref=e248]
+              - row "24/09/2026 15:38 Rendez-vous admin" [ref=e249]:
+                - cell "24/09/2026 15:38" [ref=e250]
+                - cell "Rendez-vous" [ref=e251]
+                - cell [ref=e252]
+                - cell "admin" [ref=e253]
+              - row "24/09/2026 15:39 Rendez-vous admin" [ref=e254]:
+                - cell "24/09/2026 15:39" [ref=e255]
+                - cell "Rendez-vous" [ref=e256]
+                - cell [ref=e257]
+                - cell "admin" [ref=e258]
+      - paragraph [ref=e260]: AksamCrm — v3.0.1
+  - region "Symfony Web Debug Toolbar" [ref=e261]:
+    - generic [ref=e264]:
+      - link "200 @ app_traitement_show" [ref=e266] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/a1db97?panel=request
+        - generic [ref=e267]:
+          - generic [ref=e268]: "200"
+          - generic [ref=e269]: "@"
+          - generic [ref=e270]: app_traitement_show
+      - link "51 ms" [ref=e272] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/a1db97?panel=time
+        - generic [ref=e273]:
+          - generic [ref=e274]: "51"
+          - generic [ref=e275]: ms
+      - link "6.0 MiB" [ref=e277] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/a1db97?panel=time
+        - generic [ref=e278]:
+          - generic [ref=e279]: "6.0"
+          - generic [ref=e280]: MiB
+      - link "Logger 2" [ref=e282] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/a1db97?panel=logger
+        - generic [ref=e283]:
+          - img "Logger" [ref=e284]
+          - generic [ref=e288]: "2"
+      - link "Cache 28 in 0.23 ms" [ref=e290] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/a1db97?panel=cache
+        - generic [ref=e291]:
+          - img "Cache" [ref=e292]
+          - generic [ref=e297]: "28"
+          - generic [ref=e298]: in 0.23 ms
+      - link "Security admin" [ref=e300] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/a1db97?panel=security
+        - generic [ref=e301]:
+          - img "Security" [ref=e302]
+          - generic [ref=e306]: admin
+      - link "Twig 32 ms" [ref=e308] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/a1db97?panel=twig
+        - generic [ref=e309]:
+          - img "Twig" [ref=e310]
+          - generic [ref=e314]: "32"
+          - generic [ref=e315]: ms
+      - link "108 in 15.76 ms" [ref=e317] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/a1db97?panel=db
+        - generic [ref=e318]:
+          - img [ref=e319]
+          - generic [ref=e324]: "108"
+          - generic [ref=e325]: in 15.76 ms
+      - link "Symfony v7.4.18" [ref=e327] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/a1db97?panel=config
+        - generic [ref=e328]:
+          - img "Symfony" [ref=e330]
+          - generic [ref=e332]: v7.4.18
+      - button "Toggle Symfony Toolbar" [expanded] [ref=e333] [cursor=pointer]:
+        - generic "Close Toolbar" [ref=e334]:
+          - img [ref=e335]

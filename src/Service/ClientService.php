@@ -20,9 +20,19 @@ class ClientService
      * historique (statut passé à "converti") ; le Client est la nouvelle
      * source unique de vérité pour l'identité — nom/prénom ne doivent plus
      * jamais être dupliqués ailleurs à partir d'ici (cf. Contrat, étape 5).
+     *
+     * $phone/$email/$raisonSociale/$adresse permettent de surcharger les
+     * coordonnées du prospect au moment de la conversion (cas "Passage
+     * client" saisi depuis le traitement, où le commercial peut avoir des
+     * coordonnées plus à jour que celles du prospect).
      */
-    public function convertFromProspect(Prospect $prospect): Client
-    {
+    public function convertFromProspect(
+        Prospect $prospect,
+        ?string $phone = null,
+        ?string $email = null,
+        ?string $raisonSociale = null,
+        ?string $adresse = null,
+    ): Client {
         // On interroge le repository plutôt que $prospect->getClient() : côté
         // inverse d'une OneToOne, cette association n'est pas rafraîchie en
         // mémoire après un flush() dans la même unité de travail.
@@ -33,8 +43,10 @@ class ClientService
         $client = new Client();
         $client->setNom($prospect->getNom());
         $client->setPrenom($prospect->getPrenom());
-        $client->setPhone($prospect->getPhone());
-        $client->setEmail($prospect->getEmail());
+        $client->setPhone($phone ?: ($prospect->getPhone() ?? ''));
+        $client->setEmail($email ?: $prospect->getEmail());
+        $client->setRaisonSociale($raisonSociale);
+        $client->setAdresse($adresse);
         $client->setTeam($prospect->getTeam());
         $client->setCommercial($prospect->getCommercial());
         $client->setProspect($prospect);

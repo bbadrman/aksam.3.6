@@ -88,6 +88,10 @@ class Prospect
     #[ORM\ManyToOne(targetEntity: User::class)]
     private ?User $commercial = null;
 
+    /** Utilisateur ayant saisi le prospect — null pour les prospects reçus par API. */
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    private ?User $autor = null;
+
     #[ORM\Column]
     private \DateTimeImmutable $createdAt;
 
@@ -382,6 +386,18 @@ class Prospect
     public function setCommercial(?User $commercial): static
     {
         $this->commercial = $commercial;
+
+        return $this;
+    }
+
+    public function getAutor(): ?User
+    {
+        return $this->autor;
+    }
+
+    public function setAutor(?User $autor): static
+    {
+        $this->autor = $autor;
 
         return $this;
     }

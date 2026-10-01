@@ -81,7 +81,6 @@ services:
       - mode: ingress
         host_ip: 127.0.0.1
         target: 3306
-        published: "0"
         protocol: tcp
     restart: 'no'
     stop_grace_period: 1m0s
