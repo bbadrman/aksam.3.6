@@ -8,8 +8,26 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ClientRepository::class)]
+#[ORM\Index(columns: ['status'], name: 'idx_client_status')]
 class Client
 {
+    /**
+     * Décision prise sur la fiche client. Tant que status est null, le
+     * client est un "pré-client" en attente de décision.
+     */
+    public const STATUS_VALIDE = 1;
+    public const STATUS_REJETE = 2;
+    public const STATUS_ANNULE = 3;
+
+    /**
+     * @var array<string, int> libellé => valeur, pour le ChoiceType
+     */
+    public const STATUS_CHOICES = [
+        'Valider' => self::STATUS_VALIDE,
+        'Rejeter' => self::STATUS_REJETE,
+        'Annulé' => self::STATUS_ANNULE,
+    ];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -48,6 +66,12 @@ class Client
      */
     #[ORM\OneToOne(inversedBy: 'client')]
     private ?Prospect $prospect = null;
+
+    #[ORM\Column(type: 'smallint', nullable: true)]
+    private ?int $status = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $statusAt = null;
 
     #[ORM\Column]
     private \DateTimeImmutable $createdAt;
@@ -187,6 +211,43 @@ class Client
         $this->prospect = $prospect;
 
         return $this;
+    }
+
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?int $status): static
+    {
+        if ($status !== null && !in_array($status, self::STATUS_CHOICES, true)) {
+            throw new \InvalidArgumentException(sprintf('Statut client invalide : %d.', $status));
+        }
+
+        $this->status = $status;
+        $this->statusAt = $status !== null ? new \DateTimeImmutable() : null;
+
+        return $this;
+    }
+
+    public function getStatusAt(): ?\DateTimeImmutable
+    {
+        return $this->statusAt;
+    }
+
+    public function isPreClient(): bool
+    {
+        return $this->status === null;
+    }
+
+    public function getStatusLabel(): string
+    {
+        return match ($this->status) {
+            self::STATUS_VALIDE => 'Validé',
+            self::STATUS_REJETE => 'Rejeté',
+            self::STATUS_ANNULE => 'Annulé',
+            default => 'Pré-client',
+        };
     }
 
     public function getCreatedAt(): \DateTimeImmutable

@@ -16,6 +16,8 @@
                     <th class="px-4 py-3 font-medium">Téléphone</th>
                     <th class="px-4 py-3 font-medium">Email</th>
                     <th class="px-4 py-3 font-medium">Équipe</th>
+                    <th class="px-4 py-3 font-medium">Statut</th>
+                    <th class="px-4 py-3 font-medium"></th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-border">
@@ -25,9 +27,13 @@
                         <td class="px-4 py-3 text-muted-foreground">{{ client.phone }}</td>
                         <td class="px-4 py-3 text-muted-foreground">{{ client.email ?? '—' }}</td>
                         <td class="px-4 py-3 text-muted-foreground">{{ client.team ? client.team.nom : '—' }}</td>
+                        <td class="px-4 py-3">{{ include('client/_status_badge.html.twig') }}</td>
+                        <td class="px-4 py-3 text-right">
+                            <a href="{{ path('app_client_show', {id: client.id}) }}" class="text-sm font-medium text-primary hover:underline">Voir</a>
+                        </td>
                     </tr>
                 {% else %}
-                    <tr><td colspan="4" class="px-4 py-6 text-center text-muted-foreground">Aucun client.</td></tr>
+                    <tr><td colspan="6" class="px-4 py-6 text-center text-muted-foreground">Aucun client.</td></tr>
                 {% endfor %}
             </tbody>
         </table>

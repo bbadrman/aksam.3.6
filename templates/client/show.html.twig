@@ -1,0 +1,88 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ client.displayName }}{% endblock %}
+
+{% block body %}
+    {{ include('admin/_header.html.twig', {
+        title: client.displayName,
+        description: client.isPreClient ? 'Pré-client en attente de décision' : 'Client ' ~ client.statusLabel|lower
+    }) }}
+
+    <div class="mt-4 grid gap-4 md:mt-5 lg:grid-cols-2">
+        <div class="rounded-2xl border border-border bg-card p-5 shadow-sm">
+            <h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Identité</h2>
+            <dl class="space-y-2 text-sm">
+                <div class="flex justify-between gap-4"><dt class="text-muted-foreground">Nom</dt><dd class="font-medium">{{ client.nom ?? '—' }}</dd></div>
+                <div class="flex justify-between gap-4"><dt class="text-muted-foreground">Prénom</dt><dd class="font-medium">{{ client.prenom ?? '—' }}</dd></div>
+                <div class="flex justify-between gap-4"><dt class="text-muted-foreground">Raison sociale</dt><dd class="font-medium">{{ client.raisonSociale ?: '—' }}</dd></div>
+                <div class="flex justify-between gap-4"><dt class="text-muted-foreground">Statut</dt><dd>{{ include('client/_status_badge.html.twig') }}</dd></div>
+                {% if client.statusAt %}
+                    <div class="flex justify-between gap-4"><dt class="text-muted-foreground">Décision le</dt><dd class="font-medium">{{ client.statusAt|date('d/m/Y H:i') }}</dd></div>
+                {% endif %}
+                <div class="flex justify-between gap-4"><dt class="text-muted-foreground">Créé le</dt><dd class="font-medium">{{ client.createdAt|date('d/m/Y H:i') }}</dd></div>
+            </dl>
+        </div>
+
+        <div class="rounded-2xl border border-border bg-card p-5 shadow-sm">
+            <h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Coordonnées &amp; suivi</h2>
+            <dl class="space-y-2 text-sm">
+                <div class="flex justify-between gap-4"><dt class="text-muted-foreground">Téléphone</dt><dd class="font-medium">{{ client.phone ?: '—' }}</dd></div>
+                <div class="flex justify-between gap-4"><dt class="text-muted-foreground">Email</dt><dd class="font-medium">{{ client.email ?? '—' }}</dd></div>
+                <div class="flex justify-between gap-4"><dt class="text-muted-foreground">Adresse</dt><dd class="text-right font-medium">{{ client.adresse ?? '—' }}</dd></div>
+                <div class="flex justify-between gap-4"><dt class="text-muted-foreground">Équipe</dt><dd class="font-medium">{{ client.team ? client.team.nom : '—' }}</dd></div>
+                <div class="flex justify-between gap-4"><dt class="text-muted-foreground">Commercial</dt><dd class="font-medium">{{ client.commercial ? client.commercial.username : '—' }}</dd></div>
+                <div class="flex justify-between gap-4">
+                    <dt class="text-muted-foreground">Prospect d'origine</dt>
+                    <dd class="font-medium">
+                        {% if client.prospect %}
+                            <a href="{{ path('app_traitement_show', {id: client.prospect.id}) }}" class="text-primary hover:underline">#{{ client.prospect.id }}</a>
+                        {% else %}—{% endif %}
+                    </dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+
+    <div class="mt-4 overflow-x-auto rounded-2xl border border-border bg-card shadow-sm md:mt-5">
+        <h2 class="px-5 pt-4 text-sm font-semibold uppercase tracking-wide text-muted-foreground">Contrats</h2>
+        <table class="w-full text-left text-sm">
+            <thead>
+                <tr class="border-b border-border text-xs uppercase tracking-wider text-muted-foreground">
+                    <th class="px-5 py-3 font-medium">N° police</th>
+                    <th class="px-5 py-3 font-medium">Statut</th>
+                    <th class="px-5 py-3 font-medium">Créé le</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-border">
+                {% for contrat in client.contrats %}
+                    <tr>
+                        <td class="px-5 py-3 font-medium">{{ contrat.numeroPolice ?? ('#' ~ contrat.id) }}</td>
+                        <td class="px-5 py-3 text-muted-foreground">{{ contrat.statut.label }}</td>
+                        <td class="px-5 py-3 text-muted-foreground">{{ contrat.createdAt|date('d/m/Y') }}</td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="3" class="px-5 py-6 text-center text-muted-foreground">Aucun contrat.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if client.isPreClient %}
+        {{ form_start(form, {attr: {class: 'admin-plain-form mt-4 flex flex-col gap-3 rounded-2xl border border-border bg-card p-4 shadow-sm sm:flex-row sm:items-center sm:justify-end md:mt-5'}}) }}
+            {{ form_errors(form.status) }}
+            {# Chaque bouton soumet directement sa valeur dans le champ "status" du ClientStatusType. #}
+            {% set btn_class = {
+                1: 'bg-primary text-primary-foreground hover:bg-primary/90',
+                2: 'border border-destructive/30 bg-destructive/10 text-destructive hover:bg-destructive/20',
+                3: 'border border-border bg-secondary text-foreground hover:bg-secondary/70',
+            } %}
+            {% for choice in form.status %}
+                <button type="submit" name="{{ choice.vars.full_name }}" value="{{ choice.vars.value }}"
+                        class="h-9 rounded-lg px-4 text-sm font-medium {{ btn_class[choice.vars.value] ?? '' }}">
+                    {{ choice.vars.label }}
+                </button>
+            {% endfor %}
+            {% do form.status.setRendered %}
+        {{ form_end(form) }}
+    {% endif %}
+{% endblock %}

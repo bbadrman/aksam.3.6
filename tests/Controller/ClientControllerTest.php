@@ -2,6 +2,7 @@
 
 namespace App\Tests\Controller;
 
+use App\Entity\Client;
 use App\Entity\Product;
 use App\Entity\Prospect;
 use App\Entity\User;
@@ -65,5 +66,42 @@ class ClientControllerTest extends WebTestCase
         $client->request('POST', '/clients/depuis-prospect/999999');
 
         $this->assertResponseStatusCodeSame(404);
+    }
+
+    public function testShowDisplaysPreClientAndValidates(): void
+    {
+        $client = static::createClient();
+        $container = static::getContainer();
+        $em = $container->get(EntityManagerInterface::class);
+
+        $user = new User();
+        $user->setUsername('user-client-show');
+        $user->setNom('Test');
+        $user->setPrenom('User');
+        $user->setPassword($container->get(UserPasswordHasherInterface::class)->hashPassword($user, 'password123'));
+        $em->persist($user);
+
+        $fiche = (new Client())->setNom('Dupont')->setPrenom('Jean')->setPhone('0655555555')->setAdresse('1 rue de Paris');
+        $em->persist($fiche);
+        $em->flush();
+
+        $client->loginUser($user);
+        $crawler = $client->request('GET', '/clients/'.$fiche->getId());
+
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('body', 'Pré-client');
+        $this->assertSelectorTextContains('body', '1 rue de Paris');
+        $this->assertCount(3, $crawler->filter('button[name="client_status[status]"]'));
+
+        $form = $crawler->selectButton('Valider')->form();
+        $client->submit($form, ['client_status[status]' => (string) Client::STATUS_VALIDE]);
+
+        $this->assertResponseRedirects('/clients/'.$fiche->getId());
+        $crawler = $client->followRedirect();
+        $this->assertSelectorTextContains('body', 'Validé');
+        $this->assertCount(0, $crawler->filter('button[name="client_status[status]"]'));
+
+        $em->clear();
+        $this->assertSame(Client::STATUS_VALIDE, $em->find(Client::class, $fiche->getId())->getStatus());
     }
 }

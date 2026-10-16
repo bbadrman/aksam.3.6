@@ -58,4 +58,18 @@ class ClientService
 
         return $client;
     }
+
+    /**
+     * Décision finale sur un pré-client. Une seule décision possible :
+     * un client déjà validé/rejeté/annulé ne peut plus changer de statut.
+     */
+    public function decider(Client $client, int $status): void
+    {
+        if (!$client->isPreClient()) {
+            throw new \RuntimeException(sprintf('Ce client a déjà été traité (%s).', $client->getStatusLabel()));
+        }
+
+        $client->setStatus($status);
+        $this->entityManager->flush();
+    }
 }

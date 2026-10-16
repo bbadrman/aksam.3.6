@@ -2,6 +2,7 @@
 
 namespace App\Tests\Service;
 
+use App\Entity\Client;
 use App\Entity\Prospect;
 use App\Entity\Team;
 use App\Entity\User;
@@ -86,5 +87,28 @@ class ClientServiceTest extends KernelTestCase
     {
         parent::tearDown();
         $this->em->close();
+    }
+
+    public function testDeciderAppliesStatusOnlyOnce(): void
+    {
+        $client = (new Client())->setNom('Martin')->setPhone('0633333333');
+        $this->em->persist($client);
+        $this->em->flush();
+
+        $this->assertTrue($client->isPreClient());
+
+        $this->clientService->decider($client, Client::STATUS_REJETE);
+
+        $this->assertSame(Client::STATUS_REJETE, $client->getStatus());
+        $this->assertNotNull($client->getStatusAt());
+
+        $this->expectException(\RuntimeException::class);
+        $this->clientService->decider($client, Client::STATUS_VALIDE);
+    }
+
+    public function testInvalidStatusIsRefused(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        (new Client())->setStatus(9);
     }
 }

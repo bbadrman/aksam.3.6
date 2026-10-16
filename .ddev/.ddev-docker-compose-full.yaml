@@ -44,7 +44,7 @@ services:
       DOCKER_IP: 127.0.0.1
       HOST_DOCKER_INTERNAL_IP: 172.17.0.1
       IS_DDEV_PROJECT: "true"
-      LINES: "22"
+      LINES: "15"
       MYSQL_HISTFILE: /mnt/ddev-global-cache/mysqlhistory/AksamCrm-db/mysql_history
       PGDATABASE: db
       PGHOST: 127.0.0.1
@@ -81,6 +81,7 @@ services:
       - mode: ingress
         host_ip: 127.0.0.1
         target: 3306
+        published: "0"
         protocol: tcp
     restart: 'no'
     stop_grace_period: 1m0s
@@ -209,7 +210,7 @@ services:
       HTTP_EXPOSE: 80:80,8025:8025
       HTTPS_EXPOSE: 443:80,8026:8025
       IS_DDEV_PROJECT: "true"
-      LINES: "22"
+      LINES: "15"
       MYSQL_HISTFILE: /mnt/ddev-global-cache/mysqlhistory/AksamCrm-web/mysql_history
       N_CACHE_PREFIX: /mnt/ddev-global-cache/n_prefix/AksamCrm-web
       N_PREFIX: /usr/local/n

@@ -17,3 +17,4 @@ return [
     DAMA\DoctrineTestBundle\DAMADoctrineTestBundle::class => ['test' => true],
     Symfonycasts\TailwindBundle\SymfonycastsTailwindBundle::class => ['all' => true],
 ];
+    

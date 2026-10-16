@@ -1,0 +1,219 @@
+- generic [active] [ref=e81]:
+  - generic [ref=e82]:
+    - complementary [ref=e83]:
+      - link "Aksam Aksam v3.0.1" [ref=e85] [cursor=pointer]:
+        - /url: /
+        - img "Aksam" [ref=e86]
+        - generic [ref=e87]: Aksam v3.0.1
+      - generic [ref=e88]:
+        - generic [ref=e89]:
+          - paragraph [ref=e90]: Menu
+          - navigation [ref=e91]:
+            - link "Tableau de bord" [ref=e92] [cursor=pointer]:
+              - /url: /
+              - img [ref=e93]
+              - generic [ref=e98]: Tableau de bord
+            - link "Nouveaux prospects 2" [ref=e99] [cursor=pointer]:
+              - /url: /traitement/nouveaux
+              - img [ref=e100]
+              - generic [ref=e103]: Nouveaux prospects
+              - generic [ref=e104]: "2"
+            - link "Non traités 32" [ref=e105] [cursor=pointer]:
+              - /url: /traitement/non-traites
+              - img [ref=e106]
+              - generic [ref=e109]: Non traités
+              - generic [ref=e110]: "32"
+            - link "Relances du jour" [ref=e111] [cursor=pointer]:
+              - /url: /traitement/relances-du-jour
+              - img [ref=e112]
+              - generic [ref=e115]: Relances du jour
+            - link "Relances à venir 1" [ref=e116] [cursor=pointer]:
+              - /url: /traitement/relances-a-venir
+              - img [ref=e117]
+              - generic [ref=e120]: Relances à venir
+              - generic [ref=e121]: "1"
+            - link "Relances non traitées 12" [ref=e122] [cursor=pointer]:
+              - /url: /traitement/relances-non-traitees
+              - img [ref=e123]
+              - generic [ref=e126]: Relances non traitées
+              - generic [ref=e127]: "12"
+            - link "Injoignables 1" [ref=e128] [cursor=pointer]:
+              - /url: /traitement/injoignables
+              - img [ref=e129]
+              - generic [ref=e132]: Injoignables
+              - generic [ref=e133]: "1"
+            - link "Clients" [ref=e134] [cursor=pointer]:
+              - /url: /clients
+              - img [ref=e135]
+              - generic [ref=e140]: Clients
+            - link "Contrats" [ref=e141] [cursor=pointer]:
+              - /url: /contrats
+              - img [ref=e142]
+              - generic [ref=e145]: Contrats
+            - link "SAV" [ref=e146] [cursor=pointer]:
+              - /url: /savs
+              - img [ref=e147]
+              - generic [ref=e152]: SAV
+        - generic [ref=e153]:
+          - paragraph [ref=e154]: Général
+          - navigation [ref=e155]:
+            - link "Utilisateurs" [ref=e156] [cursor=pointer]:
+              - /url: /utilisateurs
+              - img [ref=e157]
+              - generic [ref=e160]: Utilisateurs
+            - link "Équipes" [ref=e161] [cursor=pointer]:
+              - /url: /equipes
+              - img [ref=e162]
+              - generic [ref=e167]: Équipes
+            - link "Produits" [ref=e168] [cursor=pointer]:
+              - /url: /produits
+              - img [ref=e169]
+              - generic [ref=e172]: Produits
+            - link "Distribution" [ref=e173] [cursor=pointer]:
+              - /url: /distribution
+              - img [ref=e174]
+              - generic [ref=e177]: Distribution
+            - link "Déconnexion" [ref=e178] [cursor=pointer]:
+              - /url: /logout
+              - img [ref=e179]
+              - generic [ref=e182]: Déconnexion
+    - main [ref=e183]:
+      - generic [ref=e184]:
+        - generic [ref=e185]:
+          - generic [ref=e187]:
+            - button "Basculer le mode sombre" [ref=e188]:
+              - img [ref=e190]
+            - generic [ref=e193]:
+              - generic [ref=e194]: AD
+              - generic [ref=e195]:
+                - paragraph [ref=e196]: admin
+                - paragraph [ref=e197]: —
+          - generic [ref=e198]:
+            - heading "Marc Rousseau" [level=1] [ref=e199]
+            - paragraph [ref=e200]: Pré-client en attente de décision
+        - generic [ref=e201]:
+          - generic [ref=e202]:
+            - heading "Identité" [level=2] [ref=e203]
+            - generic [ref=e204]:
+              - generic [ref=e205]:
+                - term [ref=e206]: Nom
+                - definition [ref=e207]: Rousseau
+              - generic [ref=e208]:
+                - term [ref=e209]: Prénom
+                - definition [ref=e210]: Marc
+              - generic [ref=e211]:
+                - term [ref=e212]: Raison sociale
+                - definition [ref=e213]: —
+              - generic [ref=e214]:
+                - term [ref=e215]: Statut
+                - definition [ref=e216]:
+                  - generic [ref=e217]: Pré-client
+              - generic [ref=e218]:
+                - term [ref=e219]: Créé le
+                - definition [ref=e220]: 03/09/2026 17:03
+          - generic [ref=e221]:
+            - heading "Coordonnées & suivi" [level=2] [ref=e222]
+            - generic [ref=e223]:
+              - generic [ref=e224]:
+                - term [ref=e225]: Téléphone
+                - definition [ref=e226]: "0688990011"
+              - generic [ref=e227]:
+                - term [ref=e228]: Email
+                - definition [ref=e229]: —
+              - generic [ref=e230]:
+                - term [ref=e231]: Adresse
+                - definition [ref=e232]: —
+              - generic [ref=e233]:
+                - term [ref=e234]: Équipe
+                - definition [ref=e235]: —
+              - generic [ref=e236]:
+                - term [ref=e237]: Commercial
+                - definition [ref=e238]: —
+              - generic [ref=e239]:
+                - term [ref=e240]: Prospect d'origine
+                - definition [ref=e241]: —
+        - generic [ref=e242]:
+          - heading "Contrats" [level=2] [ref=e243]
+          - table [ref=e244]:
+            - rowgroup [ref=e245]:
+              - row "N° police Statut Créé le" [ref=e246]:
+                - columnheader "N° police" [ref=e247]
+                - columnheader "Statut" [ref=e248]
+                - columnheader "Créé le" [ref=e249]
+            - rowgroup [ref=e250]:
+              - row "POL-2026-000001 Validé 03/09/2026" [ref=e251]:
+                - cell "POL-2026-000001" [ref=e252]
+                - cell "Validé" [ref=e253]
+                - cell "03/09/2026" [ref=e254]
+              - row "#2 Brouillon 03/09/2026" [ref=e255]:
+                - cell "#2" [ref=e256]
+                - cell "Brouillon" [ref=e257]
+                - cell "03/09/2026" [ref=e258]
+        - generic [ref=e259]:
+          - button "Valider" [ref=e260]
+          - button "Rejeter" [ref=e261]
+          - button "Annulé" [ref=e262]
+      - paragraph [ref=e264]: AksamCrm — v3.0.1
+  - region "Symfony Web Debug Toolbar" [ref=e265]:
+    - generic [ref=e268]:
+      - link "200 Redirect @ app_client_show" [ref=e270] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/502f69?panel=request
+        - generic [ref=e271]:
+          - generic [ref=e272]: "200"
+          - img "Redirect" [ref=e274]
+          - generic [ref=e277]: "@"
+          - generic [ref=e278]: app_client_show
+      - link "113 ms" [ref=e280] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/502f69?panel=time
+        - generic [ref=e281]:
+          - generic [ref=e282]: "113"
+          - generic [ref=e283]: ms
+      - link "10.0 MiB" [ref=e285] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/502f69?panel=time
+        - generic [ref=e286]:
+          - generic [ref=e287]: "10.0"
+          - generic [ref=e288]: MiB
+      - generic [ref=e290] [cursor=pointer]:
+        - img [ref=e291]
+        - generic [ref=e295]: "1"
+      - link "Cache 1" [ref=e297] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/502f69?panel=form
+        - generic [ref=e298]:
+          - img "Cache" [ref=e299]
+          - generic [ref=e305]: "1"
+      - link "Logger 2" [ref=e307] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/502f69?panel=logger
+        - generic [ref=e308]:
+          - img "Logger" [ref=e309]
+          - generic [ref=e313]: "2"
+      - link "Cache 28 in 0.43 ms" [ref=e315] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/502f69?panel=cache
+        - generic [ref=e316]:
+          - img "Cache" [ref=e317]
+          - generic [ref=e322]: "28"
+          - generic [ref=e323]: in 0.43 ms
+      - link "Security admin" [ref=e325] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/502f69?panel=security
+        - generic [ref=e326]:
+          - img "Security" [ref=e327]
+          - generic [ref=e331]: admin
+      - link "Twig 68 ms" [ref=e333] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/502f69?panel=twig
+        - generic [ref=e334]:
+          - img "Twig" [ref=e335]
+          - generic [ref=e339]: "68"
+          - generic [ref=e340]: ms
+      - link "113 in 20.78 ms" [ref=e342] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/502f69?panel=db
+        - generic [ref=e343]:
+          - img [ref=e344]
+          - generic [ref=e349]: "113"
+          - generic [ref=e350]: in 20.78 ms
+      - link "Symfony v7.4.18" [ref=e352] [cursor=pointer]:
+        - /url: https://aksamcrm.ddev.site/_profiler/502f69?panel=config
+        - generic [ref=e353]:
+          - img "Symfony" [ref=e355]
+          - generic [ref=e357]: v7.4.18
+      - button "Toggle Symfony Toolbar" [expanded] [ref=e358] [cursor=pointer]:
+        - generic "Close Toolbar" [ref=e359]:
+          - img [ref=e360]
